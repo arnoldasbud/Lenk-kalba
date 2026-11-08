@@ -117,9 +117,34 @@ details.card summary{cursor:pointer;font-weight:700}
 label.lab{font-weight:700;display:block;margin-bottom:4px}
 input[type=range]{width:100%;accent-color:var(--accent)}
 a{color:var(--accent)}
+/* šiandien */
+.strip{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}
+.strip span{height:14px;border-radius:4px;background:var(--line)}
+.strip span.half{background:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.strip span.on{background:var(--accent)}
+.strip span.today{outline:2px solid var(--fg);outline-offset:1px}
+.task{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.task .chk{flex:0 0 28px;height:28px;border-radius:50%;border:2px solid var(--line);background:none;padding:0;display:grid;place-items:center;color:var(--surface);margin-top:2px}
+.task.done .chk{background:var(--ok);border-color:var(--ok)}
+.task.done .chk::after{content:"✓";font-weight:700}
+.task.done h3{color:var(--muted)}
+.task .t{flex:1;min-width:0}
+.task .min{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.recs summary{cursor:pointer;list-style:none}.recs summary::-webkit-details-marker{display:none}
+.recs ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.recs li{display:flex;flex-direction:column;gap:2px;padding-top:10px;border-top:1px solid var(--line)}
+.goal{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.goal input{width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto}
+.goal label{flex:1;min-width:0}
+.road{border-left:2px solid var(--line);margin:0 0 0 8px;padding:0}
+.road li{list-style:none;position:relative;padding:0 0 14px 18px}
+.road li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
+.road li.past::before{background:var(--ok);border-color:var(--ok)}
+.road li.cur::before{background:var(--accent);border-color:var(--accent)}
+.pill{display:inline-block;font-family:var(--f-body);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--accent);vertical-align:middle}
 /* skirtukai */
-nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-nav.tabs button{border:0;background:none;padding:10px 2px 12px;font-size:.72rem;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav.tabs button{border:0;background:none;padding:10px 1px 12px;font-size:.64rem;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
 nav.tabs button[aria-selected="true"]{color:var(--accent)}
 nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:.66rem;padding:0 6px;line-height:16px}
@@ -131,14 +156,16 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 <div class="wrap"><main id="app" class="stack"></main></div>
 <div class="toast" id="toast" hidden></div>
 <nav class="tabs" role="tablist" id="tabs">
-  <button role="tab" data-v="lessons" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7M8 11h5"/></svg>Pamokos</button>
+  <button role="tab" data-v="today" aria-selected="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Šiandien</button>
+  <button role="tab" data-v="goals" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Tikslai</button>
+  <button role="tab" data-v="lessons" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7M8 11h5"/></svg>Pamokos</button>
   <button role="tab" data-v="review" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg>Kartoti<span class="badge" id="dueBadge" hidden></span></button>
   <button role="tab" data-v="dict" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Žodynas</button>
-  <button role="tab" data-v="settings" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Nustatymai</button>
+  <button role="tab" data-v="settings" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Daugiau</button>
 </nav>
 <script>
 "use strict";
-const VERSION='1.0.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.1.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -240,14 +267,15 @@ function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout
 
 /* ===== Būsena (localStorage) ===== */
 const KEY='lenku-kalba-v1';
-const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{}});
+const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{}});
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}updBadge()}
 function applyTheme(){if(S.theme==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=S.theme}
 applyTheme();
+if(!S.stageStart){const d=new Date();S.stageStart=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function markDay(n){const d=today();S.xp[d]=(S.xp[d]||0)+n;if(S.streak.last!==d){const y=new Date(Date.now()-DAY).toISOString().slice(0,10);S.streak.n=S.streak.last===y?S.streak.n+1:1;S.streak.last=d}save()}
-function streakNow(){const d=today(),y=new Date(Date.now()-DAY).toISOString().slice(0,10);return (S.streak.last===d||S.streak.last===y)?S.streak.n:0}
+function streakNow(){return streakDays();const d=today(),y=new Date(Date.now()-DAY).toISOString().slice(0,10);return (S.streak.last===d||S.streak.last===y)?S.streak.n:0}
 
 /* ===== Pamokos + savi žodžiai ===== */
 function customLesson(){if(!S.custom.length)return null;return {id:'custom',t:'Mano žodžiai',d:'Tavo pridėti žodžiai',tip:'',words:S.custom,dialog:[]}}
@@ -258,7 +286,7 @@ function allWords(){const m=new Map();for(const l of allLessons())for(const w of
 /* ===== Kartojimas su intervalais (Leitnerio dėžutės) ===== */
 const IV=[0,1,2,4,8,16,32,64,120]; // dienomis
 function card(pl){return S.cards[pl]}
-function addCard(pl,lid){if(!S.cards[pl])S.cards[pl]={b:0,due:Date.now(),l:lid,ok:0,bad:0}}
+function addCard(pl,lid){if(!S.cards[pl])S.cards[pl]={b:0,due:Date.now(),l:lid,ok:0,bad:0,t:Date.now()}}
 function grade(pl,g,lid){ // g: 0 nežinojau, 1 sunku, 2 žinau
   addCard(pl,lid);const c=S.cards[pl];
   if(g===0){c.b=0;c.due=Date.now()+5*60e3;c.bad++}
@@ -284,27 +312,119 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(
   const slow=b.dataset.slow==='1'||(b.dataset.say===speak.last&&Date.now()-speak.lastT<4000);speak.last=b.dataset.say;speak.lastT=Date.now();
   b.classList.add('playing');speak(b.dataset.say,{slow,alt:b.dataset.alt==='1'}).then(()=>b.classList.remove('playing'))});
 
+
+/* ===== Etapai: po 2 savaites, 2 pamokos, tikslai „ką moku“ (kaip gitaros appse) ===== */
+const STAGES=[
+{t:"Garsai ir pirmi žodžiai",focus:"Išmokstame skaityti lenkiškas raides ir pasisveikinti.",lessons:["l1","l2"],
+ goals:["Garsiai perskaitau sz, cz, rz, ś, ć, ł, ą, ę žodžiuose be klaidų","Pasisveikinu ir atsisveikinu su draugu ir su nepažįstamu (cześć / dzień dobry)","Atsakau į „Jak się masz?“ ir paklausiu atgal","Žinau, kada sakyti pan / pani"],
+ speak:["Pasisveikink garsiai trimis būdais: rytą, vakare ir draugui.","Pasakyk: „Przepraszam, poproszę wodę. Dziękuję!“","Paklausk „Jak się masz?“ ir atsakyk trimis skirtingais būdais."]},
+{t:"Apie save",focus:"Prisistatome: vardas, iš kur, kiek metų, ar kalbame lenkiškai.",lessons:["l3","l4"],
+ goals:["Prisistatau 4 sakiniais: vardas, iš kur, kur gyvenu, kiek metų","Padiktuoju savo telefono numerį lenkiškai","Kai nesuprantu, paprašau pakartoti ar kalbėti lėčiau","Suskaičiuoju nuo 0 iki 10 ir pasakau 20, 30"],
+ speak:["Prisistatyk garsiai: Mam na imię…, Jestem z…, Mam … lat.","Padiktuok savo telefono numerį lenkiškai.","Pasakyk: nesuprantu, pakartok, kalbėk lėčiau."]},
+{t:"Kavinė ir parduotuvė",focus:"Užsisakome, klausiame kainos ir susimokame.",lessons:["l5","l6"],
+ goals:["Užsisakau gėrimą ir užkandį kavinėje (poproszę + kawę, herbatę…)","Paklausiu kainos ir suprantu atsakymą zlotais","Paklausiu, kur yra prekė parduotuvėje, ir suprantu „po lewej / po prawej“","Pasakau 10 maisto produktų lenkiškai"],
+ speak:["Užsisakyk garsiai: kavą su pienu be cukraus ir pyragaitį.","Paklausk, kiek kainuoja sūris ir kur yra duona.","Įvardink lenkiškai 5 daiktus savo šaldytuve."]},
+{t:"Mieste ir šeima",focus:"Klausiame kelio ir pasakojame apie artimuosius.",lessons:["l7","l8"],
+ goals:["Paklausiu kelio į stotį ir suprantu „prosto, w lewo, w prawo“","Nusiperku bilietą ir paklausiu, kur stotelė","Papasakoju apie savo šeimą 3–4 sakiniais","Teisingai pasakau „mam brata“ ir „nie mam brata“"],
+ speak:["Paaiškink kelią nuo savo namų iki parduotuvės: prosto, w lewo…","Papasakok apie savo šeimą: Mam…, Nie mam…","Paklausk, kur yra stotelė ir kur nusipirkti bilietą."]},
+{t:"Kasdienybė ir planai",focus:"Kalbame apie darbą, namus ir susitariame susitikti.",lessons:["l9","l10"],
+ goals:["Papasakoju, kur gyvenu ir ką dirbu","Asmenuoju mieszkać ir pracować visais asmenimis","Žinau savaitės dienas ir pasakau „w sobotę, w niedzielę“","Susitariu susitikti: kada, kur, kelintą valandą"],
+ speak:["Papasakok savo dieną: rano…, potem…, wieczorem…","Pakviesk draugą į kiną šeštadienį septintą.","Pasakyk, ką mėgsti ir ko nemėgsti (lubię / nie lubię)."]}
+];
+const TASKS=[
+ {id:"rv",n:"Kartok žodžius",m:5,h:"Kortelės su intervalais. Pirmiausia kartojimas, tada nauja medžiaga."},
+ {id:"dlg",n:"Klausyk ir kartok dialogą",m:4,h:"Paleisk visą dialogą. Paskui klausyk po sakinį ir garsiai kartok kartu (šešėliavimas). Antrą kartą paslėpk vertimą."},
+ {id:"ex",n:"Pratybos",m:7,h:"Užduotys iš šios pamokos žodžių ir dialogo. Pamoka išmokta nuo 70% iš pirmo karto."},
+ {id:"speak",n:"Kalbėk garsiai",m:2,h:""},
+ {id:"pi",n:"polski.info",m:5,h:"Vienas dialogas ar pamokos dalis A0 kurse. Naujus žodžius pridėk į Žodyną."}
+];
+function dkey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dBetween(a,b){const pa=a.split("-").map(Number),pb=b.split("-").map(Number);return Math.round((Date.UTC(pb[0],pb[1]-1,pb[2])-Date.UTC(pa[0],pa[1]-1,pa[2]))/DAY)}
+function doneT(){return S.daily[dkey()]||[]}
+function markT(id,on=true){const k=dkey(),a=new Set(S.daily[k]||[]);on?a.add(id):a.delete(id);S.daily[k]=[...a];save()}
+function stage(){return STAGES[S.stage]}
+function stageDay(){return dBetween(S.stageStart,dkey())+1}
+function todayLesson(){const L=stage().lessons.map(lessonById);
+  return L.find(l=>!S.done[l.id])||L.slice().sort((a,b)=>(S.done[a.id]||0)-(S.done[b.id]||0))[0]}
+function stageDone(){return stage().lessons.every(id=>S.done[id])}
+function streakDays(){let n=0;const d=new Date();if(!(S.daily[dkey(d)]||[]).length)d.setDate(d.getDate()-1);while((S.daily[dkey(d)]||[]).length){n++;d.setDate(d.getDate()-1)}return n}
+function stageHead(){const day=Math.min(14,stageDay());return `<div class="head"><span class="eyebrow">${S.stage+1} etapas iš ${STAGES.length} · ${day}-a diena iš 14</span><h1>${esc(stage().t)}</h1><p class="muted">${esc(stage().focus)}</p></div>`}
+function strip(){let h='<div class="strip" aria-label="Etapo 14 dienų">';for(let i=0;i<14;i++){const d=new Date(S.stageStart+"T12:00:00");d.setDate(d.getDate()+i);const k=dkey(d),n=(S.daily[k]||[]).length;
+  h+=`<span class="${n>=3?'on':n?'half':''} ${k===dkey()?'today':''}" title="${k}"></span>`}return h+'</div>'}
+function recs(){const out=[],due=dueCards().length,l=todayLesson(),day=stageDay(),today=dkey();
+  const past=Object.keys(S.daily).filter(d=>d<today&&S.daily[d].length).sort();
+  if(!past.length&&S.stage===0)out.push(["Pradžia","Geriau kasdien 15–20 min nei 2 valandos kartą per savaitę. Atmintis labiausiai stiprėja kartojant po truputį."]);
+  const gap=past.length?dBetween(past[past.length-1],today):0;
+  if(gap>=3)out.push(["Grįžimas",`Nesimokei ${gap-1} d. Šiandien tik pakartok žodžius ir pasiklausyk dialogo. Naujos pamokos nepradėk.`]);
+  if(due>40)out.push(["Kartojimas",`Susikaupė ${due} žodž. Šiandien pirmiausia kartojimas, o naujų žodžių neįtrauk, kol nesumažės iki 20.`]);
+  else if(due)out.push(["Kartojimas",`Šiandien laukia ${due} žodž. Tai apie ${Math.max(2,Math.round(due/5))} min.`]);
+  if(S.last[l.id]!=null&&S.last[l.id]<70)out.push(["Pamoka",`„${l.t}“: paskutinį kartą ${S.last[l.id]}%. Pirma dar kartą paklausyk dialogo, tada daryk pratybas.`]);
+  if(stageDone()){const g=(S.goals[S.stage]||[]).filter(Boolean).length;if(g<stage().goals.length)out.push(["Tikslai","Abi etapo pamokos išmoktos. Skiltyje „Tikslai“ pažymėk, ką jau gali padaryti be pagalbos."])}
+  if(day>14&&!stageDone())out.push(["Tempas",`Etapas trunka jau ${day-1} d. Tai normalu: tvirtas pagrindas vėliau sutaupo laiko.`]);
+  if(!PLV.length&&'speechSynthesis' in window)out.push(["Balsas","Telefone nerastas lenkiškas balsas. Kaip įdiegti, rasi Nustatymuose."]);
+  return out}
+function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
+function renderToday(){
+  const l=todayLesson(),R=recs(),sp=stage().speak[(stageDay()-1)%stage().speak.length];
+  const done=TASKS.filter(taskState).length,g=(S.goals[S.stage]||[]).filter(Boolean).length,plan=TASKS.reduce((a,t)=>a+t.m,0);
+  app.innerHTML=stageHead()+strip()+
+  `<div class="stats"><div class="stat"><b>${done}/${TASKS.length}</b><small>šiandien (~${plan} min)</small></div><div class="stat"><b>${streakDays()}</b><small>dienų iš eilės</small></div><div class="stat"><b>${g}/${stage().goals.length}</b><small>tikslų pasiekta</small></div></div>
+  ${R.length?`<details class="recs card" open><summary><h2 style="display:inline">Šiandienos rekomendacijos</h2></summary><ul>${R.map(r=>`<li><span class="eyebrow">${esc(r[0])}</span><span>${esc(r[1])}</span></li>`).join('')}</ul></details>`:''}
+  <h2 style="margin-top:6px">Šiandienos planas</h2><p class="muted" style="margin-top:-6px">Pamoka: <b>${esc(l.t)}</b>${S.done[l.id]?' (kartojimui)':''}</p>
+  ${TASKS.map(t=>{const d=taskState(t);let act='',h=t.h;
+    if(t.id==='rv')act=dueCards().length?`<button class="btn small primary" data-act="rv">Kartoti (${dueCards().length})</button>`:Object.keys(S.cards).length?'<span class="muted">Šiandien nėra ką kartoti</span>':'<span class="muted">Žodžiai atsiras po pirmų pratybų</span>';
+    if(t.id==='dlg')act=`<button class="btn small primary" data-act="dlg">Atidaryti dialogą</button>`;
+    if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
+    if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
+    if(t.id==='pi')act=`<a class="btn small" href="https://polski.info/courses/a0" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">Atidaryti polski.info ↗</a><button class="btn small" data-act="dict">Pridėti žodžių</button>`;
+    return `<div class="task ${d?'done':''}"><button class="chk" data-tg="${t.id}" aria-label="${d?'Pažymėti neatliktu':'Pažymėti atliktu'}"></button><div class="t"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>${esc(t.n)}</h3><span class="min">${t.m} min</span></div><p class="muted" style="font-size:.92rem">${esc(h)}</p>${act?`<div class="row" style="margin-top:8px">${act}</div>`:''}</div></div>`}).join('')}
+  ${done===TASKS.length?`<div class="note"><b>Šiandienos sesija baigta. Świetnie!</b> Pažiūrėk į „Tikslai“ ir pažymėk, ką jau moki.</div>`:''}`;
+  app.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{const id=b.dataset.tg;markT(id,!doneT().includes(id));renderToday()});
+  app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;
+    if(a==='rv')startReview();
+    if(a==='dlg'){VIEW={tab:'lessons',lesson:l.id,from:'today'};render();scrollTo(0,0)}
+    if(a==='ex')startEx(l);
+    if(a==='mix')startEx({id:'mix',t:'Treniruotė',words:[]},buildMixed(Object.keys(S.cards)));
+    if(a==='dict'){VIEW={tab:'dict'};render();scrollTo(0,0)}});
+}
+let confirmNext=false;
+function renderGoals(){
+  const st=stage(),g=S.goals[S.stage]||[],all=st.goals.every((_,i)=>g[i]),last=S.stage===STAGES.length-1,day=stageDay();
+  let h=`<div class="head"><span class="eyebrow">${S.stage+1} etapo tikslai</span><h1>Ką turiu mokėti</h1><p class="muted">Pažymėk tikslą tik tada, kai gali tai padaryti be pagalbos ir be žvilgčiojimo 3 dienas iš eilės. Kai pasieksi visus, atsivers kitas etapas. Jei prireiks daugiau nei 2 savaičių, tai visiškai normalu.</p></div>`;
+  st.goals.forEach((t,i)=>{h+=`<div class="goal"><input type="checkbox" id="g${i}" data-goal="${i}" ${g[i]?'checked':''}><label for="g${i}">${esc(t)}</label></div>`});
+  if(!last){
+    if(all)h+=`<button class="btn primary" id="next">Pereiti į ${S.stage+2} etapą: ${esc(STAGES[S.stage+1].t)}</button>`;
+    else if(day>14)h+=`<div class="note">Praėjo ${day-1} d. Tęsk tas pačias pamokas ir kartojimą, kol pasieksi visus tikslus.</div>`;
+    if(!all)h+=confirmNext?`<div class="note row"><span>Tikrai pereiti, nors ne visi tikslai pasiekti?</span><button class="btn small primary" id="nextForce">Taip, pereiti</button><button class="btn small" id="nextCancel">Ne</button></div>`:`<button class="btn small" id="nextAsk" style="align-self:flex-start">Pereiti anksčiau</button>`;
+  }else if(all)h+=`<div class="note"><b>Visi etapai baigti!</b> Tai A1 lygio pradžia. Toliau tinka polski.info A1 kursas, o jo žodžius gali pridėti į Žodyną.</div>`;
+  h+=`<h2 style="margin-top:12px">Visas kelias</h2><ul class="road">${STAGES.map((s,i)=>`<li class="${i<S.stage?'past':i===S.stage?'cur':''}"><b>${i+1}. ${esc(s.t)}</b><br><span class="muted" style="font-size:.9rem">${s.lessons.map(id=>esc(lessonById(id).t)).join(' · ')}</span></li>`).join('')}</ul>
+  ${S.stage>0?`<button class="btn small" id="prev" style="align-self:flex-start">Grįžti į ankstesnį etapą</button>`:''}`;
+  app.innerHTML=h;
+  app.querySelectorAll('[data-goal]').forEach(c=>c.onchange=()=>{const a=(S.goals[S.stage]||[]).slice();a[+c.dataset.goal]=c.checked;S.goals[S.stage]=a;save();renderGoals()});
+  const go=n=>{S.stage=n;S.stageStart=dkey();confirmNext=false;save();toast(`${n+1} etapas: ${STAGES[n].t}`);VIEW={tab:'today'};render();scrollTo(0,0)};
+  if($('next'))$('next').onclick=()=>go(S.stage+1);
+  if($('nextAsk'))$('nextAsk').onclick=()=>{confirmNext=true;renderGoals()};
+  if($('nextForce'))$('nextForce').onclick=()=>go(S.stage+1);
+  if($('nextCancel'))$('nextCancel').onclick=()=>{confirmNext=false;renderGoals()};
+  if($('prev'))$('prev').onclick=()=>go(S.stage-1);
+}
+
 /* ===== Navigacija ===== */
-let VIEW={tab:'lessons'},EX=null,RV=null;
+let VIEW={tab:'today'},EX=null,RV=null;
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(!b)return;EX=null;RV=null;VIEW={tab:b.dataset.v};render();scrollTo(0,0)});
 function setTabs(){for(const b of $('tabs').querySelectorAll('button'))b.setAttribute('aria-selected',b.dataset.v===VIEW.tab);$('tabs').hidden=!!(EX||RV)}
 function render(){setTabs();if(EX)return renderEx();if(RV)return renderRv();
-  ({lessons:VIEW.lesson?renderLesson:renderLessons,review:renderReview,dict:renderDict,settings:renderSettings})[VIEW.tab]()}
+  ({today:renderToday,goals:renderGoals,lessons:VIEW.lesson?renderLesson:renderLessons,review:renderReview,dict:renderDict,settings:renderSettings})[VIEW.tab]()}
 
 /* ===== Pamokų sąrašas ===== */
+function lessonBtn(l,n){return `<button class="lesson ${S.done[l.id]?'done':''}" data-l="${l.id}"><span class="n">${S.done[l.id]?'✓':n}</span><span class="t"><b>${esc(l.t)}</b><small>${esc(l.d)} · ${l.words.length} žodž.</small></span>${S.done[l.id]?`<span class="sc">${S.done[l.id]}%</span>`:S.last[l.id]!=null?`<span class="sc" style="color:var(--muted)">${S.last[l.id]}%</span>`:''}</button>`}
 function renderLessons(){
-  const due=dueCards().length,learned=Object.keys(S.cards).length,st=streakNow();
-  const next=LESSONS.find(l=>!S.done[l.id]);
-  app.innerHTML=`<div class="head"><span class="eyebrow">Lenkų kalba nuo nulio</span><h1>Cześć! 👋</h1></div>
-  <div class="stats"><div class="stat"><b>${st}</b><small>dienų iš eilės</small></div><div class="stat"><b>${learned}</b><small>žodžių kartojime</small></div><div class="stat"><b>${due}</b><small>kartoti šiandien</small></div></div>
-  ${due?`<button class="btn primary wide" id="goRv">Kartoti ${due} žodž.</button>`:''}
-  ${!PLV.length&&'speechSynthesis' in window?`<div class="note">🔇 Telefone nerastas lenkiškas balsas. Kaip įjungti, žr. <a href="#" id="goSet">Nustatymuose</a>.</div>`:''}
-  <h2 style="margin-top:6px">Pamokos</h2>
-  ${allLessons().map((l,i)=>`<button class="lesson ${S.done[l.id]?'done':''}" data-l="${l.id}"><span class="n">${S.done[l.id]?'✓':l.id==='custom'?'★':i+1}</span><span class="t"><b>${esc(l.t)}</b><small>${esc(l.d)} · ${l.words.length} žodž.</small></span>${S.done[l.id]?`<span class="sc">${S.done[l.id]}%</span>`:next===l?'<span class="sc" style="color:var(--accent)">toliau</span>':''}</button>`).join('')}
-  <p class="muted" style="font-size:.9rem">Pamokas gali eiti bet kuria tvarka. Dialogus daugiau klausytis rasi <a href="https://polski.info/?hl=lt" target="_blank" rel="noopener">polski.info</a>, o savo žodžius iš ten pridėk skiltyje „Žodynas“.</p>`;
+  const c=customLesson();
+  app.innerHTML=`<div class="head"><span class="eyebrow">Teorija ir dialogai</span><h1>Pamokos</h1><p class="muted">Kiekviename etape 2 pamokos. Gali atsiversti bet kurią, net jei etapas dar neatėjo.</p></div>
+  ${STAGES.map((st,i)=>`<h2 style="margin-top:6px">${i+1}. ${esc(st.t)}${i===S.stage?' <span class="pill">dabar</span>':''}</h2>${st.lessons.map(id=>lessonBtn(lessonById(id),LESSONS.findIndex(x=>x.id===id)+1)).join('')}`).join('')}
+  ${c?`<h2 style="margin-top:6px">Savi žodžiai</h2>${lessonBtn(c,'★')}`:''}
+  <p class="muted" style="font-size:.9rem">Daugiau dialogų rasi <a href="https://polski.info/?hl=lt" target="_blank" rel="noopener">polski.info</a>, o savo žodžius iš ten pridėk skiltyje „Žodynas“.</p>`;
   app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',lesson:b.dataset.l};render();scrollTo(0,0)});
-  if($('goRv'))$('goRv').onclick=startReview;
-  if($('goSet'))$('goSet').onclick=e=>{e.preventDefault();VIEW={tab:'settings'};render()};
 }
 
 /* ===== Viena pamoka ===== */
@@ -312,7 +432,7 @@ function speakers(l){return [...new Set(l.dialog.map(d=>d[0]))]}
 function renderLesson(){
   const l=lessonById(VIEW.lesson);if(!l){VIEW={tab:'lessons'};return render()}
   const sp=speakers(l);
-  app.innerHTML=`<div class="row"><button class="btn small" id="back">← Pamokos</button></div>
+  app.innerHTML=`<div class="row"><button class="btn small" id="back">← ${VIEW.from==='today'?'Šiandien':'Pamokos'}</button></div>
   <div class="head"><span class="eyebrow">${l.id==='custom'?'Savi žodžiai':'Pamoka '+(LESSONS.indexOf(l)+1)}</span><h1>${esc(l.t)}</h1><p class="muted">${esc(l.d)}</p></div>
   ${l.tip?`<div class="note">${l.tip}</div>`:''}
   ${l.dialog.length?`<div class="card stack"><div class="row" style="justify-content:space-between"><h2>Dialogas</h2><div class="row"><button class="btn small" id="hideLt">${S.hideLt?'Rodyti vertimą':'Slėpti vertimą'}</button><button class="btn small primary" id="playAll">▶ Visas</button></div></div>
@@ -321,12 +441,12 @@ function renderLesson(){
   <div class="card"><h2 style="margin-bottom:6px">Žodžiai</h2><div class="words">${l.words.map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div></div></div>`).join('')}</div></div>
   <button class="btn primary wide" id="startEx">Pratybos (${l.dialog.length?'~14':'~'+Math.min(12,l.words.length*2)} užduočių)</button>
   <button class="btn wide" id="addAll">Įtraukti žodžius į kartojimą</button>`;
-  $('back').onclick=()=>{VIEW={tab:'lessons'};render();scrollTo(0,0)};
+  $('back').onclick=()=>{VIEW={tab:VIEW.from==='today'?'today':'lessons'};render();scrollTo(0,0)};
   $('startEx').onclick=()=>startEx(l);
   $('addAll').onclick=()=>{l.words.forEach(w=>addCard(w[0],l.id));save();toast('Žodžiai įtraukti į kartojimą')};
   if($('hideLt'))$('hideLt').onclick=()=>{S.hideLt=!S.hideLt;save();$('dlg').classList.toggle('hidelt',S.hideLt);$('hideLt').textContent=S.hideLt?'Rodyti vertimą':'Slėpti vertimą'};
   if($('playAll'))$('playAll').onclick=async()=>{const me=playAll.id=(playAll.id||0)+1;speechSynthesis.cancel();
-    for(const b of app.querySelectorAll('#dlg .bub')){if(playAll.id!==me||!document.body.contains(b))break;b.classList.add('now');await speak(b.dataset.say,{queue:true,alt:b.dataset.alt==='1'});b.classList.remove('now');await new Promise(r=>setTimeout(r,350))}};
+    for(const b of app.querySelectorAll('#dlg .bub')){if(playAll.id!==me||!document.body.contains(b))break;b.classList.add('now');await speak(b.dataset.say,{queue:true,alt:b.dataset.alt==='1'});b.classList.remove('now');await new Promise(r=>setTimeout(r,350))}if(playAll.id===me&&document.body.contains($('dlg'))){markT('dlg');toast('Dialogas išklausytas ✓')}};
 }
 function playAll(){}
 
@@ -429,7 +549,7 @@ function answer(ok,right,hint){
   $('next').scrollIntoView({block:'nearest',behavior:'smooth'});
 }
 function finishEx(){EX.done=true;const vals=Object.values(EX.first),pct=Math.round(vals.filter(Boolean).length/Math.max(1,vals.length)*100);EX.pct=pct;
-  if(EX.l.id!=='mix'){EX.l.words.forEach(w=>addCard(w[0],EX.l.id));if(pct>=70)S.done[EX.l.id]=Math.max(S.done[EX.l.id]||0,pct)}
+  markT('ex');if(EX.l.id!=='mix'){S.last[EX.l.id]=pct;EX.l.words.forEach(w=>addCard(w[0],EX.l.id));if(pct>=70)S.done[EX.l.id]=Math.max(S.done[EX.l.id]||0,pct)}
   markDay(EX.ok)}
 function renderExEnd(){const l=EX.l,pct=EX.pct;
   app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><span class="eyebrow">${esc(l.t)}</span><h1>${pct>=90?'Świetnie! 🎉':pct>=70?'Dobrze! 👍':'Dar pasimankštink 💪'}</h1></div>
@@ -455,7 +575,7 @@ function renderReview(){
 }
 function startReview(){const d=dueCards().slice(0,20);if(!d.length)return;RV={q:d,i:0,shown:false,n:0,again:new Set()};render();scrollTo(0,0)}
 function renderRv(){
-  if(RV.i>=RV.q.length){markDay(RV.n);app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž.</p></div>
+  if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž.</p></div>
     <button class="btn primary wide" id="out">Baigti</button>${dueCards().length?`<button class="btn wide" id="more">Dar (${dueCards().length})</button>`:''}`;
     $('out').onclick=()=>{RV=null;render()};if($('more'))$('more').onclick=startReview;return}
   const k=RV.q[RV.i],w=wordInfo(k),c=card(k)||{b:0},rev=c.b>=2&&RV.i%2===1; // pažengusiems kartais lt→pl
@@ -514,7 +634,7 @@ function renderSettings(){
   app.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{S.theme=b.dataset.th;save();applyTheme();renderSettings()});
   $('exp').onclick=async()=>{const t=JSON.stringify(S);try{await navigator.clipboard.writeText(t);toast('Nukopijuota. Įklijuok kitame įrenginyje.')}catch(e){prompt('Nukopijuok:',t)}};
   $('imp').onclick=()=>{const t=prompt('Įklijuok nukopijuotą pažangą:');if(!t)return;try{const o=JSON.parse(t);if(!o.cards)throw 0;S=Object.assign(fresh(),o);save();applyTheme();toast('Pažanga įkelta');render()}catch(e){toast('Netinkamas tekstas')}};
-  $('rst').onclick=()=>{if(!confirm('Ištrinti visą pažangą ir savo žodžius?'))return;S=fresh();save();applyTheme();render()};
+  $('rst').onclick=()=>{if(!confirm('Ištrinti visą pažangą ir savo žodžius?'))return;S=fresh();S.stageStart=dkey();save();applyTheme();render()};
   $('upd').onclick=checkUpdate;
 }
 async function checkUpdate(){try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});const j=await r.json();
