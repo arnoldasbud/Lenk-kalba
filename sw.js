@@ -1,6 +1,6 @@
 // Lenkų kalba – offline talpykla.
 // Su internetu imam naujausią failą (ir atnaujinam talpyklą), be interneto – iš talpyklos.
-const CACHE='lenku-v2';
+const CACHE='lenku-v3';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});

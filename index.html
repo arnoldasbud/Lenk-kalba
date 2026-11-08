@@ -165,7 +165,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.1.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.2.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -301,16 +301,24 @@ function updBadge(){const n=dueCards().length,b=$('dueBadge');b.hidden=!n;b.text
 let PLV=[];
 function loadVoices(){if(!('speechSynthesis' in window))return;PLV=speechSynthesis.getVoices().filter(v=>/^pl/i.test(v.lang))}
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(VIEW.tab==='settings'&&!EX&&!RV)render()}}
-function voiceFor(alt){if(!PLV.length)return null;const main=PLV.find(v=>v.name===S.voice)||PLV.find(v=>v.localService)||PLV[0];if(alt&&PLV.length>1)return PLV.find(v=>v!==main);return main}
+/* Pašnekovų lytis dialoguose: m – vyras, f – moteris */
+const SPK={Ania:'f',Ola:'f',Klientka:'f',Pani:'f',B:'f',Tomek:'m',Jonas:'m',Kelner:'m',Klient:'m',Sprzedawca:'m',Turysta:'m',A:'m'};
+const FEM=/zosia|ewa|paulina|agnieszka|maja|anna|kasia|joanna|marta|ola|female|kobieta|women|woman/i, MAS=/krzysztof|jacek|adam|marek|jan\b|piotr|male|mężczyzna|\bman\b/i;
+function guessG(v){return FEM.test(v.name)&&!/\bmale/i.test(v.name.replace(/female/i,''))?'f':MAS.test(v.name)?'m':''}
+function voiceFor(g){if(!PLV.length)return null;
+  const main=PLV.find(v=>v.name===S.voice)||PLV.find(v=>v.localService)||PLV[0];if(!g)return main;
+  const pick=g==='f'?S.voiceF:S.voiceM;const chosen=PLV.find(v=>v.name===pick);if(chosen)return chosen;
+  return PLV.find(v=>guessG(v)===g)||(g==='f'?main:PLV.find(v=>v!==voiceFor('f'))||main)}
+function pitchFor(g){if(!g)return 1;const v=voiceFor(g),o=voiceFor(g==='f'?'m':'f');if(v&&o&&v!==o)return 1;return g==='f'?1.25:.85}
 function speak(text,o={}){
   if(!('speechSynthesis' in window)){toast('Šis telefonas nemoka skaityti balsu');return Promise.resolve()}
   if(!o.queue)speechSynthesis.cancel();
-  return new Promise(res=>{const u=new SpeechSynthesisUtterance(String(text).replace(/\.\.\.|…/g,''));u.lang='pl-PL';const v=voiceFor(o.alt);if(v)u.voice=v;
-    u.rate=o.slow?Math.max(.45,S.rate-.35):S.rate;u.pitch=o.alt&&PLV.length<2?1.25:1;u.onend=u.onerror=()=>res();speechSynthesis.speak(u)});
+  return new Promise(res=>{const u=new SpeechSynthesisUtterance(String(text).replace(/\.\.\.|…/g,''));u.lang='pl-PL';const v=voiceFor(o.g);if(v)u.voice=v;
+    u.rate=o.slow?Math.max(.45,S.rate-.35):S.rate;u.pitch=pitchFor(o.g);u.onend=u.onerror=()=>res();speechSynthesis.speak(u)});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(!b)return;e.preventDefault();
   const slow=b.dataset.slow==='1'||(b.dataset.say===speak.last&&Date.now()-speak.lastT<4000);speak.last=b.dataset.say;speak.lastT=Date.now();
-  b.classList.add('playing');speak(b.dataset.say,{slow,alt:b.dataset.alt==='1'}).then(()=>b.classList.remove('playing'))});
+  b.classList.add('playing');speak(b.dataset.say,{slow,g:b.dataset.g}).then(()=>b.classList.remove('playing'))});
 
 
 /* ===== Etapai: po 2 savaites, 2 pamokos, tikslai „ką moku“ (kaip gitaros appse) ===== */
@@ -436,7 +444,7 @@ function renderLesson(){
   <div class="head"><span class="eyebrow">${l.id==='custom'?'Savi žodžiai':'Pamoka '+(LESSONS.indexOf(l)+1)}</span><h1>${esc(l.t)}</h1><p class="muted">${esc(l.d)}</p></div>
   ${l.tip?`<div class="note">${l.tip}</div>`:''}
   ${l.dialog.length?`<div class="card stack"><div class="row" style="justify-content:space-between"><h2>Dialogas</h2><div class="row"><button class="btn small" id="hideLt">${S.hideLt?'Rodyti vertimą':'Slėpti vertimą'}</button><button class="btn small primary" id="playAll">▶ Visas</button></div></div>
-   <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-alt="${sp.indexOf(d[0])%2?1:0}"><div class="who">${esc(d[0])}</div><div class="pl">${esc(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
+   <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-g="${SPK[d[0]]||(sp.indexOf(d[0])%2?'f':'m')}"><div class="who">${esc(d[0])}</div><div class="pl">${esc(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
    <p class="muted" style="font-size:.85rem">Bakstelėk sakinį, kad išgirstum. Bakstelėk dar kartą: lėčiau.</p></div>`:''}
   <div class="card"><h2 style="margin-bottom:6px">Žodžiai</h2><div class="words">${l.words.map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div></div></div>`).join('')}</div></div>
   <button class="btn primary wide" id="startEx">Pratybos (${l.dialog.length?'~14':'~'+Math.min(12,l.words.length*2)} užduočių)</button>
@@ -446,7 +454,7 @@ function renderLesson(){
   $('addAll').onclick=()=>{l.words.forEach(w=>addCard(w[0],l.id));save();toast('Žodžiai įtraukti į kartojimą')};
   if($('hideLt'))$('hideLt').onclick=()=>{S.hideLt=!S.hideLt;save();$('dlg').classList.toggle('hidelt',S.hideLt);$('hideLt').textContent=S.hideLt?'Rodyti vertimą':'Slėpti vertimą'};
   if($('playAll'))$('playAll').onclick=async()=>{const me=playAll.id=(playAll.id||0)+1;speechSynthesis.cancel();
-    for(const b of app.querySelectorAll('#dlg .bub')){if(playAll.id!==me||!document.body.contains(b))break;b.classList.add('now');await speak(b.dataset.say,{queue:true,alt:b.dataset.alt==='1'});b.classList.remove('now');await new Promise(r=>setTimeout(r,350))}if(playAll.id===me&&document.body.contains($('dlg'))){markT('dlg');toast('Dialogas išklausytas ✓')}};
+    for(const b of app.querySelectorAll('#dlg .bub')){if(playAll.id!==me||!document.body.contains(b))break;b.classList.add('now');await speak(b.dataset.say,{queue:true,g:b.dataset.g});b.classList.remove('now');await new Promise(r=>setTimeout(r,350))}if(playAll.id===me&&document.body.contains($('dlg'))){markT('dlg');toast('Dialogas išklausytas ✓')}};
 }
 function playAll(){}
 
@@ -617,7 +625,11 @@ function renderSettings(){
   const has='speechSynthesis' in window;
   app.innerHTML=`<div class="head"><h1>Nustatymai</h1></div>
   <div class="card stack"><h2>Balsas</h2>
-   ${!has?'<p>Ši naršyklė nemoka skaityti balsu.</p>':PLV.length?`<div><label class="lab" for="vc">Lenkiškas balsas</label><select id="vc">${PLV.map(v=>`<option ${v===voiceFor()?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>`
+   ${!has?'<p>Ši naršyklė nemoka skaityti balsu.</p>':PLV.length?`<div><label class="lab" for="vc">Žodžiai ir pratybos</label><select id="vc">${PLV.map(v=>`<option ${v===voiceFor()?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>
+    <div><label class="lab" for="vm">Vyras dialoguose (Jonas, Tomek…)</label><div class="row" style="flex-wrap:nowrap"><select id="vm">${PLV.map(v=>`<option ${v===voiceFor('m')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="Cześć, mam na imię Jonas." data-g="m">🔊</button></div></div>
+    <div><label class="lab" for="vf">Moteris dialoguose (Ola, Ania…)</label><div class="row" style="flex-wrap:nowrap"><select id="vf">${PLV.map(v=>`<option ${v===voiceFor('f')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="Cześć, mam na imię Ola." data-g="f">🔊</button></div></div>
+    ${PLV.length<2?'<p class="muted" style="font-size:.9rem">Telefone yra tik vienas lenkiškas balsas, todėl vyras ir moteris skiriasi tik tonu. Antrą balsą įdiegsi telefono nustatymuose (žr. žemiau).</p>':''}
+    <details><summary class="muted" style="cursor:pointer">Kaip įdiegti daugiau balsų</summary><p style="margin-top:6px"><b>iPhone:</b> Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski → Zosia (moteris), Krzysztof (vyras).</p><p><b>Android:</b> Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google → ⚙ → Įdiegti balso duomenis → Polski. Ten pasirink balsą. Chrome kartais rodo tik vieną, tada balsą keisk ten.</p></details>`
    :`<div class="note"><b>Lenkiškas balsas nerastas.</b><p>Android: Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google variklis → ⚙ → Įdiegti balso duomenis → Polski.</p><p>iPhone: Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski.</p><p>Tada iš naujo atidaryk appsą.</p></div>`}
    <div><label class="lab" for="rt">Greitis: <span id="rtv">${S.rate.toFixed(2)}</span></label><input type="range" id="rt" min="0.5" max="1.2" step="0.05" value="${S.rate}"></div>
    <button class="btn" data-say="Dzień dobry! Jak się masz? Mam na imię Ola.">🔊 Išbandyti</button></div>
@@ -629,7 +641,7 @@ function renderSettings(){
    <p><a href="https://forvo.com/languages/pl/" target="_blank" rel="noopener">Forvo</a>: kaip žodį taria lenkai.</p><p><a href="https://www.youtube.com/@EasyPolish" target="_blank" rel="noopener">Easy Polish</a>: gatvės pokalbiai su subtitrais.</p>
    <p><a href="https://pl.wiktionary.org" target="_blank" rel="noopener">Wikisłownik</a>: linksniai ir asmenuotės.</p></div>
   <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:.85rem">Versija ${VERSION}</span><button class="btn small" id="upd">Tikrinti atnaujinimus</button></div>`;
-  if($('vc'))$('vc').onchange=e=>{S.voice=e.target.value;save()};
+  if($('vc'))$('vc').onchange=e=>{S.voice=e.target.value;save()};if($('vm'))$('vm').onchange=e=>{S.voiceM=e.target.value;save()};if($('vf'))$('vf').onchange=e=>{S.voiceF=e.target.value;save()};
   $('rt').oninput=e=>{S.rate=+e.target.value;$('rtv').textContent=S.rate.toFixed(2);save()};
   app.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{S.theme=b.dataset.th;save();applyTheme();renderSettings()});
   $('exp').onclick=async()=>{const t=JSON.stringify(S);try{await navigator.clipboard.writeText(t);toast('Nukopijuota. Įklijuok kitame įrenginyje.')}catch(e){prompt('Nukopijuok:',t)}};
