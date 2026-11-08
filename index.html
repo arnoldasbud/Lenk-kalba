@@ -165,7 +165,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.2.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.2.1';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -343,8 +343,7 @@ const TASKS=[
  {id:"rv",n:"Kartok žodžius",m:5,h:"Kortelės su intervalais. Pirmiausia kartojimas, tada nauja medžiaga."},
  {id:"dlg",n:"Klausyk ir kartok dialogą",m:4,h:"Paleisk visą dialogą. Paskui klausyk po sakinį ir garsiai kartok kartu (šešėliavimas). Antrą kartą paslėpk vertimą."},
  {id:"ex",n:"Pratybos",m:7,h:"Užduotys iš šios pamokos žodžių ir dialogo. Pamoka išmokta nuo 70% iš pirmo karto."},
- {id:"speak",n:"Kalbėk garsiai",m:2,h:""},
- {id:"pi",n:"polski.info",m:5,h:"Vienas dialogas ar pamokos dalis A0 kurse. Naujus žodžius pridėk į Žodyną."}
+ {id:"speak",n:"Kalbėk garsiai",m:2,h:""}
 ];
 function dkey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function dBetween(a,b){const pa=a.split("-").map(Number),pb=b.split("-").map(Number);return Math.round((Date.UTC(pb[0],pb[1]-1,pb[2])-Date.UTC(pa[0],pa[1]-1,pa[2]))/DAY)}
@@ -384,7 +383,6 @@ function renderToday(){
     if(t.id==='dlg')act=`<button class="btn small primary" data-act="dlg">Atidaryti dialogą</button>`;
     if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
     if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
-    if(t.id==='pi')act=`<a class="btn small" href="https://polski.info/courses/a0" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">Atidaryti polski.info ↗</a><button class="btn small" data-act="dict">Pridėti žodžių</button>`;
     return `<div class="task ${d?'done':''}"><button class="chk" data-tg="${t.id}" aria-label="${d?'Pažymėti neatliktu':'Pažymėti atliktu'}"></button><div class="t"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>${esc(t.n)}</h3><span class="min">${t.m} min</span></div><p class="muted" style="font-size:.92rem">${esc(h)}</p>${act?`<div class="row" style="margin-top:8px">${act}</div>`:''}</div></div>`}).join('')}
   ${done===TASKS.length?`<div class="note"><b>Šiandienos sesija baigta. Świetnie!</b> Pažiūrėk į „Tikslai“ ir pažymėk, ką jau moki.</div>`:''}`;
   app.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{const id=b.dataset.tg;markT(id,!doneT().includes(id));renderToday()});
@@ -404,7 +402,7 @@ function renderGoals(){
     if(all)h+=`<button class="btn primary" id="next">Pereiti į ${S.stage+2} etapą: ${esc(STAGES[S.stage+1].t)}</button>`;
     else if(day>14)h+=`<div class="note">Praėjo ${day-1} d. Tęsk tas pačias pamokas ir kartojimą, kol pasieksi visus tikslus.</div>`;
     if(!all)h+=confirmNext?`<div class="note row"><span>Tikrai pereiti, nors ne visi tikslai pasiekti?</span><button class="btn small primary" id="nextForce">Taip, pereiti</button><button class="btn small" id="nextCancel">Ne</button></div>`:`<button class="btn small" id="nextAsk" style="align-self:flex-start">Pereiti anksčiau</button>`;
-  }else if(all)h+=`<div class="note"><b>Visi etapai baigti!</b> Tai A1 lygio pradžia. Toliau tinka polski.info A1 kursas, o jo žodžius gali pridėti į Žodyną.</div>`;
+  }else if(all)h+=`<div class="note"><b>Visi etapai baigti!</b> Tai A1 lygio pradžia. Toliau kartok žodžius ir grįžk prie dialogų be vertimo.</div>`;
   h+=`<h2 style="margin-top:12px">Visas kelias</h2><ul class="road">${STAGES.map((s,i)=>`<li class="${i<S.stage?'past':i===S.stage?'cur':''}"><b>${i+1}. ${esc(s.t)}</b><br><span class="muted" style="font-size:.9rem">${s.lessons.map(id=>esc(lessonById(id).t)).join(' · ')}</span></li>`).join('')}</ul>
   ${S.stage>0?`<button class="btn small" id="prev" style="align-self:flex-start">Grįžti į ankstesnį etapą</button>`:''}`;
   app.innerHTML=h;
@@ -430,8 +428,7 @@ function renderLessons(){
   const c=customLesson();
   app.innerHTML=`<div class="head"><span class="eyebrow">Teorija ir dialogai</span><h1>Pamokos</h1><p class="muted">Kiekviename etape 2 pamokos. Gali atsiversti bet kurią, net jei etapas dar neatėjo.</p></div>
   ${STAGES.map((st,i)=>`<h2 style="margin-top:6px">${i+1}. ${esc(st.t)}${i===S.stage?' <span class="pill">dabar</span>':''}</h2>${st.lessons.map(id=>lessonBtn(lessonById(id),LESSONS.findIndex(x=>x.id===id)+1)).join('')}`).join('')}
-  ${c?`<h2 style="margin-top:6px">Savi žodžiai</h2>${lessonBtn(c,'★')}`:''}
-  <p class="muted" style="font-size:.9rem">Daugiau dialogų rasi <a href="https://polski.info/?hl=lt" target="_blank" rel="noopener">polski.info</a>, o savo žodžius iš ten pridėk skiltyje „Žodynas“.</p>`;
+  ${c?`<h2 style="margin-top:6px">Savi žodžiai</h2>${lessonBtn(c,'★')}`:''}`;
   app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',lesson:b.dataset.l};render();scrollTo(0,0)});
 }
 
@@ -608,7 +605,7 @@ function renderDict(){
   <input class="ans search" id="q" placeholder="Ieškoti lenkiškai ar lietuviškai" value="${esc(q)}" autocapitalize="off">
   <div class="card"><div class="words" id="wl">${list.slice(0,300).map(w=>{const c=card(w.pl);return `<div class="w">${sayBtn(w.pl)}<div class="tx"><div class="pl">${esc(w.pl)}</div><div class="lt">${esc(w.lt)}</div></div>${c?`<span class="muted" style="font-size:.75rem">${c.b>=5?'moku':c.b>=2?'mokausi':'naujas'}</span>`:''}</div>`}).join('')||'<p class="muted">Nieko nerasta</p>'}</div></div>
   <details class="card" ${S.custom.length?'':'open'}><summary>➕ Pridėti savo žodžių</summary>
-   <div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.92rem">Pvz. iš polski.info pamokos. Vienas žodis eilutėje: <b>lenkiškai = lietuviškai</b> (tinka ir „-“ arba tabuliacija).</p>
+   <div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.92rem">Vienas žodis eilutėje: <b>lenkiškai = lietuviškai</b> (tinka ir „-“ arba tabuliacija).</p>
    <textarea id="cw" placeholder="kanapka = sumuštinis&#10;jak się nazywasz? = kuo tu vardu?"></textarea>
    <button class="btn primary" id="addCw">Pridėti</button>
    ${S.custom.length?`<p class="muted" style="font-size:.9rem">Jau pridėta: ${S.custom.length}. Jie yra pamokoje „Mano žodžiai“.</p><button class="btn small" id="clrCw" style="align-self:flex-start">Ištrinti visus savo žodžius</button>`:''}</div></details>`;
