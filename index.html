@@ -168,7 +168,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.4.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.5.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -394,7 +394,7 @@ function renderToday(){
   ${R.length?`<details class="recs card" open><summary><h2 style="display:inline">Šiandienos rekomendacijos</h2></summary><ul>${R.map(r=>`<li><span class="eyebrow">${esc(r[0])}</span><span>${esc(r[1])}</span></li>`).join('')}</ul></details>`:''}
   <h2 style="margin-top:6px">Šiandienos planas</h2><p class="muted" style="margin-top:-6px">Pamoka: <b>${esc(l.t)}</b>${S.done[l.id]?' (kartojimui)':''}</p>
   ${TASKS.map(t=>{const d=taskState(t);let act='',h=t.h;
-    if(t.id==='rv')act=dueCards().length?`<button class="btn small primary" data-act="rv">Kartoti (${dueCards().length})</button>`:Object.keys(S.cards).length?'<span class="muted">Šiandien nėra ką kartoti</span>':'<span class="muted">Žodžiai atsiras po pirmų pratybų</span>';
+    if(t.id==='rv')act=dueCards().length?`<button class="btn small primary" data-act="rv">Kartoti (${dueCards().length})</button>`:Object.keys(S.cards).length?'<span class="muted">Laiku kartotinų nėra.</span> <button class="btn small" data-act="rv">Papildomas kartojimas</button>':'<span class="muted">Žodžiai atsiras po pirmų pratybų</span>';
     if(t.id==='dlg')act=`<button class="btn small primary" data-act="dlg">Atidaryti dialogą</button>`;
     if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
     if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
@@ -462,7 +462,7 @@ function renderLesson(){
    <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-g="${SPK[d[0]]||(sp.indexOf(d[0])%2?'f':'m')}"><div class="who">${esc(d[0])}</div><div class="pl">${esc(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
    <p class="muted" style="font-size:.85rem">Bakstelėk sakinį, kad išgirstum. Bakstelėk dar kartą: lėčiau.</p></div>`:''}
   <div class="card"><h2 style="margin-bottom:6px">Žodžiai</h2><div class="words">${l.words.map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div></div></div>`).join('')}</div></div>
-  <button class="btn primary wide" id="startEx">Pratybos (${l.dialog.length?'~14':'~'+Math.min(12,l.words.length*2)} užduočių)</button>
+  <button class="btn primary wide" id="startEx">Pratybos (~${l.words.length+Math.min(6,l.words.length)+(l.dialog.length?4:0)} užduočių)</button>
   <button class="btn wide" id="addAll">Įtraukti žodžius į kartojimą</button>`;
   $('back').onclick=()=>{VIEW={tab:VIEW.from==='today'?'today':'lessons'};render();scrollTo(0,0)};
   $('startEx').onclick=()=>startEx(l);
@@ -480,13 +480,13 @@ function buildEx(l){
   const W=shuffle(l.words.map(w=>({pl:w[0],lt:w[1]})));
   const pool=l.words.length>=6?l.words.map(w=>({pl:w[0],lt:w[1]})):allWords();
   const items=[],easy=[],mid=[],hard=[];
-  W.slice(0,10).forEach((w,i)=>{
+  W.forEach((w,i)=>{
     const k=i%4;
     if(k===0||k===2)easy.push({t:'mc',dir:'pl',w,opts:shuffle([w,...distract(w,pool,'lt')])});
     else if(k===1)easy.push({t:'listen',w,opts:shuffle([w,...distract(w,pool,'pl')])});
     else mid.push({t:'mc',dir:'lt',w,opts:shuffle([w,...distract(w,pool,'pl')])});
   });
-  W.filter(w=>w.pl.length<=16).slice(0,3).forEach(w=>hard.push({t:'type',w}));
+  shuffle(W.filter(w=>w.pl.length<=16)).slice(0,6).forEach(w=>hard.push({t:'type',w}));
   const lines=l.dialog.filter(d=>{const n=tokens(d[1]).length;return n>=2&&n<=7});
   shuffle(lines).slice(0,2).forEach(d=>{
     const tk=tokens(d[1]);const others=tokens(lines.filter(x=>x!==d).map(x=>x[1]).join(' ')).filter(t=>!tk.includes(t));
@@ -591,12 +591,17 @@ function renderReview(){
   app.innerHTML=`<div class="head"><span class="eyebrow">Kartojimas su intervalais</span><h1>Kartoti</h1>
    <p class="muted">Žodžiai, kuriuos žinai, grįžta vis rečiau: po 1, 2, 4, 8, 16… dienų. Kuriuos pamiršti, grįžta greitai.</p></div>
   <div class="stats"><div class="stat"><b>${boxes[0]}</b><small>nauji / sunkūs</small></div><div class="stat"><b>${boxes[1]}</b><small>mokausi</small></div><div class="stat"><b>${boxes[2]}</b><small>moku</small></div></div>
-  ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${due.length})</button>`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
+  ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${Math.max(due.length,Math.min(RV_MIN,total))} žodž.)</button>${due.length<RV_MIN&&total>due.length?`<p class="muted" style="font-size:.88rem;margin-top:-4px">${due.length} laiku kartotini + silpniausi iš jau matytų</p>`:''}`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
+  ${!due.length&&total>=5?`<button class="btn primary wide" id="rv">Papildomas kartojimas (${Math.min(RV_MIN,total)} žodž.)</button>`:''}
   ${total>=4?`<button class="btn wide" id="mix">Treniruotė iš visų žodžių</button>`:''}`;
   if($('rv'))$('rv').onclick=startReview;
   if($('mix'))$('mix').onclick=()=>startEx({id:'mix',t:'Treniruotė',words:[]},buildMixed(Object.keys(S.cards)));
 }
-function startReview(){const d=dueCards().slice(0,20);if(!d.length)return;RV={q:d,i:0,base:d.length,n:0,ok:0,again:new Set(),res:null};render();scrollTo(0,0)}
+const RV_MIN=20; // vienoje sesijoje bent tiek žodžių: jei laiku kartotinų mažiau, papildom silpniausiais jau matytais
+function extraCards(n,skip){const now=Date.now();return Object.entries(S.cards).filter(([k,c])=>c.due>now&&!skip.includes(k)&&wordInfo(k))
+  .sort((a,b)=>a[1].b-b[1].b||(b[1].bad-b[1].ok)-(a[1].bad-a[1].ok)||a[1].due-b[1].due).slice(0,n).map(([k])=>k)}
+function startReview(){const d=dueCards().slice(0,30);const ex=d.length<RV_MIN?shuffle(extraCards(RV_MIN-d.length,d)):[];const q=[...d,...ex];if(!q.length)return;
+  RV={q,i:0,base:q.length,n:0,ok:0,again:new Set(),res:null,nDue:d.length};render();scrollTo(0,0)}
 /* Atsakymo tikrinimas: lenkiškai tiksliai (be ženkliukų – „beveik“), lietuviškai – bet kuris iš variantų */
 const LTMAP={'ą':'a','č':'c','ę':'e','ė':'e','į':'i','š':'s','ų':'u','ū':'u','ž':'z'};
 const flatLt=s=>norm(s).replace(/[ąčęėįšųūž]/g,c=>LTMAP[c]);
@@ -609,7 +614,7 @@ function checkAns(v,w,dir){ // grąžina 2 teisingai, 1 beveik, 0 neteisingai
   const a=flatLt(v),alts=ltAlts(w.lt);if(alts.includes(a))return 2;if(alts.some(x=>x.length>=5&&lev(a,x)<=1))return 1;return 0}
 function renderRv(){
   if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž. Teisingai: ${RV.ok||0}.</p></div>
-    <button class="btn primary wide" id="out">Baigti</button>${dueCards().length?`<button class="btn wide" id="more">Dar (${dueCards().length})</button>`:''}`;
+    <button class="btn primary wide" id="out">Baigti</button>${Object.keys(S.cards).length>=5?`<button class="btn wide" id="more">Dar ${dueCards().length?dueCards().length+' laiku kartotinų':Math.min(RV_MIN,Object.keys(S.cards).length)+' žodž.'}</button>`:''}`;
     $('out').onclick=()=>{RV=null;render()};if($('more'))$('more').onclick=startReview;return}
   const k=RV.q[RV.i],w=wordInfo(k),c=card(k)||{b:0};
   // nauji žodžiai: girdi/matai lenkiškai ir rašai reikšmę; jau pažįstami: matai lietuviškai ir rašai lenkiškai
