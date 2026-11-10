@@ -168,7 +168,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.3.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.4.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -596,23 +596,46 @@ function renderReview(){
   if($('rv'))$('rv').onclick=startReview;
   if($('mix'))$('mix').onclick=()=>startEx({id:'mix',t:'Treniruotė',words:[]},buildMixed(Object.keys(S.cards)));
 }
-function startReview(){const d=dueCards().slice(0,20);if(!d.length)return;RV={q:d,i:0,shown:false,n:0,again:new Set()};render();scrollTo(0,0)}
+function startReview(){const d=dueCards().slice(0,20);if(!d.length)return;RV={q:d,i:0,base:d.length,n:0,ok:0,again:new Set(),res:null};render();scrollTo(0,0)}
+/* Atsakymo tikrinimas: lenkiškai tiksliai (be ženkliukų – „beveik“), lietuviškai – bet kuris iš variantų */
+const LTMAP={'ą':'a','č':'c','ę':'e','ė':'e','į':'i','š':'s','ų':'u','ū':'u','ž':'z'};
+const flatLt=s=>norm(s).replace(/[ąčęėįšųūž]/g,c=>LTMAP[c]);
+function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>1)return 2;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+function ltAlts(lt){const base=lt.replace(/\([^)]*\)/g,' ');const out=new Set([flatLt(base),flatLt(lt)]);
+  base.split(/[,/;]| ar /).forEach(x=>{const f=flatLt(x);if(f)out.add(f)});return [...out].filter(Boolean)}
+function checkAns(v,w,dir){ // grąžina 2 teisingai, 1 beveik, 0 neteisingai
+  if(dir==='pl'){if(norm(v)===norm(w.pl))return 2;const a=flat(v),b=flat(w.pl);if(a===b||(b.length>=5&&lev(a,b)<=1))return 1;return 0}
+  const a=flatLt(v),alts=ltAlts(w.lt);if(alts.includes(a))return 2;if(alts.some(x=>x.length>=5&&lev(a,x)<=1))return 1;return 0}
 function renderRv(){
-  if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž.</p></div>
+  if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž. Teisingai: ${RV.ok||0}.</p></div>
     <button class="btn primary wide" id="out">Baigti</button>${dueCards().length?`<button class="btn wide" id="more">Dar (${dueCards().length})</button>`:''}`;
     $('out').onclick=()=>{RV=null;render()};if($('more'))$('more').onclick=startReview;return}
-  const k=RV.q[RV.i],w=wordInfo(k),c=card(k)||{b:0},rev=c.b>=2&&RV.i%2===1; // pažengusiems kartais lt→pl
-  const p=Math.round(RV.i/RV.q.length*100);
+  const k=RV.q[RV.i],w=wordInfo(k),c=card(k)||{b:0};
+  // nauji žodžiai: girdi/matai lenkiškai ir rašai reikšmę; jau pažįstami: matai lietuviškai ir rašai lenkiškai
+  const dir=RV.res?RV.res.dir:(c.b>=2||RV.again.has(k)&&RV.i>=RV.base?'pl':'lt');
+  const p=Math.round(RV.i/RV.q.length*100),R=RV.res;
   app.innerHTML=`<div class="exbar"><button class="x" id="rvX">✕</button><div class="bar"><i style="width:${p}%"></i></div><span class="muted" style="font-size:.85rem">${RV.i}/${RV.q.length}</span></div>
-   <div class="flash"><span class="eyebrow">${rev?'Kaip lenkiškai?':'Ką reiškia?'}</span>
-    <div class="front">${esc(rev?w.lt:w.pl)}</div>${!rev?sayBtn(w.pl):''}
-    ${RV.shown?`<div class="back">${esc(rev?w.pl:w.lt)}</div>${rev?sayBtn(w.pl):''}`:''}</div>
-   ${RV.shown?`<div class="grades"><button class="btn" data-g="0">Nežinojau<small>dar kartą</small></button><button class="btn" data-g="1">Sunku<small>greitai</small></button><button class="btn primary" data-g="2">Žinau<small>po ${IV[Math.min(IV.length-1,c.b+1)]} d.</small></button></div>`
-   :`<button class="btn primary wide" id="show">Rodyti atsakymą</button>`}`;
+   <div class="flash"><span class="eyebrow">${dir==='pl'?'Parašyk lenkiškai':'Parašyk, ką reiškia'}</span>
+    <div class="front">${esc(dir==='pl'?w.lt:w.pl)}</div>${dir==='lt'?sayBtn(w.pl):''}</div>
+   <input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${dir==='pl'?'lenkiškai…':'lietuviškai…'}" ${R?'disabled':''} value="${R?esc(R.v):''}">
+   ${dir==='pl'&&!R?`<div class="pk">${'ąćęłńóśźż'.split('').map(ch=>`<button data-k="${ch}">${ch}</button>`).join('')}</div>`:''}
+   ${R?`<div class="fb ${R.g===2?'good':'bad'}"><b class="h">${R.g===2?pick(['Dobrze!','Świetnie!','Teisingai!']):R.g===1?'Beveik!':R.skip?'Nieko tokio':'Ne visai'}</b>
+      ${R.g===1?`<span>${dir==='pl'?'Atkreipk dėmesį į raides su ženkliukais.':'Nedidelė rašybos klaida.'}</span>`:''}
+      <div class="row">${sayBtn(w.pl)}<span><b>${esc(w.pl)}</b> · ${esc(w.lt)}</span></div>
+      ${R.g===0&&!R.skip&&dir==='lt'?`<button class="btn small" id="iwas" style="align-self:flex-start">Mano atsakymas irgi teisingas</button>`:''}
+      <button class="btn primary wide" id="next">Toliau</button></div>`
+   :`<button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}`;
   $('rvX').onclick=()=>{RV=null;render()};
-  if(!RV.shown&&!rev)setTimeout(()=>speak(w.pl),120);
-  if($('show'))$('show').onclick=()=>{RV.shown=true;render();if(rev)speak(w.pl)};
-  app.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{const g=+b.dataset.g;grade(k,g);RV.n++;if(g===0&&!RV.again.has(k)){RV.again.add(k);RV.q.push(k)}save();RV.i++;RV.shown=false;render()});
+  const finish=g=>{grade(k,g);RV.n++;if(g===2)RV.ok=(RV.ok||0)+1;if(g===0&&!RV.again.has(k)){RV.again.add(k);RV.q.push(k)}save()};
+  if(!R){const a=$('ans');a.focus();if(dir==='lt')setTimeout(()=>speak(w.pl),120);
+    app.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const s0=a.selectionStart??a.value.length,e0=a.selectionEnd??s0;a.value=a.value.slice(0,s0)+b.dataset.k+a.value.slice(e0);a.focus();a.setSelectionRange(s0+1,s0+1)});
+    const go=(skip)=>{const v=skip?'':a.value;if(!skip&&!v.trim())return;const g=skip?0:checkAns(v,w,dir);RV.res={v,g,skip,dir,snap:JSON.stringify(S.cards[k]||null)};finish(g);render();speak(w.pl)};
+    $('chk').onclick=()=>go(false);a.onkeydown=e=>{if(e.key==='Enter')go(false)};$('dunno').onclick=()=>go(true);return}
+  const nx=()=>{RV.res=null;RV.i++;render()};
+  $('next').onclick=nx;$('next').focus();
+  if($('iwas'))$('iwas').onclick=()=>{ // atšaukiam klaidą: žodis neturi grįžti
+    const old=JSON.parse(RV.res.snap);if(old)S.cards[k]=old;else delete S.cards[k];RV.q.splice(RV.q.lastIndexOf(k),1);RV.again.delete(k);grade(k,2);RV.ok=(RV.ok||0)+1;save();nx()};
 }
 
 /* ===== Žodynas + savi žodžiai ===== */
