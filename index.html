@@ -110,6 +110,8 @@ textarea{font-size:1rem;min-height:140px}
 .flash{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;min-height:180px;justify-content:center}
 .flash .front{font-family:var(--f-display);font-size:1.8rem;font-weight:700}
 .flash .back{font-size:1.2rem}
+.ctx{display:flex;gap:10px;align-items:center;text-align:left;border-top:1px solid var(--line);padding-top:8px}
+.ctx b{color:var(--accent)}
 .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .grades .btn small{display:block;font-weight:400;font-size:.75rem;color:var(--muted)}
 .search{margin-bottom:4px}
@@ -168,7 +170,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.5.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.6.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -288,15 +290,24 @@ function allWords(){const m=new Map();for(const l of allLessons())for(const w of
 
 /* ===== Kartojimas su intervalais (Leitnerio dėžutės) ===== */
 const IV=[0,1,2,4,8,16,32,64,120]; // dienomis
+const DAY_START=4; // mokymosi diena prasideda 04:00: žodis kartotinas visą termino dieną, nesvarbu, kurią valandą mokeisi
+function dayStart(t){const d=new Date(t);d.setHours(DAY_START,0,0,0);if(d.getTime()>t)d.setDate(d.getDate()-1);return d.getTime()}
+function dueAfter(days){const d=new Date(dayStart(Date.now()));d.setDate(d.getDate()+days);return d.getTime()}
 function card(pl){return S.cards[pl]}
 function addCard(pl,lid){if(!S.cards[pl])S.cards[pl]={b:0,due:Date.now(),l:lid,ok:0,bad:0,t:Date.now()}}
-function grade(pl,g,lid){ // g: 0 nežinojau, 1 sunku, 2 žinau
+/* g: 0 nežinojau, 1 beveik, 2 žinau.
+   o.cap – iki kurio lygio žodį gali pakelti užduotis (pasirinkimas tik iki 1, toliau kelia tik įrašytas atsakymas);
+   o.drop – kiek lygių numeta klaida: įprastai 2, papildomame kartojime 1, antra klaida toje pačioje sesijoje 0 */
+function grade(pl,g,lid,o={}){
   addCard(pl,lid);const c=S.cards[pl];
-  if(g===0){c.b=0;c.due=Date.now()+5*60e3;c.bad++}
-  else if(g===1){c.b=Math.max(1,c.b);c.due=Date.now()+Math.max(1,IV[c.b]/2)*DAY-36e5;c.ok++}
-  else{c.ok++;if(c.due>Date.now()+36e5)return; // dar ne laikas kartoti: dėžutė nekyla, kad žodžio nebūtų galima „išmokti“ per vieną dieną
-    c.b=Math.min(IV.length-1,c.b+1);c.due=Date.now()+IV[c.b]*DAY-36e5}
+  if(g===0){c.b=Math.max(0,c.b-(o.drop??2));c.due=Date.now()+5*60e3;c.bad++}
+  else if(g===1){c.b=Math.max(1,c.b);const d=dueAfter(Math.max(1,IV[c.b]/2));c.due=c.due>Date.now()+36e5?Math.min(c.due,d):d;c.ok++}
+  else{c.ok++;if(c.due>Date.now()+36e5)return; // dar ne laikas kartoti: lygis nekyla, kad žodžio nebūtų galima „išmokti“ per vieną dieną
+    if(o.cap!=null&&c.b>=o.cap)return;
+    c.b=Math.min(IV.length-1,c.b+1);c.due=dueAfter(IV[c.b])}
 }
+/* 1.6: terminas – kalendorinė diena. Senus terminus (atsakymo valanda minus 1 val.) perkeliam į tos dienos pradžią */
+function migrate(){if(S.sched>=2)return;const now=Date.now();for(const c of Object.values(S.cards))if(c.due>now+36e5)c.due=dayStart(c.due);S.sched=2;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function dueCards(){const now=Date.now();return Object.entries(S.cards).filter(([k,c])=>c.due<=now&&wordInfo(k)).sort((a,b)=>a[1].due-b[1].due).map(([k])=>k)}
 function wordInfo(pl){return allWords().find(w=>w.pl===pl)}
 function updBadge(){const n=dueCards().length,b=$('dueBadge');b.hidden=!n;b.textContent=n>99?'99+':n}
@@ -355,8 +366,12 @@ function doneT(){return S.daily[dkey()]||[]}
 function markT(id,on=true){const k=dkey(),a=new Set(S.daily[k]||[]);on?a.add(id):a.delete(id);S.daily[k]=[...a];save()}
 function stage(){return STAGES[S.stage]}
 function stageDay(){return dBetween(S.stageStart,dkey())+1}
-function todayLesson(){const L=stage().lessons.map(lessonById);
-  return L.find(l=>!S.done[l.id])||L.slice().sort((a,b)=>(S.done[a.id]||0)-(S.done[b.id]||0))[0]}
+function exDays(id){return new Set((S.hist[id]||[]).filter(h=>h.p>=80).map(h=>h.d)).size} // kiek skirtingų dienų pratybos ≥80%
+function lastEx(id){const h=S.hist[id]||[];return h.length?h[h.length-1].d:''}
+/* Pirma dar neišmokta pamoka. Toliau ta, kurios pratybų tikslas (80% dviem dienomis) dar neįvykdytas,
+   o jei įvykdyti abu – seniausiai daryta. Taip kiekviena pamoka gauna savo antrą dieną ir etapas baigiasi */
+function todayLesson(){const L=stage().lessons.map(lessonById),todo=L.find(l=>!S.done[l.id]);if(todo)return todo;
+  const need=L.filter(l=>exDays(l.id)<2);return (need.length?need:L).slice().sort((a,b)=>lastEx(a.id).localeCompare(lastEx(b.id)))[0]}
 function stageDone(){return stage().lessons.every(id=>S.done[id])}
 function streakDays(){let n=0;const d=new Date();if(!(S.daily[dkey(d)]||[]).length)d.setDate(d.getDate()-1);while((S.daily[dkey(d)]||[]).length){n++;d.setDate(d.getDate()-1)}return n}
 function stageHead(){const day=Math.min(14,stageDay());return `<div class="head"><span class="eyebrow">${S.stage+1} etapas iš ${STAGES.length} · ${day}-a diena iš 14</span><h1>${esc(stage().t)}</h1><p class="muted">${esc(stage().focus)}</p></div>`}
@@ -381,7 +396,7 @@ function goalsOf(si){const st=STAGES[si],out=[];
   st.lessons.forEach(id=>{const l=lessonById(id);
     const known=l.words.filter(w=>(S.cards[w[0]]||{b:0}).b>=KNOWN_BOX).length,need=Math.ceil(l.words.length*.8);
     out.push({t:`Moku „${l.t}“ žodžius`,auto:1,ok:known>=need,prog:`${known} iš ${l.words.length} išmokta, reikia ${need}`,pct:known/need});
-    const days=[...new Set((S.hist[id]||[]).filter(h=>h.p>=80).map(h=>h.d))].length;
+    const days=exDays(id);
     out.push({t:`„${l.t}“ pratybos bent 80% dviem skirtingomis dienomis`,auto:1,ok:days>=2,prog:`${Math.min(days,2)} iš 2 d.`+(S.last[id]!=null?` · paskutinį kartą ${S.last[id]}%`:''),pct:days/2})});
   st.say.forEach((t,i)=>out.push({t,auto:0,ok:!!(S.sg[si]||[])[i],i}));
   return out}
@@ -411,7 +426,7 @@ function renderToday(){
 let confirmNext=false;
 function renderGoals(){
   const G=goalsOf(S.stage),all=G.every(g=>g.ok),last=S.stage===STAGES.length-1,day=stageDay();
-  let h=`<div class="head"><span class="eyebrow">${S.stage+1} etapo tikslai</span><h1>Ką turiu mokėti</h1><p class="muted">Žodžius ir pratybas vertina appsas. Žodis laikomas išmoktu, kai teisingai jį atsimeni kelis kartus su vis ilgesne pertrauka (po 1 ir po 2 dienų), todėl per vieną dieną jų „prisirinkti“ nepavyks. Kalbėjimą garsiai pažymi pats, kai pavyksta be žvilgčiojimo.</p></div>
+  let h=`<div class="head"><span class="eyebrow">${S.stage+1} etapo tikslai</span><h1>Ką turiu mokėti</h1><p class="muted">Žodžius ir pratybas vertina appsas. Žodis laikomas išmoktu, kai teisingai jį įrašai kelis kartus su vis ilgesne pertrauka (po 1 ir po 2 dienų). Pasirinkimo užduotys žodį tik supažindina, todėl per vieną dieną žodžių „prisirinkti“ nepavyks. Kalbėjimą garsiai pažymi pats, kai pavyksta be žvilgčiojimo.</p></div>
   <h2>Vertina appsas</h2>`;
   G.filter(g=>g.auto).forEach(g=>{h+=`<div class="goal ${g.ok?'ok':''}"><span class="gchk" aria-hidden="true"></span><div style="flex:1;min-width:0"><div>${esc(g.t)}</div><div class="gbar"><i style="width:${Math.min(100,Math.round(g.pct*100))}%"></i></div><small class="muted">${g.ok?'Pasiekta ✓':esc(g.prog)}</small></div></div>`});
   h+=`<h2 style="margin-top:6px">Kalbėjimas garsiai (pažymi pats)</h2>`;
@@ -508,7 +523,8 @@ function buildMixed(keys){
 }
 
 /* ===== Pratybų eiga ===== */
-function startEx(l,items){EX={l,items:items||buildEx(l),i:0,ok:0,bad:0,first:{},retried:new Set(),done:false,state:null};if(!EX.items.length){EX=null;toast('Nėra užduočių');return}render();scrollTo(0,0)}
+function startEx(l,items){items=items||buildEx(l);items.forEach((it,i)=>it.k=i); // k – užduoties numeris: pakartojimas turi tą patį
+  EX={l,items,i:0,ok:0,bad:0,first:{},retried:new Set(),graded:new Set(),lapsed:new Set(),done:false,state:null};if(!EX.items.length){EX=null;toast('Nėra užduočių');return}render();scrollTo(0,0)}
 function exHead(){const p=Math.round(EX.i/EX.items.length*100);return `<div class="exbar"><button class="x" id="exX" aria-label="Baigti">✕</button><div class="bar"><i style="width:${p}%"></i></div><span class="muted" style="font-size:.85rem">${EX.i}/${EX.items.length}</span></div>`}
 function renderEx(){
   if(EX.done)return renderExEnd();
@@ -556,13 +572,17 @@ function renderEx(){
     $('chk').onclick=()=>{if(EX.answered||!EX.state.length)return;const got=EX.state.map(i=>it.tiles[i]).join(' ');answer(got===tokens(it.line[1]).join(' '),it.line[1])}}
   EX.answered=false;
 }
+/* Žodžio lygis pratybose: pasirinkimas ir klausymas naują žodį pakelia tik iki 1 lygio, toliau kelia tik įrašytas atsakymas.
+   Kiekviena rūšis (pasirinkimas, rašymas) kelia lygį tik pirmą kartą per sesiją, klaida numeta lygį tik vieną kartą. Išsaugom iškart */
+function exGrade(it,ok){const w=it.w.pl,typed=it.t==='type',gk=w+(typed?'|t':'|c'),lid=EX.l.id==='mix'?undefined:EX.l.id;
+  if(!ok){grade(w,0,lid,{drop:EX.lapsed.has(w)?0:2});EX.lapsed.add(w);EX.graded.add(gk)}
+  else if(!EX.graded.has(gk)){EX.graded.add(gk);grade(w,2,lid,typed?{}:{cap:1})}
+  save()}
 function answer(ok,right,hint){
   const it=EX.items[EX.i];EX.answered=true;
-  const key=it.w?it.w.pl:'#'+EX.i;
-  if(!(key in EX.first))EX.first[key]=ok;
+  if(!(it.k in EX.first))EX.first[it.k]=ok; // rezultatas: kiekvienos užduoties (ir rašymo) pirmas bandymas, pakartojimas nebeskaičiuojamas
   if(ok)EX.ok++;else{EX.bad++;if(!EX.retried.has(EX.i)){EX.retried.add(EX.items.length);EX.items.push(it.t==='order'?{...it,tiles:shuffle(it.tiles)}:{...it,opts:it.opts&&shuffle(it.opts)})}}
-  // kortelę keičiam tik pirmą kartą sutikus žodį sesijoje; vėliau tik klaida grąžina į pradžią
-  if(it.w&&(EX.graded||(EX.graded=new Set()))&&(!EX.graded.has(key)||!ok)){EX.graded.add(key);grade(it.w.pl,ok?2:0,EX.l.id==='mix'?undefined:EX.l.id)}
+  if(it.w)exGrade(it,ok);
   const say=it.w?it.w.pl:it.line[1];
   $('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b class="h">${ok?pick(['Super!','Dobrze!','Świetnie!','Teisingai!']):'Ne visai'}</b>
    ${hint?`<span>${esc(hint)}</span>`:''}${!ok||hint||it.t!=='mc'?`<div class="row">${sayBtn(say)}<span><b>${esc(right)}</b>${it.w&&it.t!=='mc'?' · '+esc(it.w.lt):''}</span></div>`:''}
@@ -591,7 +611,7 @@ function renderReview(){
   app.innerHTML=`<div class="head"><span class="eyebrow">Kartojimas su intervalais</span><h1>Kartoti</h1>
    <p class="muted">Žodžiai, kuriuos žinai, grįžta vis rečiau: po 1, 2, 4, 8, 16… dienų. Kuriuos pamiršti, grįžta greitai.</p></div>
   <div class="stats"><div class="stat"><b>${boxes[0]}</b><small>nauji / sunkūs</small></div><div class="stat"><b>${boxes[1]}</b><small>mokausi</small></div><div class="stat"><b>${boxes[2]}</b><small>moku</small></div></div>
-  ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${Math.max(due.length,Math.min(RV_MIN,total))} žodž.)</button>${due.length<RV_MIN&&total>due.length?`<p class="muted" style="font-size:.88rem;margin-top:-4px">${due.length} laiku kartotini + silpniausi iš jau matytų</p>`:''}`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
+  ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${Math.max(due.length,Math.min(RV_MIN,total))} žodž.)</button>${due.length<RV_MIN&&total>due.length?`<p class="muted" style="font-size:.88rem;margin-top:-4px">${due.length} laiku kartotini + silpniausi iš jau matytų${PLV.length?' (juos išgirsi ir įrašysi)':''}</p>`:''}`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
   ${!due.length&&total>=5?`<button class="btn primary wide" id="rv">Papildomas kartojimas (${Math.min(RV_MIN,total)} žodž.)</button>`:''}
   ${total>=4?`<button class="btn wide" id="mix">Treniruotė iš visų žodžių</button>`:''}`;
   if($('rv'))$('rv').onclick=startReview;
@@ -601,7 +621,28 @@ const RV_MIN=20; // vienoje sesijoje bent tiek žodžių: jei laiku kartotinų m
 function extraCards(n,skip){const now=Date.now();return Object.entries(S.cards).filter(([k,c])=>c.due>now&&!skip.includes(k)&&wordInfo(k))
   .sort((a,b)=>a[1].b-b[1].b||(b[1].bad-b[1].ok)-(a[1].bad-a[1].ok)||a[1].due-b[1].due).slice(0,n).map(([k])=>k)}
 function startReview(){const d=dueCards().slice(0,30);const ex=d.length<RV_MIN?shuffle(extraCards(RV_MIN-d.length,d)):[];const q=[...d,...ex];if(!q.length)return;
-  RV={q,i:0,base:q.length,n:0,ok:0,again:new Set(),res:null,nDue:d.length};render();scrollTo(0,0)}
+  RV={q,i:0,base:q.length,n:0,ok:0,again:new Set(),lapsed:new Set(),extra:new Set(ex),res:null,nDue:d.length};render();scrollTo(0,0)}
+/* Kryptis: naujas žodis – girdi/matai lenkiškai ir rašai reikšmę; pažįstamas – matai lietuviškai ir rašai lenkiškai;
+   papildomas (dar ne laikas kartoti) – išgirsti ir įrašai lenkiškai, kad ir jis ko nors išmokytų */
+function rvDir(k){const c=card(k)||{b:0};if(RV.again.has(k)&&RV.i>=RV.base)return 'pl';if(RV.extra.has(k)&&PLV.length)return 'hear';return c.b>=2?'pl':'lt'}
+/* Klaida numeta 2 lygius, papildomame kartojime 1, o antra to paties žodžio klaida sesijoje lygio nebemažina */
+function rvFinish(k,g){const drop=RV.lapsed.has(k)?0:RV.extra.has(k)?1:2;if(g===0)RV.lapsed.add(k);
+  grade(k,g,undefined,{drop});RV.n++;if(g===2)RV.ok=(RV.ok||0)+1;if(g===0&&!RV.again.has(k)){RV.again.add(k);RV.q.push(k)}save()}
+/* Sakinys prie kortelės: dialogo replika su šiuo žodžiu, pirma iš tos pačios pamokos. Jei tikslios formos nėra,
+   ieškom linksniuotos tos pačios pamokos replikoje (kawa → kawę, siostra → siostrę, mieszkać → mieszkam) */
+const CTX=Object.create(null);
+function ctxOf(w){if(w.pl in CTX)return CTX[w.pl];const t=tokens(w.pl),own=[],other=[];let r=null;
+  for(const l of LESSONS)for(const d of l.dialog)(l.id===w.l?own:other).push({d,tk:tokens(d[1])});
+  const at=x=>{for(let i=0;i+t.length<=x.tk.length;i++)if(t.every((y,j)=>x.tk[i+j]===y))return i;return -1};
+  for(const x of [...own,...other]){const i=at(x);if(i>=0){r={d:x.d,i,n:t.length};break}}
+  if(!r&&t.length===1&&t[0].length>=4){const s=t[0],long=s.length>=5,st=s.slice(0,long?Math.max(4,s.length-2):3),lo=long?s.length-1:s.length,hi=s.length+(long?3:2);let best=99;
+    for(const x of own)x.tk.forEach((y,i)=>{const diff=Math.abs(y.length-s.length);if(y.startsWith(st)&&y.length>=lo&&y.length<=hi&&diff<best){best=diff;r={d:x.d,i,n:1}}})}
+  return CTX[w.pl]=r}
+function ctxBlock(w){const r=ctxOf(w);if(!r)return '';let t=0;
+  const pl=r.d[1].split(' ').map(p=>{const m=tokens(p).length,hit=m&&t<r.i+r.n&&t+m>r.i;t+=m;return hit?`<b>${esc(p)}</b>`:esc(p)}).join(' ');
+  return `<div class="ctx"><button class="say" data-say="${esc(r.d[1])}" data-g="${SPK[r.d[0]]||''}" aria-label="Klausyti sakinio">${SAY_ICON}</button><div><div>${pl}</div><div class="muted">${esc(r.d[2])}</div></div></div>`}
+/* Po atsakymo: žodis, o po jo – sakinys iš dialogo (jei dar neperėjai prie kito žodžio) */
+function rvSpeak(w){const me=RV,i=RV.i,r=ctxOf(w);speak(w.pl).then(()=>new Promise(res=>setTimeout(res,300))).then(()=>{if(r&&RV===me&&RV.i===i&&RV.res&&'speechSynthesis' in window)speak(r.d[1],{queue:true,g:SPK[r.d[0]]})})}
 /* Atsakymo tikrinimas: lenkiškai tiksliai (be ženkliukų – „beveik“), lietuviškai – bet kuris iš variantų */
 const LTMAP={'ą':'a','č':'c','ę':'e','ė':'e','į':'i','š':'s','ų':'u','ū':'u','ž':'z'};
 const flatLt=s=>norm(s).replace(/[ąčęėįšųūž]/g,c=>LTMAP[c]);
@@ -616,31 +657,30 @@ function renderRv(){
   if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} žodž. Teisingai: ${RV.ok||0}.</p></div>
     <button class="btn primary wide" id="out">Baigti</button>${Object.keys(S.cards).length>=5?`<button class="btn wide" id="more">Dar ${dueCards().length?dueCards().length+' laiku kartotinų':Math.min(RV_MIN,Object.keys(S.cards).length)+' žodž.'}</button>`:''}`;
     $('out').onclick=()=>{RV=null;render()};if($('more'))$('more').onclick=startReview;return}
-  const k=RV.q[RV.i],w=wordInfo(k),c=card(k)||{b:0};
-  // nauji žodžiai: girdi/matai lenkiškai ir rašai reikšmę; jau pažįstami: matai lietuviškai ir rašai lenkiškai
-  const dir=RV.res?RV.res.dir:(c.b>=2||RV.again.has(k)&&RV.i>=RV.base?'pl':'lt');
+  const k=RV.q[RV.i],w=wordInfo(k);
+  const dir=RV.res?RV.res.dir:rvDir(k);
   const p=Math.round(RV.i/RV.q.length*100),R=RV.res;
   app.innerHTML=`<div class="exbar"><button class="x" id="rvX">✕</button><div class="bar"><i style="width:${p}%"></i></div><span class="muted" style="font-size:.85rem">${RV.i}/${RV.q.length}</span></div>
-   <div class="flash"><span class="eyebrow">${dir==='pl'?'Parašyk lenkiškai':'Parašyk, ką reiškia'}</span>
-    <div class="front">${esc(dir==='pl'?w.lt:w.pl)}</div>${dir==='lt'?sayBtn(w.pl):''}</div>
-   <input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${dir==='pl'?'lenkiškai…':'lietuviškai…'}" ${R?'disabled':''} value="${R?esc(R.v):''}">
-   ${dir==='pl'&&!R?`<div class="pk">${'ąćęłńóśźż'.split('').map(ch=>`<button data-k="${ch}">${ch}</button>`).join('')}</div>`:''}
+   <div class="flash"><span class="eyebrow">${dir==='pl'?'Parašyk lenkiškai':dir==='hear'?'Papildomas žodis · įrašyk, ką girdi':'Parašyk, ką reiškia'}</span>
+    ${dir==='hear'?`<button class="say bigsay" data-say="${esc(w.pl)}" aria-label="Klausyti">${SAY_ICON}</button>`:`<div class="front">${esc(dir==='pl'?w.lt:w.pl)}</div>${dir==='lt'?sayBtn(w.pl):''}`}</div>
+   <input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${dir==='lt'?'lietuviškai…':'lenkiškai…'}" ${R?'disabled':''} value="${R?esc(R.v):''}">
+   ${dir!=='lt'&&!R?`<div class="pk">${'ąćęłńóśźż'.split('').map(ch=>`<button data-k="${ch}">${ch}</button>`).join('')}</div>`:''}
    ${R?`<div class="fb ${R.g===2?'good':'bad'}"><b class="h">${R.g===2?pick(['Dobrze!','Świetnie!','Teisingai!']):R.g===1?'Beveik!':R.skip?'Nieko tokio':'Ne visai'}</b>
-      ${R.g===1?`<span>${dir==='pl'?'Atkreipk dėmesį į raides su ženkliukais.':'Nedidelė rašybos klaida.'}</span>`:''}
+      ${R.g===1?`<span>${dir==='lt'?'Nedidelė rašybos klaida.':'Atkreipk dėmesį į raides su ženkliukais.'}</span>`:''}
       <div class="row">${sayBtn(w.pl)}<span><b>${esc(w.pl)}</b> · ${esc(w.lt)}</span></div>
+      ${ctxBlock(w)}
       ${R.g===0&&!R.skip&&dir==='lt'?`<button class="btn small" id="iwas" style="align-self:flex-start">Mano atsakymas irgi teisingas</button>`:''}
       <button class="btn primary wide" id="next">Toliau</button></div>`
    :`<button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}`;
   $('rvX').onclick=()=>{RV=null;render()};
-  const finish=g=>{grade(k,g);RV.n++;if(g===2)RV.ok=(RV.ok||0)+1;if(g===0&&!RV.again.has(k)){RV.again.add(k);RV.q.push(k)}save()};
-  if(!R){const a=$('ans');a.focus();if(dir==='lt')setTimeout(()=>speak(w.pl),120);
+  if(!R){const a=$('ans');a.focus();if(dir!=='pl')setTimeout(()=>speak(w.pl),120);
     app.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const s0=a.selectionStart??a.value.length,e0=a.selectionEnd??s0;a.value=a.value.slice(0,s0)+b.dataset.k+a.value.slice(e0);a.focus();a.setSelectionRange(s0+1,s0+1)});
-    const go=(skip)=>{const v=skip?'':a.value;if(!skip&&!v.trim())return;const g=skip?0:checkAns(v,w,dir);RV.res={v,g,skip,dir,snap:JSON.stringify(S.cards[k]||null)};finish(g);render();speak(w.pl)};
+    const go=(skip)=>{const v=skip?'':a.value;if(!skip&&!v.trim())return;const g=skip?0:checkAns(v,w,dir==='lt'?'lt':'pl');RV.res={v,g,skip,dir,snap:JSON.stringify(S.cards[k]||null)};rvFinish(k,g);render();rvSpeak(w)};
     $('chk').onclick=()=>go(false);a.onkeydown=e=>{if(e.key==='Enter')go(false)};$('dunno').onclick=()=>go(true);return}
-  const nx=()=>{RV.res=null;RV.i++;render()};
+  const nx=()=>{RV.res=null;RV.i++;if('speechSynthesis' in window)speechSynthesis.cancel();render()};
   $('next').onclick=nx;$('next').focus();
   if($('iwas'))$('iwas').onclick=()=>{ // atšaukiam klaidą: žodis neturi grįžti
-    const old=JSON.parse(RV.res.snap);if(old)S.cards[k]=old;else delete S.cards[k];RV.q.splice(RV.q.lastIndexOf(k),1);RV.again.delete(k);grade(k,2);RV.ok=(RV.ok||0)+1;save();nx()};
+    const old=JSON.parse(RV.res.snap);if(old)S.cards[k]=old;else delete S.cards[k];RV.q.splice(RV.q.lastIndexOf(k),1);RV.again.delete(k);RV.lapsed.delete(k);grade(k,2);RV.ok=(RV.ok||0)+1;save();nx()};
 }
 
 /* ===== Žodynas + savi žodžiai ===== */
@@ -688,7 +728,7 @@ function renderSettings(){
   $('rt').oninput=e=>{S.rate=+e.target.value;$('rtv').textContent=S.rate.toFixed(2);save()};
   app.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{S.theme=b.dataset.th;save();applyTheme();renderSettings()});
   $('exp').onclick=async()=>{const t=JSON.stringify(S);try{await navigator.clipboard.writeText(t);toast('Nukopijuota. Įklijuok kitame įrenginyje.')}catch(e){prompt('Nukopijuok:',t)}};
-  $('imp').onclick=()=>{const t=prompt('Įklijuok nukopijuotą pažangą:');if(!t)return;try{const o=JSON.parse(t);if(!o.cards)throw 0;S=Object.assign(fresh(),o);save();applyTheme();toast('Pažanga įkelta');render()}catch(e){toast('Netinkamas tekstas')}};
+  $('imp').onclick=()=>{const t=prompt('Įklijuok nukopijuotą pažangą:');if(!t)return;try{const o=JSON.parse(t);if(!o.cards)throw 0;S=Object.assign(fresh(),o);migrate();save();applyTheme();toast('Pažanga įkelta');render()}catch(e){toast('Netinkamas tekstas')}};
   $('rst').onclick=()=>{if(!confirm('Ištrinti visą pažangą ir savo žodžius?'))return;S=fresh();S.stageStart=dkey();save();applyTheme();render()};
   $('upd').onclick=checkUpdate;
 }
@@ -698,7 +738,7 @@ async function checkUpdate(){try{const r=await fetch('version.json?t='+Date.now(
 
 /* ===== Paleidimas ===== */
 if(location.protocol.startsWith('http')&&'serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-updBadge();render();
+migrate();updBadge();render();
 </script>
 </body>
 </html>
