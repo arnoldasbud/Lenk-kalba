@@ -141,6 +141,9 @@ a{color:var(--accent)}
 .gchk{flex:0 0 22px;height:22px;border-radius:6px;border:2px solid var(--line);margin-top:2px;display:grid;place-items:center;color:var(--surface);box-sizing:border-box}
 .goal.ok .gchk{background:var(--ok);border-color:var(--ok)}.goal.ok .gchk::after{content:"✓";font-weight:700;font-size:.85rem}
 .gbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}.gbar i{display:block;height:100%;background:var(--accent)}.goal.ok .gbar i{background:var(--ok)}
+.wb{margin-top:6px}.wb summary{cursor:pointer;color:var(--accent);font-size:.9rem;padding:4px 0}
+.wbh{font-size:.92rem;margin:10px 0 2px}.wst{font-size:.78rem;color:var(--muted);margin-top:2px}
+.wtag{font-size:.75rem;color:var(--muted);white-space:nowrap}.wtag.l2{color:var(--ok);font-weight:600}
 .road{border-left:2px solid var(--line);margin:0 0 0 8px;padding:0}
 .road li{list-style:none;position:relative;padding:0 0 14px 18px}
 .road li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--line)}
@@ -170,7 +173,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.6.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.7.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos. Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML). ===== */
 const LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
@@ -392,10 +395,20 @@ function recs(){const out=[],due=dueCards().length,l=todayLesson(),day=stageDay(
 function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
 /* ===== Tikslai: žodžius ir pratybas vertina appsas, kalbėjimą garsiai pažymi pats ===== */
 const KNOWN_BOX=3; // žodis išmoktas, kai atsakytas teisingai su vis ilgesne pertrauka (po 1 ir 2 dienų)
+/* Vienodas žodžio statusas visur (tikslai, kartojimas, žodynas): moku – nuo KNOWN_BOX lygio */
+function wLvl(pl){const c=S.cards[pl];return !c?-1:c.b>=KNOWN_BOX?2:c.b>=1?1:0}
+const LVL_NAME={'-1':'dar nepradėtas',0:'naujas / sunkus',1:'mokausi',2:'moku'};
+function dueTxt(c){const d=dBetween(dkey(),dkey(new Date(c.due)));return d<=0?'kartoti šiandien':d===1?'kartoti rytoj':`kartoti po ${d} d.`}
+function wHint(pl){const c=S.cards[pl];if(!c)return 'Atsiras kartojime po šios pamokos pratybų';
+  if(c.b>=KNOWN_BOX)return `Moku ✓ · ${dueTxt(c)}`;const left=KNOWN_BOX-c.b;
+  return `Lygis ${c.b} iš ${KNOWN_BOX} · dar ${left} teising${left>1?'i atsakymai':'as atsakymas'} kartojime · ${dueTxt(c)}`}
+function wordsBreakdown(words){const g={2:[],1:[],0:[],'-1':[]};words.forEach(w=>g[wLvl(w[0])].push(w));
+  const sec=(k,title)=>g[k].length?`<h3 class="wbh">${title} (${g[k].length})</h3><div class="words">${g[k].map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div><div class="wst">${esc(wHint(w[0]))}</div></div></div>`).join('')}</div>`:'';
+  return sec(2,'✓ Moku')+sec(1,'Dar mokausi')+sec(0,'Nauji / sunkūs')+sec(-1,'Dar nepradėti')}
 function goalsOf(si){const st=STAGES[si],out=[];
   st.lessons.forEach(id=>{const l=lessonById(id);
     const known=l.words.filter(w=>(S.cards[w[0]]||{b:0}).b>=KNOWN_BOX).length,need=Math.ceil(l.words.length*.8);
-    out.push({t:`Moku „${l.t}“ žodžius`,auto:1,ok:known>=need,prog:`${known} iš ${l.words.length} išmokta, reikia ${need}`,pct:known/need});
+    out.push({t:`Moku „${l.t}“ žodžius`,auto:1,ok:known>=need,prog:`${known} iš ${l.words.length} išmokta, reikia ${need}`,pct:known/need,words:l.words});
     const days=exDays(id);
     out.push({t:`„${l.t}“ pratybos bent 80% dviem skirtingomis dienomis`,auto:1,ok:days>=2,prog:`${Math.min(days,2)} iš 2 d.`+(S.last[id]!=null?` · paskutinį kartą ${S.last[id]}%`:''),pct:days/2})});
   st.say.forEach((t,i)=>out.push({t,auto:0,ok:!!(S.sg[si]||[])[i],i}));
@@ -426,9 +439,9 @@ function renderToday(){
 let confirmNext=false;
 function renderGoals(){
   const G=goalsOf(S.stage),all=G.every(g=>g.ok),last=S.stage===STAGES.length-1,day=stageDay();
-  let h=`<div class="head"><span class="eyebrow">${S.stage+1} etapo tikslai</span><h1>Ką turiu mokėti</h1><p class="muted">Žodžius ir pratybas vertina appsas. Žodis laikomas išmoktu, kai teisingai jį įrašai kelis kartus su vis ilgesne pertrauka (po 1 ir po 2 dienų). Pasirinkimo užduotys žodį tik supažindina, todėl per vieną dieną žodžių „prisirinkti“ nepavyks. Kalbėjimą garsiai pažymi pats, kai pavyksta be žvilgčiojimo.</p></div>
+  let h=`<div class="head"><span class="eyebrow">${S.stage+1} etapo tikslai</span><h1>Ką turiu mokėti</h1><p class="muted">Žodžius ir pratybas vertina appsas. Žodį „moku“, kai kartojime jį teisingai atsakai kelis kartus su vis ilgesne pertrauka (po 1 ir po 2 dienų), t. y. pasiekia ${KNOWN_BOX} lygį. Paspausk „Kuriuos moku?“ prie tikslo ir pamatysi kiekvieno žodžio būklę. Pasirinkimo užduotys žodį tik supažindina, todėl per vieną dieną žodžių „prisirinkti“ nepavyks. Kalbėjimą garsiai pažymi pats, kai pavyksta be žvilgčiojimo.</p></div>
   <h2>Vertina appsas</h2>`;
-  G.filter(g=>g.auto).forEach(g=>{h+=`<div class="goal ${g.ok?'ok':''}"><span class="gchk" aria-hidden="true"></span><div style="flex:1;min-width:0"><div>${esc(g.t)}</div><div class="gbar"><i style="width:${Math.min(100,Math.round(g.pct*100))}%"></i></div><small class="muted">${g.ok?'Pasiekta ✓':esc(g.prog)}</small></div></div>`});
+  G.filter(g=>g.auto).forEach(g=>{h+=`<div class="goal ${g.ok?'ok':''}"><span class="gchk" aria-hidden="true"></span><div style="flex:1;min-width:0"><div>${esc(g.t)}</div><div class="gbar"><i style="width:${Math.min(100,Math.round(g.pct*100))}%"></i></div><small class="muted">${g.ok?'Pasiekta ✓ · '+esc(g.prog.split(',')[0]):esc(g.prog)}</small>${g.words?`<details class="wb"><summary>Kuriuos moku, kuriuos dar ne?</summary>${wordsBreakdown(g.words)}</details>`:''}</div></div>`});
   h+=`<h2 style="margin-top:6px">Kalbėjimas garsiai (pažymi pats)</h2>`;
   G.filter(g=>!g.auto).forEach(g=>{h+=`<div class="goal"><input type="checkbox" id="g${g.i}" data-goal="${g.i}" ${g.ok?'checked':''}><label for="g${g.i}">${esc(g.t)}</label></div>`});
   if(!last){
@@ -607,10 +620,11 @@ function renderExEnd(){const l=EX.l,pct=EX.pct;
 function renderReview(){
   const due=dueCards(),total=Object.keys(S.cards).length;
   const soon=Object.values(S.cards).filter(c=>c.due>Date.now()&&c.due<Date.now()+DAY).length;
-  const boxes=[0,0,0];Object.values(S.cards).forEach(c=>boxes[c.b<2?0:c.b<5?1:2]++);
+  const boxes=[0,0,0];Object.values(S.cards).forEach(c=>boxes[c.b<1?0:c.b<KNOWN_BOX?1:2]++);
   app.innerHTML=`<div class="head"><span class="eyebrow">Kartojimas su intervalais</span><h1>Kartoti</h1>
    <p class="muted">Žodžiai, kuriuos žinai, grįžta vis rečiau: po 1, 2, 4, 8, 16… dienų. Kuriuos pamiršti, grįžta greitai.</p></div>
   <div class="stats"><div class="stat"><b>${boxes[0]}</b><small>nauji / sunkūs</small></div><div class="stat"><b>${boxes[1]}</b><small>mokausi</small></div><div class="stat"><b>${boxes[2]}</b><small>moku</small></div></div>
+  <p class="muted" style="font-size:.88rem;margin-top:-4px">„Moku“ – žodis pasiekė ${KNOWN_BOX} lygį: kartojime atsakytas teisingai su vis ilgesne pertrauka (po 1 ir po 2 dienų). Kiekvieno žodžio būklę matysi „Žodyne“ ir „Tiksluose“.</p>
   ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${Math.max(due.length,Math.min(RV_MIN,total))} žodž.)</button>${due.length<RV_MIN&&total>due.length?`<p class="muted" style="font-size:.88rem;margin-top:-4px">${due.length} laiku kartotini + silpniausi iš jau matytų${PLV.length?' (juos išgirsi ir įrašysi)':''}</p>`:''}`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
   ${!due.length&&total>=5?`<button class="btn primary wide" id="rv">Papildomas kartojimas (${Math.min(RV_MIN,total)} žodž.)</button>`:''}
   ${total>=4?`<button class="btn wide" id="mix">Treniruotė iš visų žodžių</button>`:''}`;
@@ -689,7 +703,7 @@ function renderDict(){
   const list=allWords().filter(w=>!q||flat(w.pl).includes(flat(q))||norm(w.lt).includes(norm(q)));
   app.innerHTML=`<div class="head"><span class="eyebrow">${allWords().length} žodž.</span><h1>Žodynas</h1></div>
   <input class="ans search" id="q" placeholder="Ieškoti lenkiškai ar lietuviškai" value="${esc(q)}" autocapitalize="off">
-  <div class="card"><div class="words" id="wl">${list.slice(0,300).map(w=>{const c=card(w.pl);return `<div class="w">${sayBtn(w.pl)}<div class="tx"><div class="pl">${esc(w.pl)}</div><div class="lt">${esc(w.lt)}</div></div>${c?`<span class="muted" style="font-size:.75rem">${c.b>=5?'moku':c.b>=2?'mokausi':'naujas'}</span>`:''}</div>`}).join('')||'<p class="muted">Nieko nerasta</p>'}</div></div>
+  <div class="card"><div class="words" id="wl">${list.slice(0,300).map(w=>{const c=card(w.pl);return `<div class="w">${sayBtn(w.pl)}<div class="tx"><div class="pl">${esc(w.pl)}</div><div class="lt">${esc(w.lt)}</div></div>${c?`<span class="wtag l${wLvl(w.pl)}" title="${esc(wHint(w.pl))}">${LVL_NAME[wLvl(w.pl)]}</span>`:''}</div>`}).join('')||'<p class="muted">Nieko nerasta</p>'}</div></div>
   <details class="card" ${S.custom.length?'':'open'}><summary>➕ Pridėti savo žodžių</summary>
    <div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.92rem">Vienas žodis eilutėje: <b>lenkiškai = lietuviškai</b> (tinka ir „-“ arba tabuliacija).</p>
    <textarea id="cw" placeholder="kanapka = sumuštinis&#10;jak się nazywasz? = kuo tu vardu?"></textarea>
