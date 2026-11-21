@@ -610,10 +610,11 @@ text:{key:'arabu-kalba-v1',title:'Arabų kalba (Egiptas)',tts:'ar-EG',voiceRe:/^
 const VERSION='1.10.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Kursas: lenkų (pl) arba egiptiečių arabų (ar). Kiekvieno kurso pažanga – atskirame localStorage rakte ===== */
 const CKEY='kalba-kursas';
-const CID=(()=>{try{return localStorage.getItem(CKEY)==='ar'?'ar':'pl'}catch(e){return 'pl'}})();
+// Pasirinkimas galioja tik šiam atidarymui (sessionStorage): kiekvieną kartą atidarius appsą – lenkų kalba
+const CID=(()=>{try{return sessionStorage.getItem(CKEY)==='ar'?'ar':'pl'}catch(e){return 'pl'}})();
 const AR=CID==='ar';
 const COURSES=[{id:'pl',flag:'🇵🇱',name:'Lenkų kalba'},{id:'ar',flag:'🇪🇬',name:'Egiptiečių arabų'}];
-function switchCourse(id){try{localStorage.setItem(CKEY,id)}catch(e){}location.reload()}
+function switchCourse(id){try{sessionStorage.setItem(CKEY,id)}catch(e){}location.reload()}
 /* ===== Pamokos (kurso tvarka). Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML),
    gr – gramatikos užduotys [sakinys su ___, atsakymas, užuomina, [klaidingi variantai], gramatikos tema] ===== */
 const PL_LESSONS=[

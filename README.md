@@ -2,7 +2,7 @@
 
 Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (CEFR).
 
-**Antras kursas – egiptiečių arabų kalba kelionėms.** Perjungiama mygtuku „Šiandien“ skiltyje arba Nustatymuose → Kursas. Kiekvieno kurso pažanga saugoma atskirai (`lenku-kalba-v1` ir `arabu-kalba-v1`). Arabų kurse: 16 pamokų, 4 etapai (pasisveikinimai ir skaičiai; kainos, derybos, kioskas, laikas; kavinė, restoranas, maistas; taksi, kelias, viešbutis, vaistinė), ~250 žodžių ir frazių arabiškai su lotyniška transliteracija, dialogai, 10 gramatikos temų ir neprivalomas raidynas (4 temos su skaitymo pratybomis). Rašoma transliteracija (atlaidžiai: be apostrofų, dvigubų raidžių), balsas ir balso atpažinimas ar-EG. Pamokose pastabos apie Tuniso tarmę ir prancūzų kalbą.
+**Antras kursas – egiptiečių arabų kalba kelionėms.** Perjungiama mygtuku „Šiandien“ skiltyje arba Nustatymuose → Kursas. Atidarius appsą visada rodoma lenkų kalba. Kiekvieno kurso pažanga saugoma atskirai (`lenku-kalba-v1` ir `arabu-kalba-v1`). Arabų kurse: 16 pamokų, 4 etapai (pasisveikinimai ir skaičiai; kainos, derybos, kioskas, laikas; kavinė, restoranas, maistas; taksi, kelias, viešbutis, vaistinė), ~250 žodžių ir frazių arabiškai su lotyniška transliteracija, dialogai, 10 gramatikos temų ir neprivalomas raidynas (4 temos su skaitymo pratybomis). Rašoma transliteracija (atlaidžiai: be apostrofų, dvigubų raidžių), balsas ir balso atpažinimas ar-EG. Pamokose pastabos apie Tuniso tarmę ir prancūzų kalbą.
 
 **Kursas:** 24 pamokos, 6 etapai po 4 pamokas (~2 savaitės etapui), ~370 žodžių. Kiekvienoje pamokoje gyvas dialogas, žodžiai, trumpa pastaba ir gramatikos užduotys.
 
