@@ -6,7 +6,7 @@ Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (
 
 **Kursas:** 24 pamokos, 6 etapai po 4 pamokas (~2 savaitės etapui), ~370 žodžių. Kiekvienoje pamokoje gyvas dialogas, žodžiai, trumpa pastaba ir gramatikos užduotys.
 
-**Gramatika:** atskiras skyrius (Pamokos → Gramatika), 14 temų su paaiškinimais lietuviškai ir pratybomis: būti, asmenuotė, klausimai, skaičiai, galininkas, kilmininkas, vietininkas, įnagininkas, giminės ir būdvardžiai, noriu/galiu/privalau, laikas, kryptis, būtasis ir būsimasis laikas. Tema atsiveria kartu su pamoka, kurioje ji pirmą kartą reikalinga.
+**Gramatika:** atskiras skyrius (Pamokos → Gramatika), 14 temų lietuviškai, suskaidytų į 45 mažus žingsnius (~255 užduotys). Kiekvienas žingsnis – viena taisyklė (pvz., galininkas: pirma vyr. g. negyvi, tada moteriška giminė, tada gyvi, tada po neiginio – kilmininkas). Žingsnis atsiveria, kai pradėta jo pamoka ir įveiktas ankstesnis tos temos žingsnis (≥80%). Žingsnio pratybos eina nuo atpažinimo prie gamybos: kuris sakinys teisingas → pasirink formą → parašyk pats → sumaišyta su ankstesniais žingsniais. Kasdienis kartojimas su intervalais, kuo geriau moki – tuo daugiau rašai pats. Visus žingsnius įveikus – temos testas, etapo teste – ir gramatikos rašymo užduotys. Remiamasi: Norris & Ortega (2000) – aiškus taisyklės paaiškinimas + praktika veiksmingiausi; VanPatten – apdorojimo mokymas (pirma suprasti formą sakinyje); DeKeyser – įgūdžių įgijimas (deklaratyvios žinios → praktika → automatizavimas); kaitaliojimas (interleaving) ir išdėstytas kartojimas (spacing).
 
 **Pratybos:** pasirinkti vertimą, atpažinti iš klausos, suprasti sakinį iš klausos, gramatikos formos, parašyti lenkiškai, sudėlioti sakinį, įrašyti praleistą žodį, diktantas. Vaidmenų žaidimas: atsakai už vieną dialogo pašnekovą raštu arba balsu (balso atpažinimas pl-PL, kur naršyklė palaiko).
 
@@ -14,7 +14,7 @@ Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (
 
 **Progresija ir tikslai:**
 - nauja pamoka atsiranda ne dažniau kaip kas 2 dienas ir tik pakartojus šiandienos korteles;
-- į kitą etapą – kai kiekvienos pamokos 80% žodžių „moku“, pratybos ≥80% dviem dienomis, etapo gramatikos temos ≥80%, etapo testas ≥80% (jame ir ankstesnių etapų žodžiai) ir pažymėti kalbėjimo tikslai.
+- į kitą etapą – kai kiekvienos pamokos 80% žodžių „moku“, pratybos ≥80% dviem dienomis, etapo gramatikos žingsniai ≥80%, etapo testas ≥80% (jame ir ankstesnių etapų žodžiai) ir pažymėti kalbėjimo tikslai.
 
 ## Kuo remiasi
 
