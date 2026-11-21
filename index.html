@@ -80,6 +80,15 @@ table.snd{border-collapse:collapse;width:100%;margin:6px 0}
 .snd td{padding:6px 6px;border-top:1px solid var(--line)}
 .snd td[data-say]{color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline dotted}
 .conj{font-size:.95rem}
+/* arabų kursas: arabiškas raštas virš transliteracijos, kita akcento spalva */
+.ar{display:block;font-family:"Noto Naskh Arabic","Geeza Pro","Segoe UI","Arial",serif;font-weight:700;font-size:1.3em;line-height:1.7;direction:rtl;unicode-bidi:isolate;text-align:left}
+.ar+.tr{display:block}
+.q .ar,.flash .ar,.qsub .ar{text-align:center}
+.q .ar+.tr,.flash .front .ar+.tr{font-size:.72em}
+.ctx .ar{font-size:1.1em}
+:root[data-course="ar"]{--accent:#0B6B66;--soft:#DCEFEC}
+@media (prefers-color-scheme: dark){:root[data-course="ar"]:not([data-theme="light"]){--accent:#5CC8BE;--accent-ink:#06201E;--soft:#17332F}}
+:root[data-course="ar"][data-theme="dark"]{--accent:#5CC8BE;--accent-ink:#06201E;--soft:#17332F}
 /* pratybos */
 .exbar{display:flex;align-items:center;gap:10px}
 .exbar .bar{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
@@ -173,11 +182,441 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
   <button role="tab" data-v="settings" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>Daugiau</button>
 </nav>
 <script>
+/* ===== Egiptiečių arabų kalba kelionėms (kursas „ar“). Tie patys principai kaip lenkų kurse.
+   Žodžiai [transliteracija, liet., arabiškai], dialogas [kas, transliteracija, liet., arabiškai],
+   gr – [sakinys su ___, atsakymas, užuomina, [klaidingi variantai], tema, visas sakinys arabiškai].
+   Transliteracija: aa, ii, uu, ee, oo – ilgi balsiai; kh – ch; gh – gerklinis r; sh – š; ' – ع arba ء/ق ===== */
+const AR_COURSE={
+lessons:[
+{id:"a1",t:"Pasisveikinimai",d:"Labas, labas rytas, kaip sekasi",
+ tip:`<p>Egipte kalbama <b>egiptiečių tarme</b>, ne literatūrine arabų kalba (MSA). Ją supranta beveik visas arabų pasaulis, nes iš Egipto ateina daugiausia filmų ir muzikos.</p>
+ <p>Žodžius matysi arabiškai ir lotyniškomis raidėmis. Rašyti užtenka lotyniškai:</p>
+ <table class="snd">
+ <tr><td><b>aa, ii, uu, ee</b></td><td>ilgi balsiai, kaip lietuvių <i>ą, į, ū</i></td><td data-say="سلام">salaam</td></tr>
+ <tr><td><b>kh</b></td><td>kaip lietuvių <i>ch</i></td><td data-say="الخير">il-kheer</td></tr>
+ <tr><td><b>gh</b></td><td>gerklinis r, kaip prancūzų <i>r</i></td><td data-say="غالي">ghaali</td></tr>
+ <tr><td><b>sh</b></td><td>š</td><td data-say="شكراً">shukran</td></tr>
+ <tr><td><b>h</b></td><td>visada tariamas, iškvepiant</td><td data-say="الحمد لله">il-hamdu lillaah</td></tr>
+ <tr><td><b>'</b></td><td>gerklės „užsikirtimas“ arba gilus gerklinis garsas (ع)</td><td data-say="مع السلامة">ma'a s-salaama</td></tr>
+ <tr><td><b>yy, ss…</b></td><td>dviguba raidė tariama ilgiau</td><td data-say="كويس">kwayyis</td></tr>
+ </table>
+ <p>Į pasisveikinimą atsakoma „veidrodžiu“: <i>sabaah il-kheer</i> (rytas su gerove) → <i>sabaah in-nuur</i> (rytas su šviesa).</p>
+ <p>Daug žodžių keičiasi pagal tai, <b>kam</b> sakai: vyrui <i>izzayyak?</i>, moteriai <i>izzayyik?</i>. Ir pagal tai, <b>kas</b> sako: vyras <i>kwayyis</i>, moteris <i>kwayyisa</i>.</p>
+ <p><b>Tunise</b> sveikinasi <i>aasslema</i> (labas), <i>labess?</i> (kaip sekasi?) ir dažnai prancūziškai: <i>bonjour, ça va?</i></p>`,
+ words:[["ahlan","labas, sveikas","أهلاً"],["ahlan wa sahlan","sveiki atvykę","أهلاً وسهلاً"],["is-salaamu 'aleekum","sveiki (taika jums)","السلام عليكم"],["wa 'aleekum is-salaam","ir jums taika (atsakymas)","وعليكم السلام"],["sabaah il-kheer","labas rytas","صباح الخير"],["sabaah in-nuur","labas rytas (atsakymas)","صباح النور"],["masaa' il-kheer","labas vakaras","مساء الخير"],["masaa' in-nuur","labas vakaras (atsakymas)","مساء النور"],["izzayyak?","kaip sekasi? (vyrui)","إزيك؟"],["izzayyik?","kaip sekasi? (moteriai)","إزيك؟"],["kwayyis","gerai (sako vyras)","كويس"],["kwayyisa","gerai (sako moteris)","كويسة"],["il-hamdu lillaah","ačiū Dievui (viskas gerai)","الحمد لله"],["ma'a s-salaama","viso gero","مع السلامة"],["tisbah 'ala kheer","labos nakties (vyrui)","تصبح على خير"]],
+ dialog:[["Ahmedas","sabaah il-kheer!","Labas rytas!","صباح الخير!"],["Mona","sabaah in-nuur! izzayyak?","Labas rytas! Kaip sekasi?","صباح النور! إزيك؟"],["Ahmedas","kwayyis, il-hamdu lillaah. w inti?","Gerai, ačiū Dievui. O tu?","كويس، الحمد لله. وإنتي؟"],["Mona","kwayyisa, il-hamdu lillaah.","Gerai, ačiū Dievui.","كويسة، الحمد لله."],["Ahmedas","yalla, ma'a s-salaama!","Na, viso gero!","يلا، مع السلامة!"],["Mona","ma'a s-salaama, ya Ahmad!","Viso gero, Ahmedai!","مع السلامة يا أحمد!"]],
+ gr:[["sabaah il-kheer! – sabaah ___!","in-nuur","Labas rytas! – Labas rytas! (atsakymas)",["il-kheer","is-salaam"],"ats","صباح الخير! – صباح النور!"],
+     ["masaa' il-kheer! – masaa' ___!","in-nuur","Labas vakaras! – Labas vakaras! (atsakymas)",["il-kheer","ahlan"],"ats","مساء الخير! – مساء النور!"],
+     ["is-salaamu 'aleekum! – wa 'aleekum ___!","is-salaam","Sveiki! – Ir jums taika!",["in-nuur","il-kheer"],"ats","السلام عليكم! – وعليكم السلام!"],
+     ["ana ___, il-hamdu lillaah. (sako vyras)","kwayyis","Man gerai, ačiū Dievui.",["kwayyisa","kwayyisiin"],"gim","أنا كويس، الحمد لله."],
+     ["ana ___, il-hamdu lillaah. (sako moteris)","kwayyisa","Man gerai, ačiū Dievui.",["kwayyis","kwayyisiin"],"gim","أنا كويسة، الحمد لله."]]},
+
+{id:"a2",t:"Mandagumas",d:"Ačiū, prašau, taip, ne, nesuprantu",
+ tip:`<p><b>Min fadlak</b> (vyrui) / <b>min fadlik</b> (moteriai) – prašau, kai ko nors prašai. <b>Law samaht</b> – „būkite malonus“, juo patogu pradėti bet kokį klausimą.</p>
+ <p><b>Itfaddal</b> – prašom, kai tau ką nors paduoda ar kviečia užeiti. Jį girdėsi visur.</p>
+ <p>Neiginys <b>mish</b> eina prieš žodį: <i>faahim</i> (suprantu) → <i>mish faahim</i> (nesuprantu).</p>
+ <p><b>In shaa' allaah</b> (jei Dievas leis) sakoma apie bet kokią ateitį: <i>bukra, in shaa' allaah</i> – rytoj, jei viskas bus gerai. Kartais tai reiškia ir mandagų „gal“.</p>
+ <p><b>Tunise:</b> ačiū – <i>yaa'tik saha</i> arba <i>merci</i>, taip – <i>ey</i>, ne – <i>le</i>, gerai – <i>behi</i>.</p>`,
+ words:[["shukran","ačiū","شكراً"],["'afwan","prašom (atsakant į ačiū)","عفواً"],["min fadlak","prašau (vyrui)","من فضلك"],["min fadlik","prašau (moteriai)","من فضلك"],["law samaht","atsiprašau, būkite malonus (vyrui)","لو سمحت"],["aywa","taip","أيوه"],["la'","ne","لأ"],["la' shukran","ne, ačiū","لأ شكراً"],["aasif","atsiprašau (sako vyras)","آسف"],["asfa","atsiprašau (sako moteris)","آسفة"],["mish faahim","nesuprantu (sako vyras)","مش فاهم"],["mish fahma","nesuprantu (sako moteris)","مش فاهمة"],["bititkallim ingiliizi?","ar kalbi angliškai? (vyrui)","بتتكلم إنجليزي؟"],["bir-raaha, min fadlak","lėčiau, prašau","بالراحة من فضلك"],["maashi","gerai, sutarta","ماشي"],["tamaam","puiku, viskas gerai","تمام"],["mafiish mushkila","jokių problemų","مفيش مشكلة"],["in shaa' allaah","jei Dievas leis","إن شاء الله"]],
+ dialog:[["Turistas","law samaht!","Atsiprašau!","لو سمحت!"],["Praeivis","aywa, itfaddal.","Taip, prašom.","أيوه، اتفضل."],["Turistas","bititkallim ingiliizi?","Ar kalbate angliškai?","بتتكلم إنجليزي؟"],["Praeivis","la', aasif. 'arabi bass.","Ne, atsiprašau. Tik arabiškai.","لأ، آسف. عربي بس."],["Turistas","mish faahim. bir-raaha, min fadlak.","Nesuprantu. Lėčiau, prašau.","مش فاهم. بالراحة من فضلك."],["Praeivis","mafiish mushkila!","Jokių problemų!","مفيش مشكلة!"],["Turistas","shukran!","Ačiū!","شكراً!"],["Praeivis","'afwan.","Prašom.","عفواً."]],
+ gr:[["ana ___ faahim.","mish","Aš nesuprantu.",["la'","mafiish"],"neg","أنا مش فاهم."],
+     ["ana mish ___. (sako moteris)","fahma","Aš nesuprantu.",["faahim","fahmiin"],"gim","أنا مش فاهمة."],
+     ["___ shukran.","la'","Ne, ačiū.",["mish","aywa"],"neg","لأ شكراً."],
+     ["bititkallim ingiliizi? – ___, shwayya.","aywa","Ar kalbi angliškai? – Taip, truputį.",["la'","mish"],"neg","بتتكلم إنجليزي؟ – أيوه، شوية."],
+     ["shukran! – ___.","'afwan","Ačiū! – Prašom.",["min fadlak","aasif"],"ats","شكراً! – عفواً."],
+     ["___, min fadlak. (lėčiau)","bir-raaha","Lėčiau, prašau.",["maashi","tamaam"],"neg","بالراحة، من فضلك."]]},
+
+{id:"a3",t:"Prisistatymas",d:"Vardas, iš kur esi, atostogos",
+ tip:`<p><b>Aš, tu:</b> <i>ana</i> – aš, <i>inta</i> – tu (vyrui), <i>inti</i> – tu (moteriai), <i>ihna</i> – mes. „Esu“ arabiškai nesakoma: <i>ana min Lituanya</i> = aš (esu) iš Lietuvos.</p>
+ <p><b>Mano, tavo</b> – galūnė prie žodžio: <i>ism</i> (vardas) → <i>ismi</i> (mano vardas), <i>ismak</i> (tavo, vyrui), <i>ismik</i> (tavo, moteriai).</p>
+ <p>Klausimo žodis dažnai eina gale: <i>ismak eeh?</i> = tavo vardas – koks? <i>inta mineen?</i> = tu – iš kur?</p>
+ <p>Egiptiečiai labai draugiški ir mėgsta paklausti, iš kur esi. Lietuva – <i>Lituanya</i>, lietuvis – <i>lituaani</i>.</p>`,
+ words:[["ana","aš","أنا"],["inta","tu (vyrui)","إنت"],["inti","tu (moteriai)","إنتي"],["ismak eeh?","kuo tu vardu? (vyrui)","اسمك إيه؟"],["ismik eeh?","kuo tu vardu? (moteriai)","اسمك إيه؟"],["ismi","mano vardas","اسمي"],["tsharrafna","malonu susipažinti","تشرفنا"],["inta mineen?","iš kur tu? (vyrui)","إنت منين؟"],["inti mineen?","iš kur tu? (moteriai)","إنتي منين؟"],["ana min Lituanya","aš iš Lietuvos","أنا من ليتوانيا"],["agaaza","atostogos","أجازة"],["ana hina fi agaaza","aš čia atostogauju","أنا هنا في أجازة"],["awwil marra","pirmas kartas","أول مرة"],["masr","Egiptas","مصر"],["gamiila","graži (mot. g.)","جميلة"]],
+ dialog:[["Ahmedas","ahlan! ismik eeh?","Labas! Kuo tu vardu?","أهلاً! اسمك إيه؟"],["Turistė","ismi Ruuta. w inta?","Mano vardas Rūta. O tu?","اسمي روتا. وإنت؟"],["Ahmedas","ismi Ahmad. tsharrafna!","Mano vardas Ahmedas. Malonu susipažinti!","اسمي أحمد. تشرفنا!"],["Ahmedas","inti mineen?","Iš kur tu?","إنتي منين؟"],["Turistė","ana min Lituanya. ana hina fi agaaza.","Aš iš Lietuvos. Čia atostogauju.","أنا من ليتوانيا. أنا هنا في أجازة."],["Ahmedas","awwil marra fi masr?","Pirmą kartą Egipte?","أول مرة في مصر؟"],["Turistė","aywa! masr gamiila awi.","Taip! Egiptas labai gražus.","أيوه! مصر جميلة أوي."]],
+ gr:[["___ eeh? (vyrui)","ismak","Kuo tu vardu?",["ismi","ismik"],"poss","اسمك إيه؟"],
+     ["___ eeh? (moteriai)","ismik","Kuo tu vardu?",["ismak","ismi"],"poss","اسمك إيه؟"],
+     ["___ Ruuta.","ismi","Mano vardas Rūta.",["ismak","ismik"],"poss","اسمي روتا."],
+     ["inti ___? – min Lituanya.","mineen","Iš kur tu? – Iš Lietuvos.",["eeh","feen"],"q","إنتي منين؟ – من ليتوانيا."],
+     ["___ mineen? (vyrui)","inta","Iš kur tu?",["inti","ana"],"gim","إنت منين؟"],
+     ["___ min Lituanya.","ana","Aš iš Lietuvos.",["inta","inti"],"gim","أنا من ليتوانيا."]]},
+
+{id:"a4",t:"Skaičiai 0–10",d:"Skaičiai ir arabiški skaitmenys",
+ tip:`<p>Egipte kainos, autobusų ir namų numeriai dažnai rašomi <b>arabiškais skaitmenimis</b>. Jie paprasti, verta išmokti:</p>
+ <table class="snd">
+ <tr><td data-say="٠">٠</td><td>0</td><td data-say="٥">٥</td><td>5</td></tr>
+ <tr><td data-say="١">١</td><td>1</td><td data-say="٦">٦</td><td>6</td></tr>
+ <tr><td data-say="٢">٢</td><td>2</td><td data-say="٧">٧</td><td>7</td></tr>
+ <tr><td data-say="٣">٣</td><td>3</td><td data-say="٨">٨</td><td>8</td></tr>
+ <tr><td data-say="٤">٤</td><td>4</td><td data-say="٩">٩</td><td>9</td></tr>
+ </table>
+ <p>Nors arabiškai rašoma iš dešinės į kairę, skaičiai rašomi <b>iš kairės į dešinę</b>: ٢٥ = 25, ١٥٠ = 150. Atsargiai: <b>٥</b> yra 5 (ne 0), o <b>٦</b> – 6 (ne 7).</p>
+ <p>Du daiktai dažnai sakomi galūne <b>-een</b>: <i>tazkara</i> (bilietas) → <i>tazkarteen</i> (du bilietai).</p>`,
+ words:[["sifr","nulis","صفر"],["waahid","vienas","واحد"],["itneen","du","اتنين"],["talaata","trys","تلاتة"],["arba'a","keturi","أربعة"],["khamsa","penki","خمسة"],["sitta","šeši","ستة"],["sab'a","septyni","سبعة"],["tamanya","aštuoni","تمانية"],["tis'a","devyni","تسعة"],["'ashara","dešimt","عشرة"],["kaam?","kiek?","كام؟"],["raqam","numeris","رقم"],["ihna","mes","إحنا"],["tazkarteen","du bilietai","تذكرتين"]],
+ dialog:[["Gidas","ahlan! intu kaam?","Labas! Kiek jūsų?","أهلاً! إنتوا كام؟"],["Turistas","ihna arba'a.","Mūsų keturi.","إحنا أربعة."],["Gidas","arba'a… w il-otobiis raqam khamsa.","Keturi… O autobusas – numeris penki.","أربعة… والأتوبيس رقم خمسة."],["Turistas","raqam khamsa? mish sitta?","Numeris penki? Ne šeši?","رقم خمسة؟ مش ستة؟"],["Gidas","la', khamsa. is-saa'a tamanya.","Ne, penki. Aštuntą valandą.","لأ، خمسة. الساعة تمانية."],["Turistas","maashi, shukran!","Gerai, ačiū!","ماشي، شكراً!"]],
+ gr:[["waahid, itneen, ___, arba'a","talaata","1, 2, 3, 4",["tamanya","tis'a"],"num","واحد، اتنين، تلاتة، أربعة"],
+     ["khamsa, ___, sab'a","sitta","5, 6, 7",["sifr","'ashara"],"num","خمسة، ستة، سبعة"],
+     ["٧ = ___","sab'a","Skaitmuo ٧",["tis'a","sitta"],"num","سبعة"],
+     ["٣ = ___","talaata","Skaitmuo ٣",["itneen","khamsa"],"num","تلاتة"],
+     ["٥ = ___","khamsa","Skaitmuo ٥",["sifr","waahid"],"num","خمسة"],
+     ["١٠ = ___","'ashara","Skaitmenys ١٠",["waahid","sifr"],"num","عشرة"],
+     ["ihna ___. (4)","arba'a","Mūsų keturi.",["khamsa","itneen"],"num","إحنا أربعة."]]},
+
+{id:"a5",t:"Kainos",d:"Skaičiai iki 1000, kiek kainuoja",
+ tip:`<p><b>11–19</b> baigiasi <b>-aashar</b>: hidaashar (11), itnaashar (12), talattaashar (13), arba'taashar (14), khamastaashar (15)…</p>
+ <p><b>Dešimtys</b> baigiasi <b>-iin</b>: 'ishriin (20), talatiin (30), arbi'iin (40), khamsiin (50), sittiin (60), sab'iin (70), tamaniin (80), tis'iin (90).</p>
+ <p>Sudėtiniai skaičiai sakomi <b>vienetai pirma</b>, kaip vokiškai: <i>khamsa w 'ishriin</i> = penki ir dvidešimt = 25.</p>
+ <p><b>Šimtai:</b> miyya (100), miteen (200), talatmiyya (300), rub'umiyya (400), khumsumiyya (500), alf (1000).</p>
+ <p>Pinigai – <b>gineeh</b> (Egipto svaras). Po skaičiaus nuo 11 žodis lieka vienaskaitos: <i>khamsiin gineeh</i>. Kainą su skaičiumi sakome su <b>bi-</b>: <i>da b-'ishriin</i> = tai už dvidešimt.</p>
+ <p><b>Tunise</b> pinigai – <i>diinaar</i>, o „kiek kainuoja?“ – <i>bqaddesh?</i> (prancūziškai <i>c'est combien ?</i>).</p>`,
+ words:[["hidaashar","vienuolika","حداشر"],["itnaashar","dvylika","اتناشر"],["khamastaashar","penkiolika","خمستاشر"],["'ishriin","dvidešimt","عشرين"],["talatiin","trisdešimt","تلاتين"],["arbi'iin","keturiasdešimt","أربعين"],["khamsiin","penkiasdešimt","خمسين"],["sittiin","šešiasdešimt","ستين"],["tamaniin","aštuoniasdešimt","تمانين"],["miyya","šimtas","مية"],["miteen","du šimtai","ميتين"],["khumsumiyya","penki šimtai","خمسمية"],["alf","tūkstantis","ألف"],["gineeh","svaras (Egipto pinigai)","جنيه"],["bikaam?","kiek kainuoja?","بكام؟"],["da bikaam?","kiek kainuoja šis? (vyr. g.)","ده بكام؟"],["di bikaam?","kiek kainuoja ši? (mot. g.)","دي بكام؟"],["fakka","smulkūs pinigai","فكة"]],
+ dialog:[["Turistė","law samaht, da bikaam?","Atsiprašau, kiek tai kainuoja?","لو سمحت، ده بكام؟"],["Pardavėjas","da b-khamsa w talatiin gineeh.","Tai kainuoja trisdešimt penkis svarus.","ده بخمسة وتلاتين جنيه."],["Turistė","w di bikaam?","O ši kiek?","ودي بكام؟"],["Pardavėjas","di b-miyya w 'ishriin.","Ši – šimtas dvidešimt.","دي بمية وعشرين."],["Turistė","tayyib, da bass. itfaddal miteen.","Gerai, tik šitą. Prašom, du šimtai.","طيب، ده بس. اتفضل ميتين."],["Pardavėjas","ma'aaki fakka?","Ar turi smulkių?","معاكي فكة؟"],["Turistė","la', asfa.","Ne, atsiprašau.","لأ، آسفة."]],
+ gr:[["khamsa w ___ (25)","'ishriin","25 = penki ir dvidešimt",["talatiin","'ashara"],"num","خمسة وعشرين"],
+     ["___ w arbi'iin (42)","itneen","42 = du ir keturiasdešimt",["arba'a","'ashara"],"num","اتنين وأربعين"],
+     ["___ (100)","miyya","šimtas",["alf","miteen"],"num","مية"],
+     ["٥٠ = ___","khamsiin","Skaitmenys ٥٠",["khamastaashar","khamsa"],"num","خمسين"],
+     ["١٢ = ___","itnaashar","Skaitmenys ١٢",["'ishriin","itneen"],"num","اتناشر"],
+     ["da ___? – khamsiin gineeh.","bikaam","Kiek tai kainuoja? – 50 svarų.",["kaam","feen"],"q","ده بكام؟ – خمسين جنيه."],
+     ["___ bikaam? (ši – mot. g.)","di","Kiek ši kainuoja?",["da","ana"],"gim","دي بكام؟"]]},
+
+{id:"a6",t:"Derybos turguje",d:"Per brangu, paskutinė kaina, tik žiūriu",
+ tip:`<p>Turguje (<i>suu'</i>) derėtis įprasta ir net smagu. Pirmoji kaina turistui dažnai būna 2–3 kartus didesnė. Pasiūlyk apie pusę, šypsokis ir neskubėk.</p>
+ <p>Jei nenori pirkti, sakyk <i>la' shukran</i> arba <i>ana bass batfarrag</i> (tik žiūriu) ir eik toliau. Dažnai būtent tada kaina nukrenta.</p>
+ <p>Pardavėjai kreipiasi <i>ya basha</i> (pone), <i>ya madaam</i> (ponia), <i>ya habiibi</i> (mielasis).</p>
+ <p><b>Noriu:</b> vyras sako <i>'aayiz</i>, moteris – <i>'ayza</i>. Daugelis būdvardžių moteriškoje giminėje gauna <b>-a</b>: <i>hilw → hilwa</i> (gražus → graži).</p>
+ <p><b>Tunise:</b> <i>ghaali barsha!</i> = labai brangu, <i>barsha</i> = daug, labai.</p>`,
+ words:[["itfaddal","prašom (siūlant, kviečiant)","اتفضل"],["ghaali","brangus","غالي"],["ghaali awi!","labai brangu!","غالي أوي!"],["rikhiis","pigus","رخيص"],["awi","labai","أوي"],["a'all","mažiau, pigiau","أقل"],["aakhir kalaam?","paskutinė kaina?","آخر كلام؟"],["hadiilak…","duosiu tau… (vyrui)","هديلك…"],["bass","tik; užtenka","بس"],["ana bass batfarrag","aš tik žiūriu","أنا بس بتفرج"],["tayyib","gerai, na","طيب"],["khalaas","užtenka, sutarta","خلاص"],["hadiyya","dovana","هدية"],["'aayiz","noriu (sako vyras)","عايز"],["'ayza","noriu (sako moteris)","عايزة"],["mish 'aayiz","nenoriu (sako vyras)","مش عايز"]],
+ dialog:[["Pardavėjas","ahlan ya basha! itfaddal!","Sveiki, pone! Prašom užeiti!","أهلاً يا باشا! اتفضل!"],["Turistas","shukran. ana bass batfarrag.","Ačiū. Aš tik žiūriu.","شكراً. أنا بس بتفرج."],["Pardavėjas","di hadiyya hilwa. b-miyya w khamsiin bass.","Tai graži dovana. Tik už šimtą penkiasdešimt.","دي هدية حلوة. بمية وخمسين بس."],["Turistas","la', ghaali awi! hadiilak sittiin.","Ne, labai brangu! Duosiu šešiasdešimt.","لأ، غالي أوي! هديلك ستين."],["Pardavėjas","sittiin?! la' ya basha. miyya.","Šešiasdešimt?! Ne, pone. Šimtą.","ستين؟! لأ يا باشا. مية."],["Turistas","tamaniin, aakhir kalaam.","Aštuoniasdešimt, paskutinė kaina.","تمانين، آخر كلام."],["Pardavėjas","khalaas, maashi. itfaddal.","Gerai, sutarta. Prašom.","خلاص، ماشي. اتفضل."]],
+ gr:[["ana ___ da. (sako vyras)","'aayiz","Aš noriu šito.",["'ayza","'ayziin"],"ayiz","أنا عايز ده."],
+     ["ana ___ di. (sako moteris)","'ayza","Aš noriu šitos.",["'aayiz","'ayziin"],"ayiz","أنا عايزة دي."],
+     ["ana ___ 'aayiz, shukran.","mish","Aš nenoriu, ačiū.",["la'","mafiish"],"neg","أنا مش عايز، شكراً."],
+     ["ghaali ___!","awi","Labai brangu!",["bass","a'all"],"adj","غالي أوي!"],
+     ["di hadiyya ___. (graži)","hilwa","Tai graži dovana.",["hilw","hilwiin"],"adj","دي هدية حلوة."],
+     ["___ kalaam?","aakhir","Paskutinė kaina?",["awwil","a'all"],"ayiz","آخر كلام؟"]]},
+
+{id:"a7",t:"Kioske",d:"Ar yra? Nėra. Vanduo, ledai, kremas nuo saulės",
+ tip:`<p><b>Fiih</b> = yra, ar yra? <b>Mafiish</b> = nėra. Tai vieni naudingiausių žodžių: <i>fiih mayya?</i> – ar yra vandens? <i>mafiish</i> – nėra.</p>
+ <p>Pasirinkimas „ar… ar…“ – <b>walla</b>: <i>kibiir walla sughayyar?</i> – didelį ar mažą?</p>
+ <p>Vanduo (<i>mayya</i>) – moteriškos giminės, todėl <i>mayya kibiira</i>, <i>mayya sa''a</i> (šaltas vanduo).</p>
+ <p>Iš čiaupo Egipte geriau negerti: pirk buteliuose (<i>mayya ma'daniyya</i>).</p>
+ <p><b>Tunise:</b> yra – <i>famma</i>, nėra – <i>mafammesh</i>.</p>`,
+ words:[["fiih","yra; ar yra?","فيه"],["mafiish","nėra","مفيش"],["mayya","vanduo","مية"],["mayya sa''a","šaltas vanduo","مية ساقعة"],["kibiir","didelis","كبير"],["sughayyar","mažas","صغير"],["walla","ar (renkantis)","ولا"],["'asiir","sultys","عصير"],["aays kriim","ledai","آيس كريم"],["kriim shams","kremas nuo saulės","كريم شمس"],["kiis","maišelis","كيس"],["kamaan","dar; taip pat","كمان"],["haaga","daiktas, kažkas","حاجة"],["haaga taanya?","dar ko nors?","حاجة تانية؟"],["kida kaam?","kiek iš viso?","كده كام؟"]],
+ dialog:[["Turistė","law samaht, fiih mayya sa''a?","Atsiprašau, ar yra šalto vandens?","لو سمحت، فيه مية ساقعة؟"],["Pardavėjas","aywa, fiih. kibiira walla sughayyara?","Taip, yra. Didelį ar mažą?","أيوه، فيه. كبيرة ولا صغيرة؟"],["Turistė","kibiira, min fadlak. w fiih kriim shams?","Didelį, prašau. O ar yra kremo nuo saulės?","كبيرة من فضلك. وفيه كريم شمس؟"],["Pardavėjas","la', mafiish, aasif. haaga taanya?","Ne, nėra, atsiprašau. Dar ko nors?","لأ، مفيش، آسف. حاجة تانية؟"],["Turistė","aays kriim kamaan. kida kaam?","Dar ledų. Kiek iš viso?","آيس كريم كمان. كده كام؟"],["Pardavėjas","khamsa w arbi'iin gineeh.","Keturiasdešimt penki svarai.","خمسة وأربعين جنيه."]],
+ gr:[["___ mayya? – aywa, fiih.","fiih","Ar yra vandens? – Taip, yra.",["mafiish","feen"],"fiih","فيه مية؟ – أيوه، فيه."],
+     ["fiih kriim shams? – la', ___.","mafiish","Ar yra kremo nuo saulės? – Ne, nėra.",["mish","fiih"],"fiih","فيه كريم شمس؟ – لأ، مفيش."],
+     ["kibiira ___ sughayyara?","walla","Didelį ar mažą?",["w","bass"],"q","كبيرة ولا صغيرة؟"],
+     ["mayya ___. (didelis – mot. g.)","kibiira","Didelis (butelis) vandens.",["kibiir","kubaar"],"adj","مية كبيرة."],
+     ["haaga ___?","taanya","Dar ko nors?",["kamaan","bass"],"adj","حاجة تانية؟"]]},
+
+{id:"a8",t:"Laikas",d:"Kelinta valanda, šiandien, rytoj",
+ tip:`<p><b>Is-saa'a kaam?</b> – kelinta valanda? Atsakymas: <i>is-saa'a talaata</i> (trečia). Pusė – <b>wi nuss</b>, ketvirtis – <b>wi rub'</b>: <i>is-saa'a sitta wi nuss</i> = 6:30.</p>
+ <p>Egipte laiką dažnai sako dienos dalimis: <i>is-subh</i> (ryte), <i>id-duhr</i> (vidurdienį), <i>bil-leel</i> (vakare, naktį).</p>
+ <p>Egiptietiškas laikas lankstus: <i>khamas da'aayi'</i> (penkios minutės) gali reikšti ir pusvalandį. Ekskursijoms vis tiek būk laiku!</p>`,
+ words:[["is-saa'a kaam?","kelinta valanda?","الساعة كام؟"],["is-saa'a","valanda; laikrodis","الساعة"],["wi nuss","ir pusė (pvz. 3:30)","ونص"],["wi rub'","ir ketvirtis (pvz. 3:15)","وربع"],["dilwa'ti","dabar","دلوقتي"],["innaharda","šiandien","النهارده"],["bukra","rytoj","بكرة"],["imbaarih","vakar","امبارح"],["imta?","kada?","إمتى؟"],["is-subh","ryte","الصبح"],["bil-leel","vakare, naktį","بالليل"],["ba'deen","paskui, vėliau","بعدين"],["di'ii'a","minutė","دقيقة"],["khamas da'aayi'","penkios minutės","خمس دقايق"],["rihla","kelionė, ekskursija","رحلة"],["badri","anksti","بدري"]],
+ dialog:[["Turistas","ir-rihla imta?","Kada ekskursija?","الرحلة إمتى؟"],["Gidas","bukra is-subh.","Rytoj ryte.","بكرة الصبح."],["Turistas","is-saa'a kaam?","Kelintą valandą?","الساعة كام؟"],["Gidas","is-saa'a sitta wi nuss. badri!","Pusę septynių. Anksti!","الساعة ستة ونص. بدري!"],["Turistas","w nirga' imta?","O kada grįšim?","ونرجع إمتى؟"],["Gidas","bil-leel, is-saa'a tamanya.","Vakare, aštuntą valandą.","بالليل، الساعة تمانية."],["Turistas","tamaam. ashuufak bukra!","Puiku. Iki rytojaus!","تمام. أشوفك بكرة!"]],
+ gr:[["is-saa'a talaata ___ (3:30)","wi nuss","Pusė keturių",["wi rub'","bass"],"time","الساعة تلاتة ونص"],
+     ["is-saa'a khamsa ___ (5:15)","wi rub'","Penkios ir ketvirtis",["wi nuss","kamaan"],"time","الساعة خمسة وربع"],
+     ["ir-rihla ___? – bukra.","imta","Kada ekskursija? – Rytoj.",["feen","kaam"],"q","الرحلة إمتى؟ – بكرة."],
+     ["___ is-subh (rytoj ryte)","bukra","Rytoj ryte",["imbaarih","innaharda"],"time","بكرة الصبح"],
+     ["ana hina ___. (šiandien)","innaharda","Aš čia šiandien.",["bukra","imbaarih"],"time","أنا هنا النهارده."]]},
+
+{id:"a9",t:"Kavinėje",d:"Arbata, kava, cukrus",
+ tip:`<p>Egipte užsisakoma taip: <b>skaičius + gėrimas</b>: <i>waahid shaay</i> (vieną arbatą), <i>itneen ahwa</i> (dvi kavas).</p>
+ <p>Turkiška kava (<i>ahwa</i>) užsisakoma pagal cukrų: <i>saada</i> – be cukraus, <i>mazbuut</i> – vidutiniškai saldi, <i>ziyaada</i> – saldi.</p>
+ <p><b>Su</b> – <b>bi-</b>: <i>shaay bi-na'naa'</i> (arbata su mėtomis), <i>bi-laban</i> (su pienu). <b>Be</b> – <b>min gheer</b>: <i>min gheer sukkar</i>.</p>
+ <p>Mandagiai „jūs“ – <i>hadritak</i> (vyrui), <i>hadritik</i> (moteriai). Padavėjas atsakys <i>haadir</i> – „bus padaryta“.</p>
+ <p><b>Tunise:</b> kava – <i>qahwa</i> arba <i>café</i>, arbata – <i>tey</i> (dažnai su pinijų riešutais).</p>`,
+ words:[["ahwa","kava; kavinė","قهوة"],["shaay","arbata","شاي"],["waahid shaay","vieną arbatą","واحد شاي"],["bi-na'naa'","su mėtomis","بنعناع"],["bi-laban","su pienu","بلبن"],["sukkar","cukrus","سكر"],["min gheer sukkar","be cukraus","من غير سكر"],["shwayya","truputį","شوية"],["mazbuut","vidutiniškai saldi (kava)","مظبوط"],["saada","be cukraus (kava)","سادة"],["'asiir manga","mangų sultys","عصير مانجة"],["'asiir lamuun","citrinų gėrimas","عصير لمون"],["kubbaaya","stiklinė","كوباية"],["tishrab eeh?","ką gersi? (vyrui)","تشرب إيه؟"],["haadir","gerai, bus padaryta","حاضر"]],
+ dialog:[["Padavėjas","ahlan wa sahlan! tishrab eeh?","Sveiki atvykę! Ką gersite?","أهلاً وسهلاً! تشرب إيه؟"],["Turistas","waahid shaay bi-na'naa', min fadlak.","Vieną arbatą su mėtomis, prašau.","واحد شاي بنعناع من فضلك."],["Padavėjas","sukkar?","Cukraus?","سكر؟"],["Turistas","aywa, sukkar shwayya.","Taip, truputį cukraus.","أيوه، سكر شوية."],["Padavėjas","w hadritik, ya madaam?","O jūs, ponia?","وحضرتك يا مدام؟"],["Turistė","ahwa mazbuut, w 'asiir manga.","Vidutiniškai saldžią kavą ir mangų sulčių.","قهوة مظبوط، وعصير مانجة."],["Padavėjas","haadir!","Bus padaryta!","حاضر!"]],
+ gr:[["___ shaay, min fadlak. (vieną)","waahid","Vieną arbatą, prašau.",["itneen","ana"],"num","واحد شاي من فضلك."],
+     ["___ ahwa, min fadlak. (dvi)","itneen","Dvi kavas, prašau.",["waahid","talaata"],"num","اتنين قهوة من فضلك."],
+     ["shaay min ___ sukkar","gheer","Arbata be cukraus",["fadlak","bass"],"bi","شاي من غير سكر"],
+     ["shaay ___-na'naa'","bi","Arbata su mėtomis",["min","wi"],"bi","شاي بنعناع"],
+     ["ana ___ ahwa. (sako moteris)","'ayza","Aš noriu kavos.",["'aayiz","mish"],"ayiz","أنا عايزة قهوة."]]},
+
+{id:"a10",t:"Restorane",d:"Staliukas, meniu, sąskaita",
+ tip:`<p><b>Il-</b> (arba <i>el-</i>) – artikelis, kaip anglų <i>the</i>: <i>menyu</i> → <i>il-menyu</i>. Prieš kai kurias raides (t, d, s, sh, r, z, n…) jis susilieja: <i>is-sukkar, ish-shaay, ir-rihla</i>. Tai vadinama „saulės raidėmis“.</p>
+ <p><b>Mumkin…?</b> – ar galima…? Tai mandagiausias būdas ko nors paprašyti: <i>mumkin il-hisaab?</i> – ar galima sąskaitą?</p>
+ <p>Arbatpinigiai (<i>bakshiish</i>) Egipte įprasti: restorane apie 10%, net jei sąskaitoje jau yra „service“.</p>
+ <p><b>Koshari</b> – nacionalinis patiekalas: ryžiai, makaronai, lęšiai, avinžirniai, pomidorų padažas ir keptas svogūnas.</p>`,
+ words:[["tarabeeza","staliukas","ترابيزة"],["tarabeeza li-itneen","staliukas dviem","ترابيزة لاتنين"],["il-menyu","meniu","المنيو"],["ti'tarah eeh?","ką rekomenduoji? (vyrui)","تقترح إيه؟"],["il-akl","maistas","الأكل"],["il-hisaab, min fadlak","sąskaitą, prašau","الحساب من فضلك"],["bil-hana wish-shifa","skanaus","بالهنا والشفا"],["laziiz","skanus","لذيذ"],["ana nabaati","aš vegetaras","أنا نباتي"],["mumkin…?","ar galima…?","ممكن…؟"],["adfa' bil-kart","sumokėti kortele","أدفع بالكارت"],["kaash","grynaisiais","كاش"],["il-baa'i","grąža","الباقي"],["khalli il-baa'i","pasilik grąžą","خلي الباقي"],["bakshiish","arbatpinigiai","بقشيش"]],
+ dialog:[["Turistė","masaa' il-kheer. tarabeeza li-itneen, law samaht.","Labas vakaras. Staliuką dviem, prašau.","مساء الخير. ترابيزة لاتنين لو سمحت."],["Padavėjas","itfaddalu. da il-menyu.","Prašom. Štai meniu.","اتفضلوا. ده المنيو."],["Turistė","ti'tarah eeh?","Ką rekomenduojate?","تقترح إيه؟"],["Padavėjas","il-koshari hina laziiz awi.","Koshari čia labai skanus.","الكشري هنا لذيذ أوي."],["Turistė","tayyib, itneen koshari.","Gerai, du koshari.","طيب، اتنين كشري."],["Padavėjas","bil-hana wish-shifa!","Skanaus!","بالهنا والشفا!"],["Turistė","il-hisaab, min fadlak. mumkin adfa' bil-kart?","Sąskaitą, prašau. Ar galima kortele?","الحساب من فضلك. ممكن أدفع بالكارت؟"],["Padavėjas","la', kaash bass, aasif.","Ne, tik grynaisiais, atsiprašau.","لأ، كاش بس، آسف."]],
+ gr:[["___ adfa' bil-kart?","mumkin","Ar galima sumokėti kortele?",["fiih","'aayiz"],"ayiz","ممكن أدفع بالكارت؟"],
+     ["il-___, min fadlak.","hisaab","Sąskaitą, prašau.",["menyu","baa'i"],"al","الحساب من فضلك."],
+     ["___-shaay (ta arbata)","ish","arbata (su artikeliu)",["il","is"],"al","الشاي"],
+     ["___-sukkar (tas cukrus)","is","cukrus (su artikeliu)",["il","ish"],"al","السكر"],
+     ["___-menyu (tas meniu)","il","meniu (su artikeliu)",["is","ish"],"al","المنيو"],
+     ["tarabeeza ___-itneen","li","Staliukas dviem",["bi","min"],"bi","ترابيزة لاتنين"]]},
+
+{id:"a11",t:"Maistas",d:"Duona, vištiena, žuvis, gatvės maistas",
+ tip:`<p>Egipto gatvės maistas pigus ir skanus: <b>fuul</b> (pupelių troškinys), <b>ta'miyya</b> (egiptietiškas falafelis iš pupelių), <b>koshari</b>. Jie dažniausiai įdedami į <i>'eesh baladi</i> – vietinę paplotėlio duoną.</p>
+ <p><b>'Eesh</b> reiškia ir „duona“, ir „gyvenimas“ – tiek ji svarbi.</p>
+ <p>Būdvardis eina <b>po</b> daiktavardžio: <i>samak mashwi</i> – žuvis ant grotelių. Su moteriškos giminės žodžiu: <i>firaakh mashwiyya</i>.</p>
+ <p><b>Tunise</b> paragauk <i>brik</i> (traškus pyragėlis su kiaušiniu), <i>kuskus</i> ir aštraus <i>harissa</i> padažo.</p>`,
+ words:[["'eesh","duona","عيش"],["firaakh","vištiena","فراخ"],["samak","žuvis","سمك"],["lahma","mėsa","لحمة"],["ruzz","ryžiai","رز"],["salata","salotos","سلطة"],["shurba","sriuba","شوربة"],["fuul","pupelių troškinys","فول"],["ta'miyya","egiptietiškas falafelis","طعمية"],["koshari","koshari (ryžiai, makaronai, lęšiai)","كشري"],["batatis","bulvės","بطاطس"],["khudaar","daržovės","خضار"],["fakha","vaisiai","فاكهة"],["beed","kiaušiniai","بيض"],["gibna","sūris","جبنة"],["mashwi","keptas ant grotelių","مشوي"]],
+ dialog:[["Pardavėjas","ahlan! 'aayiz eeh?","Labas! Ko norėsi?","أهلاً! عايز إيه؟"],["Turistas","'aayiz sandawitsh fuul w itneen ta'miyya.","Noriu sumuštinio su fuul ir dviejų falafelių.","عايز ساندوتش فول واتنين طعمية."],["Pardavėjas","w beed? w batatis?","O kiaušinių? O bulvių?","وبيض؟ وبطاطس؟"],["Turistas","batatis aywa, beed la'.","Bulvių taip, kiaušinių ne.","بطاطس أيوه، بيض لأ."],["Pardavėjas","haadir. salata kamaan?","Gerai. Dar salotų?","حاضر. سلطة كمان؟"],["Turistas","la', kida kifaaya, shukran.","Ne, tiek užtenka, ačiū.","لأ، كده كفاية، شكراً."]],
+ gr:[["'aayiz ___? (ko nori?)","eeh","Ko nori?",["feen","kaam"],"q","عايز إيه؟"],
+     ["samak ___ (ant grotelių)","mashwi","žuvis ant grotelių",["mashwiyya","laziiza"],"adj","سمك مشوي"],
+     ["firaakh ___ (ant grotelių)","mashwiyya","vištiena ant grotelių",["mashwi","mashwiyyiin"],"adj","فراخ مشوية"],
+     ["shurba ___ (karšta)","sukhna","karšta sriuba",["sukhn","saa'i'"],"adj","شوربة سخنة"],
+     ["'aayiz sandawitsh fuul w ___ ta'miyya. (dvi)","itneen","Noriu sumuštinio su fuul ir dviejų falafelių.",["waahid","'ashara"],"num","عايز ساندوتش فول واتنين طعمية."]]},
+
+{id:"a12",t:"Skonis ir pageidavimai",d:"Aštru, skanu, dar, užtenka",
+ tip:`<p><b>Mėgstu</b> – <i>ana bahibb…</i>, <b>nemėgstu</b> – <i>mabahibbish…</i>. Neiginys čia apgaubia žodį: <b>ma-</b>…<b>-sh</b>, kaip prancūzų <i>ne… pas</i>.</p>
+ <p>Būsenos keičiasi pagal lytį: vyras – <i>ga'aan</i> (alkanas), moteris – <i>ga'aana</i>; <i>'atshaan / 'atshaana</i> (ištroškęs), <i>shab'aan / shab'aana</i> (sotus).</p>
+ <p>Jei nevalgai aštraus, visada sakyk <i>mish harr, min fadlak</i>. Pagyrimas virėjui – <i>'aashit iidak!</i> (tegyvuoja tavo rankos).</p>`,
+ words:[["harr","aštrus","حار"],["mish harr","neaštrus","مش حار"],["hilw","saldus; gražus, geras","حلو"],["maalih","sūrus","مالح"],["sukhn","karštas","سخن"],["saa'i'","šaltas","ساقع"],["ziyaada","daugiau, papildomai","زيادة"],["kifaaya","užtenka","كفاية"],["ga'aan","alkanas (vyras)","جعان"],["'atshaan","ištroškęs (vyras)","عطشان"],["shab'aan","sotus (vyras)","شبعان"],["ana bahibb…","aš mėgstu…","أنا بحب…"],["mabahibbish…","aš nemėgstu…","مبحبش…"],["min gheer basal","be svogūnų","من غير بصل"],["'aashit iidak!","auksinės rankos! (pagyrimas virėjui)","عاشت إيدك!"]],
+ dialog:[["Turistė","il-akl da harr?","Ar šis maistas aštrus?","الأكل ده حار؟"],["Padavėjas","shwayya.","Truputį.","شوية."],["Turistė","'ayza mish harr, min fadlak. w min gheer basal.","Noriu neaštraus, prašau. Ir be svogūnų.","عايزة مش حار من فضلك. ومن غير بصل."],["Padavėjas","haadir. w inta, ya basha?","Gerai. O jūs, pone?","حاضر. وإنت يا باشا؟"],["Turistas","ana ga'aan awi! ana bahibb il-akl il-harr.","Aš labai alkanas! Mėgstu aštrų maistą.","أنا جعان أوي! أنا بحب الأكل الحار."],["Padavėjas","itfaddal. il-akl 'agabak?","Prašom. Ar patiko maistas?","اتفضل. الأكل عجبك؟"],["Turistas","laziiz awi! 'aashit iidak!","Labai skanu! Auksinės rankos!","لذيذ أوي! عاشت إيدك!"]],
+ gr:[["ana ___ awi. (alkanas, vyras)","ga'aan","Aš labai alkanas.",["'atshaan","shab'aan"],"adj","أنا جعان أوي."],
+     ["ana ___. (ištroškusi – moteris)","'atshaana","Aš ištroškusi.",["'atshaan","'atshaniin"],"adj","أنا عطشانة."],
+     ["ana ___ il-akl il-harr.","bahibb","Aš mėgstu aštrų maistą.",["mabahibbish","'aayiz"],"ayiz","أنا بحب الأكل الحار."],
+     ["ana ___ il-basal.","mabahibbish","Aš nemėgstu svogūnų.",["bahibb","mish"],"neg","أنا مبحبش البصل."],
+     ["il-akl ___ harr. (neaštrus)","mish","Maistas neaštrus.",["ma","la'"],"neg","الأكل مش حار."]]},
+
+{id:"a13",t:"Taksi",d:"Nuvežk mane, skaitiklis, sustok čia",
+ tip:`<p>Prieš sėsdamas į taksi <b>susitark dėl kainos</b> arba paprašyk įjungti skaitiklį (<i>il-'addaad</i>). Kairo ir Hurgados miestuose patogu naudotis „Uber“ ar „Careem“ – kaina žinoma iš anksto.</p>
+ <p><b>Waddiini…</b> + vieta: <i>waddiini il-fundu'</i> – nuvežk mane į viešbutį. Prielinksnio „į“ nereikia.</p>
+ <p>„Iki“ – <b>li-</b>: <i>bikaam lil-mataar?</i> – kiek iki oro uosto?</p>
+ <p><b>Tunise</b> taksistai dažnai kalba prancūziškai: <i>à l'hôtel, s'il vous plaît</i>, <i>c'est combien pour l'aéroport ?</i></p>`,
+ words:[["taksi","taksi","تاكسي"],["waddiini…","nuvežk mane… (vyrui)","وديني…"],["il-fundu'","viešbutis","الفندق"],["il-mataar","oro uostas","المطار"],["il-mat-haf","muziejus","المتحف"],["il-bahr","jūra, paplūdimys","البحر"],["il-'addaad","skaitiklis","العداد"],["shaghghal il-'addaad","įjunk skaitiklį","شغل العداد"],["'ala tuul","tiesiai","على طول"],["hina","čia","هنا"],["hinaak","ten","هناك"],["wa''af hina","sustok čia","وقف هنا"],["ba'iid","toli","بعيد"],["'urayyib","arti","قريب"],["bi-shweesh","lėtai, atsargiai","بشويش"],["yalla bina","važiuojam","يلا بينا"]],
+ dialog:[["Turistas","is-salaamu 'aleekum. waddiini il-mataar, law samaht.","Sveiki. Nuvežkite mane į oro uostą, prašau.","السلام عليكم. وديني المطار لو سمحت."],["Taksistas","wa 'aleekum is-salaam. itfaddal.","Sveiki. Prašom lipti.","وعليكم السلام. اتفضل."],["Turistas","bikaam lil-mataar?","Kiek kainuos iki oro uosto?","بكام للمطار؟"],["Taksistas","miteen gineeh.","Du šimtai svarų.","ميتين جنيه."],["Turistas","ghaali! shaghghal il-'addaad, min fadlak.","Brangu! Įjunkite skaitiklį, prašau.","غالي! شغل العداد من فضلك."],["Taksistas","il-'addaad mish shaghghaal… khalaas, miyya w khamsiin.","Skaitiklis neveikia… Gerai, šimtas penkiasdešimt.","العداد مش شغال… خلاص، مية وخمسين."],["Turistas","maashi. yalla bina!","Sutarta. Važiuojam!","ماشي. يلا بينا!"]],
+ gr:[["waddiini ___-fundu', law samaht.","il","Nuvežk mane į viešbutį, prašau.",["is","ish"],"al","وديني الفندق لو سمحت."],
+     ["wa''af ___, min fadlak.","hina","Sustok čia, prašau.",["hinaak","ba'iid"],"dir","وقف هنا من فضلك."],
+     ["il-mataar ___? – la', 'urayyib.","ba'iid","Ar oro uostas toli? – Ne, arti.",["'urayyib","hina"],"dir","المطار بعيد؟ – لأ، قريب."],
+     ["___ lil-mataar?","bikaam","Kiek kainuos iki oro uosto?",["imta","feen"],"q","بكام للمطار؟"],
+     ["shaghghal ___-'addaad.","il","Įjunk skaitiklį.",["ish","li"],"al","شغل العداد."]]},
+
+{id:"a14",t:"Kelio klausimas",d:"Kur yra? Į dešinę, į kairę",
+ tip:`<p><b>Feen?</b> (kur?) eina sakinio gale: <i>il-mat-haf feen?</i> – muziejus kur? Labai patogu: pasakyk vietą ir pridėk <i>feen</i>.</p>
+ <p>Kryptys: <i>yimiin</i> (dešinėn), <i>shimaal</i> (kairėn), <i>'ala tuul</i> (tiesiai). Vieta: <i>ganb</i> (šalia), <i>'uddaam</i> (priešais), <i>wara</i> (už).</p>
+ <p>Vyrui sakoma <i>khud yimiin</i> (suk dešinėn), moteriai – <i>khudi yimiin</i>.</p>
+ <p>Egiptiečiai mielai parodo kelią, net jei patys tiksliai nežino. Paklausk dviejų žmonių!</p>`,
+ words:[["feen?","kur?","فين؟"],["yimiin","į dešinę; dešinėje","يمين"],["shimaal","į kairę; kairėje","شمال"],["khud yimiin","suk į dešinę (vyrui)","خد يمين"],["imshi","eik","امشي"],["ganb","šalia","جنب"],["'uddaam","priešais","قدام"],["wara","už, gale","ورا"],["ba'd","po, už","بعد"],["shaari'","gatvė","شارع"],["taani shaari'","antra gatvė","تاني شارع"],["il-mahatta","stotis","المحطة"],["il-hammaam feen?","kur tualetas?","الحمام فين؟"],["is-suu'","turgus","السوق"],["masgid","mečetė","مسجد"],["ana tuht","aš pasiklydau","أنا تهت"]],
+ dialog:[["Turistas","law samaht, il-mat-haf feen?","Atsiprašau, kur yra muziejus?","لو سمحت، المتحف فين؟"],["Praeivis","imshi 'ala tuul, w ba'deen khud shimaal.","Eikite tiesiai, paskui sukite į kairę.","امشي على طول، وبعدين خد شمال."],["Turistas","ba'iid?","Toli?","بعيد؟"],["Praeivis","la', 'urayyib. khamas da'aayi' mashi.","Ne, arti. Penkios minutės pėsčiomis.","لأ، قريب. خمس دقايق مشي."],["Turistas","w il-mat-haf ganb is-suu'?","O muziejus šalia turgaus?","والمتحف جنب السوق؟"],["Praeivis","aywa, 'uddaam il-masgid il-kibiir.","Taip, priešais didžiąją mečetę.","أيوه، قدام المسجد الكبير."],["Turistas","shukran giddan!","Labai ačiū!","شكراً جداً!"]],
+ gr:[["khud ___. (į dešinę)","yimiin","Suk į dešinę.",["shimaal","wara"],"dir","خد يمين."],
+     ["il-mahatta ___?","feen","Kur stotis?",["imta","kaam"],"q","المحطة فين؟"],
+     ["il-fundu' ___ il-bahr. (šalia)","ganb","Viešbutis šalia jūros.",["'uddaam","wara"],"dir","الفندق جنب البحر."],
+     ["imshi ___ tuul.","'ala","Eik tiesiai.",["fi","min"],"dir","امشي على طول."],
+     ["___ shaari' yimiin. (antra)","taani","Antra gatvė į dešinę.",["awwil","talaata"],"dir","تاني شارع يمين."]]},
+
+{id:"a15",t:"Viešbutyje",d:"Rezervacija, kambarys, kondicionierius",
+ tip:`<p><b>Turiu</b> – <i>'andi</i> (pažodžiui „pas mane“): <i>'andi hagz</i> – turiu rezervaciją, <i>'andi mushkila</i> – turiu problemą. Neturiu – <i>ma'andiish</i>.</p>
+ <p>Kas neveikia: <i>mish shaghghaal</i> (vyr. g.: it-takyiif, il-wayfay), <i>mish shaghghaala</i> (mot. g.: il-lamba – lemputė).</p>
+ <p>Aukštai: <i>id-door il-awwil</i> (pirmas), <i>it-taani</i> (antras), <i>it-talit</i> (trečias).</p>`,
+ words:[["'andi hagz","turiu rezervaciją","عندي حجز"],["bi-ism…","vardu…","باسم…"],["owda","kambarys","أوضة"],["muftaah","raktas","مفتاح"],["it-takyiif","kondicionierius","التكييف"],["mish shaghghaal","neveikia (vyr. g.)","مش شغال"],["il-wayfay","bevielis internetas","الواي فاي"],["il-baswerd","slaptažodis","الباسورد"],["il-fitaar","pusryčiai","الفطار"],["fuuta","rankšluostis","فوطة"],["mayya sukhna","karštas vanduo","مية سخنة"],["il-asanseer","liftas","الأسانسير"],["id-door","aukštas","الدور"],["il-hammaam","vonios kambarys, tualetas","الحمام"],["'andi mushkila","turiu problemą","عندي مشكلة"],["mumkin tsallahu?","ar galite pataisyti?","ممكن تصلحه؟"]],
+ dialog:[["Turistas","masaa' il-kheer. 'andi hagz bi-ism Jonas.","Labas vakaras. Turiu rezervaciją Jono vardu.","مساء الخير. عندي حجز باسم يوناس."],["Registratorė","ahlan wa sahlan! owda raqam talatmiyya w khamsa.","Sveiki atvykę! Kambarys numeris 305.","أهلاً وسهلاً! أوضة رقم تلتمية وخمسة."],["Turistas","il-fitaar imta?","Kada pusryčiai?","الفطار إمتى؟"],["Registratorė","min sab'a l-'ashara is-subh.","Nuo septynių iki dešimt ryto.","من سبعة لعشرة الصبح."],["Turistas","w il-baswerd bitaa' il-wayfay?","O koks wifi slaptažodis?","والباسورد بتاع الواي فاي؟"],["Registratorė","maktuub 'ala il-kart.","Užrašytas ant kortelės.","مكتوب على الكارت."],["Turistas","w it-takyiif mish shaghghaal… mumkin tsallahu?","O kondicionierius neveikia… Ar galite pataisyti?","والتكييف مش شغال… ممكن تصلحه؟"],["Registratorė","haadir, dilwa'ti!","Žinoma, tuoj pat!","حاضر، دلوقتي!"]],
+ gr:[["___ hagz bi-ism Jonas.","'andi","Turiu rezervaciją Jono vardu.",["ana","fiih"],"poss","عندي حجز باسم يوناس."],
+     ["it-takyiif ___ shaghghaal.","mish","Kondicionierius neveikia.",["la'","mafiish"],"neg","التكييف مش شغال."],
+     ["il-fitaar ___? – is-saa'a sab'a.","imta","Kada pusryčiai? – Septintą.",["feen","bikaam"],"q","الفطار إمتى؟ – الساعة سبعة."],
+     ["___ fuuta? (ar yra)","fiih","Ar yra rankšluostis?",["mafiish","'andi"],"fiih","فيه فوطة؟"],
+     ["___ mushkila fil-owda.","'andi","Turiu problemą kambaryje.",["mafiish","ana"],"poss","عندي مشكلة في الأوضة."]]},
+
+{id:"a16",t:"Pagalba ir sveikata",d:"Vaistinė, gydytojas, skauda",
+ tip:`<p>Vaistinė Egipte – <b>agzakhaana</b> (arba <i>saydaliyya</i>). Vaistininkai dažnai kalba angliškai ir daug vaistų parduoda be recepto.</p>
+ <p><b>Skauda</b>: <i>'andi sudaa'</i> – man skauda galvą (pažodžiui „turiu galvos skausmą“), <i>batni bitiwga'ni</i> – man skauda pilvą.</p>
+ <p>Saugokis saulės: <i>darbit shams</i> (saulės smūgis) dažna turistų bėda. Gerk daug vandens.</p>
+ <p>Sergančiam linkima <b>salamtak</b> (vyrui) / <b>salamtik</b> (moteriai) – pasveik.</p>
+ <p><b>Svarbūs numeriai Egipte:</b> greitoji – 123, turistinė policija – 126.</p>`,
+ words:[["il-ha'uuni!","padėkit!","الحقوني!"],["agzakhaana","vaistinė","أجزخانة"],["doktoor","gydytojas","دكتور"],["dawa","vaistai","دوا"],["'ayyaan","sergantis (vyras)","عيان"],["'ayyaana","serganti (moteris)","عيانة"],["'andi sudaa'","man skauda galvą","عندي صداع"],["batni bitiwga'ni","man skauda pilvą","بطني بتوجعني"],["'andi sukhuuniyya","turiu temperatūros","عندي سخونية"],["darbit shams","saulės smūgis","ضربة شمس"],["il-is'aaf","greitoji pagalba","الإسعاف"],["il-buliis","policija","البوليس"],["il-basboor","pasas","الباسبور"],["shantiti","mano krepšys","شنطتي"],["saa'idni, min fadlak","padėk man, prašau (vyrui)","ساعدني من فضلك"],["ba'd il-akl","po valgio","بعد الأكل"]],
+ dialog:[["Vaistininkas","ahlan ya madaam. ayy khidma?","Sveiki, ponia. Kuo galiu padėti?","أهلاً يا مدام. أي خدمة؟"],["Turistė","ana 'ayyaana. batni bitiwga'ni.","Sergu. Man skauda pilvą.","أنا عيانة. بطني بتوجعني."],["Vaistininkas","min imta?","Nuo kada?","من إمتى؟"],["Turistė","min imbaarih. w 'andi sukhuuniyya shwayya.","Nuo vakar. Ir truputį temperatūros.","من امبارح. وعندي سخونية شوية."],["Vaistininkas","khudi id-dawa da, talat marraat fil-yoom, ba'd il-akl.","Gerkite šiuos vaistus tris kartus per dieną, po valgio.","خدي الدوا ده، تلات مرات في اليوم، بعد الأكل."],["Turistė","shukran. bikaam?","Ačiū. Kiek kainuoja?","شكراً. بكام؟"],["Vaistininkas","khamsa w sittiin gineeh. salamtik!","Šešiasdešimt penki svarai. Pasveikite!","خمسة وستين جنيه. سلامتك!"]],
+ gr:[["ana ___. (serganti – moteris)","'ayyaana","Aš sergu.",["'ayyaan","'ayyaniin"],"adj","أنا عيانة."],
+     ["___ sudaa'.","'andi","Man skauda galvą.",["ana","fiih"],"poss","عندي صداع."],
+     ["il-agzakhaana ___?","feen","Kur vaistinė?",["imta","eeh"],"q","الأجزخانة فين؟"],
+     ["talat marraat fil-yoom, ___ il-akl","ba'd","Tris kartus per dieną, po valgio",["'abl","ganb"],"time","تلات مرات في اليوم، بعد الأكل"],
+     ["min ___? – min imbaarih.","imta","Nuo kada? – Nuo vakar.",["feen","kaam"],"q","من إمتى؟ – من امبارح."]]}
+],
+
+/* ===== Gramatika ir raidynas. opt – neprivaloma tema (į etapo tikslus neįeina); items – tema turi savas užduotis ===== */
+grammar:[
+{id:"abc1",t:"Raidynas 1: kaip skaityti",from:"a1",opt:1,
+ ex:`<p>Arabiškai rašoma <b>iš dešinės į kairę</b>. Raidžių 28, jos jungiasi viena su kita, todėl žodžio pradžioje, viduryje ir gale atrodo šiek tiek skirtingai.</p>
+ <p>Trumpieji balsiai (a, i, u) paprastai <b>nerašomi</b>. Ilgieji rašomi raidėmis: <b>ا</b> – aa, <b>و</b> – uu / oo / w, <b>ي</b> – ii / ee / y.</p>
+ <table class="snd">
+ <tr><td data-say="ا">ا</td><td>alif</td><td>a, aa</td></tr>
+ <tr><td data-say="ب">ب</td><td>baa'</td><td>b</td></tr>
+ <tr><td data-say="ت">ت</td><td>taa'</td><td>t</td></tr>
+ <tr><td data-say="ن">ن</td><td>nuun</td><td>n</td></tr>
+ <tr><td data-say="ي">ي</td><td>yaa'</td><td>y, ii, ee</td></tr>
+ <tr><td data-say="و">و</td><td>waaw</td><td>w, uu, oo</td></tr>
+ </table>
+ <p>Raidės <b>ب ت ن ي</b> turi tą pačią formą ir skiriasi tik taškais: ب – vienas apačioje, ت – du viršuje, ن – vienas viršuje, ي – du apačioje.</p>
+ <p>Pavyzdžiai: <span data-say="باب">باب</span> baab (durys), <span data-say="بيت">بيت</span> beet (namas), <span data-say="بنت">بنت</span> bint (mergaitė), <span data-say="نور">نور</span> nuur (šviesa).</p>`,
+ items:[["___ = b","ب","Kuri raidė yra b?",["ت","ن"],"abc1","ب"],["___ = t","ت","Kuri raidė yra t?",["ب","ي"],"abc1","ت"],["___ = n","ن","Kuri raidė yra n?",["ب","ت"],"abc1","ن"],["ي = ___","y / ii","Kaip skaitoma ي?",["b","n"],"abc1","ي"],["و = ___","w / uu","Kaip skaitoma و?",["a / aa","t"],"abc1","و"],["باب = ___","baab","durys",["beet","bint"],"abc1","باب"],["بيت = ___","beet","namas",["baab","nuur"],"abc1","بيت"],["بنت = ___","bint","mergaitė",["beet","tuut"],"abc1","بنت"],["نور = ___","nuur","šviesa",["tuut","baab"],"abc1","نور"]]},
+{id:"abc2",t:"Raidynas 2: ج ح خ د ر ز",from:"a1",opt:1,
+ ex:`<table class="snd">
+ <tr><td data-say="ج">ج</td><td>giim</td><td>Egipte <b>g</b> (kitur dž)</td></tr>
+ <tr><td data-say="ح">ح</td><td>haa'</td><td>gilus, šnypščiantis h</td></tr>
+ <tr><td data-say="خ">خ</td><td>khaa'</td><td>kh, kaip lietuvių ch</td></tr>
+ <tr><td data-say="د">د</td><td>daal</td><td>d</td></tr>
+ <tr><td data-say="ر">ر</td><td>raa'</td><td>r</td></tr>
+ <tr><td data-say="ز">ز</td><td>zeen</td><td>z</td></tr>
+ </table>
+ <p>ج ح خ – ta pati forma, skiriasi taškas: ج – apačioje, ح – be taško, خ – viršuje. Taip pat ر (r) ir ز (z).</p>
+ <p>Raidės <b>ا د ر ز و</b> nesijungia su kita raide kairėje, todėl žodyje atsiranda tarpelis: <span data-say="دار">دار</span>.</p>
+ <p>Pavyzdžiai: <span data-say="رز">رز</span> ruzz (ryžiai), <span data-say="حار">حار</span> harr (aštrus), <span data-say="جبنة">جبنة</span> gibna (sūris), <span data-say="خيار">خيار</span> khiyaar (agurkas).</p>`,
+ items:[["___ = g","ج","Kuri raidė Egipte yra g?",["ح","خ"],"abc2","ج"],["___ = kh","خ","Kuri raidė yra kh?",["ج","ح"],"abc2","خ"],["___ = r","ر","Kuri raidė yra r?",["ز","د"],"abc2","ر"],["د = ___","d","Kaip skaitoma د?",["r","z"],"abc2","د"],["رز = ___","ruzz","ryžiai",["harr","daar"],"abc2","رز"],["حار = ___","harr","aštrus",["ruzz","khiyaar"],"abc2","حار"],["خيار = ___","khiyaar","agurkas",["harr","gibna"],"abc2","خيار"]]},
+{id:"abc3",t:"Raidynas 3: س ش ص ط ع غ",from:"a1",opt:1,
+ ex:`<table class="snd">
+ <tr><td data-say="س">س</td><td>siin</td><td>s</td></tr>
+ <tr><td data-say="ش">ش</td><td>shiin</td><td>sh (š)</td></tr>
+ <tr><td data-say="ص">ص</td><td>saad</td><td>kietas, „storas“ s</td></tr>
+ <tr><td data-say="ط">ط</td><td>taa'</td><td>kietas t</td></tr>
+ <tr><td data-say="ع">ع</td><td>'een</td><td>gilus gerklinis garsas (transliteracijoje ')</td></tr>
+ <tr><td data-say="غ">غ</td><td>gheen</td><td>gh, kaip prancūzų r</td></tr>
+ </table>
+ <p>س ir ش skiriasi tik trimis taškais viršuje. ع ir غ – tik vienu tašku.</p>
+ <p>Pavyzdžiai: <span data-say="شاي">شاي</span> shaay (arbata), <span data-say="سكر">سكر</span> sukkar (cukrus), <span data-say="شمس">شمس</span> shams (saulė), <span data-say="عصير">عصير</span> 'asiir (sultys), <span data-say="غالي">غالي</span> ghaali (brangus).</p>`,
+ items:[["___ = sh","ش","Kuri raidė yra sh?",["س","ص"],"abc3","ش"],["___ = s","س","Kuri raidė yra paprastas s?",["ش","ط"],"abc3","س"],["غ = ___","gh","Kaip skaitoma غ?",["'","sh"],"abc3","غ"],["شاي = ___","shaay","arbata",["shams","sukkar"],"abc3","شاي"],["سكر = ___","sukkar","cukrus",["shaay","'asiir"],"abc3","سكر"],["شمس = ___","shams","saulė",["shaay","ghaali"],"abc3","شمس"],["عصير = ___","'asiir","sultys",["sukkar","shams"],"abc3","عصير"]]},
+{id:"abc4",t:"Raidynas 4: ف ق ك ل م ه ة ال",from:"a1",opt:1,
+ ex:`<table class="snd">
+ <tr><td data-say="ف">ف</td><td>faa'</td><td>f</td></tr>
+ <tr><td data-say="ق">ق</td><td>'aaf</td><td>Kaire tariamas kaip <b>'</b> (užsikirtimas), kitur q</td></tr>
+ <tr><td data-say="ك">ك</td><td>kaaf</td><td>k</td></tr>
+ <tr><td data-say="ل">ل</td><td>laam</td><td>l</td></tr>
+ <tr><td data-say="م">م</td><td>miim</td><td>m</td></tr>
+ <tr><td data-say="ه">ه</td><td>haa'</td><td>h</td></tr>
+ <tr><td>ة</td><td>taa' marbuuta</td><td>žodžio gale <b>-a</b> (dažnai moteriška giminė)</td></tr>
+ <tr><td data-say="ال">ال</td><td>alif laam</td><td>artikelis il- (el-)</td></tr>
+ </table>
+ <p>Pavyzdžiai: <span data-say="قهوة">قهوة</span> ahwa (kava – ق tariama kaip '), <span data-say="كبير">كبير</span> kibiir (didelis), <span data-say="فول">فول</span> fuul, <span data-say="مفتاح">مفتاح</span> muftaah (raktas), <span data-say="البحر">البحر</span> il-bahr (jūra).</p>
+ <p>Dabar jau gali perskaityti daugumą užrašų: <span data-say="مطعم">مطعم</span> mat'am (restoranas), <span data-say="صيدلية">صيدلية</span> saydaliyya (vaistinė).</p>`,
+ items:[["___ = m","م","Kuri raidė yra m?",["ل","ك"],"abc4","م"],["___ = l","ل","Kuri raidė yra l?",["م","ف"],"abc4","ل"],["___ = f","ف","Kuri raidė yra f?",["ق","ك"],"abc4","ف"],["قهوة = ___","ahwa","kava",["kibiir","fuul"],"abc4","قهوة"],["كبير = ___","kibiir","didelis",["ahwa","muftaah"],"abc4","كبير"],["فول = ___","fuul","pupelių troškinys",["kibiir","il-bahr"],"abc4","فول"],["البحر = ___","il-bahr","jūra",["ahwa","fuul"],"abc4","البحر"],["مطعم = ___","mat'am","restoranas",["muftaah","saydaliyya"],"abc4","مطعم"]]},
+{id:"ats",t:"Pasisveikinimai ir atsakymai",from:"a1",
+ ex:`<p>Egiptiečiai į pasisveikinimą atsako „veidrodžiu“ – kartoja pradžią, bet pakeičia antrą žodį į dar gražesnį:</p>
+ <table class="snd"><tr><td data-say="صباح الخير">sabaah il-kheer</td><td>→</td><td data-say="صباح النور">sabaah in-nuur</td></tr>
+ <tr><td data-say="مساء الخير">masaa' il-kheer</td><td>→</td><td data-say="مساء النور">masaa' in-nuur</td></tr>
+ <tr><td data-say="السلام عليكم">is-salaamu 'aleekum</td><td>→</td><td data-say="وعليكم السلام">wa 'aleekum is-salaam</td></tr>
+ <tr><td data-say="أهلاً">ahlan</td><td>→</td><td>ahlan biik (vyrui) / ahlan biiki (moteriai)</td></tr>
+ <tr><td data-say="شكراً">shukran</td><td>→</td><td data-say="عفواً">'afwan</td></tr></table>
+ <p><i>Kheer</i> – gėris, <i>nuur</i> – šviesa. <i>Is-salaamu 'aleekum</i> tinka visur ir visiems, ypač įeinant į parduotuvę ar taksi.</p>`},
+{id:"gim",t:"Vyras ar moteris: inta, inti",from:"a1",
+ ex:`<p>Arabų kalboje žodis keičiasi pagal tai, <b>su kuo kalbi</b> ir <b>kas kalba</b>. Lietuviui tai pažįstama („esu pavargęs / pavargusi“).</p>
+ <table class="snd"><tr><td></td><td>vyrui</td><td>moteriai</td></tr>
+ <tr><td>tu</td><td>inta</td><td>inti</td></tr>
+ <tr><td>kaip sekasi?</td><td>izzayyak?</td><td>izzayyik?</td></tr>
+ <tr><td>prašau</td><td>min fadlak</td><td>min fadlik</td></tr>
+ <tr><td>tavo vardas</td><td>ismak</td><td>ismik</td></tr></table>
+ <table class="snd"><tr><td></td><td>sako vyras</td><td>sako moteris</td></tr>
+ <tr><td>gerai</td><td>kwayyis</td><td>kwayyisa</td></tr>
+ <tr><td>noriu</td><td>'aayiz</td><td>'ayza</td></tr>
+ <tr><td>nesuprantu</td><td>mish faahim</td><td>mish fahma</td></tr>
+ <tr><td>atsiprašau</td><td>aasif</td><td>asfa</td></tr></table>
+ <p>Taisyklė paprasta: kreipiantis į moterį dažnai <b>-ak → -ik</b>, o moteris apie save prideda <b>-a</b>.</p>
+ <p>Šis, ši: <i>da</i> (vyr. g.), <i>di</i> (mot. g.): <i>da bikaam?</i>, <i>di bikaam?</i></p>`},
+{id:"neg",t:"Taip, ne ir neiginys",from:"a2",
+ ex:`<p><b>Aywa</b> – taip, <b>la'</b> – ne. Dažnai girdėsi ir <i>la' shukran</i> – ne, ačiū.</p>
+ <p><b>Mish</b> eina prieš žodį ir jį paneigia: <i>mish faahim</i> (nesuprantu), <i>mish harr</i> (neaštrus), <i>mish shaghghaal</i> (neveikia), <i>mish 'aayiz</i> (nenoriu).</p>
+ <p>Veiksmažodžiai dažnai neigiami <b>ma-…-sh</b>, kaip prancūzų <i>ne… pas</i>: <i>bahibb</i> (mėgstu) → <i>mabahibbish</i> (nemėgstu), <i>'andi</i> (turiu) → <i>ma'andiish</i> (neturiu), <i>fiih</i> (yra) → <i>mafiish</i> (nėra).</p>
+ <p>Turistui užtenka <i>mish</i> ir kelių paruoštų žodžių su <i>ma-…-sh</i>.</p>`},
+{id:"poss",t:"Mano, tavo ir „turiu“",from:"a3",
+ ex:`<p>„Mano, tavo“ – tai galūnė, pridedama prie žodžio:</p>
+ <table class="snd"><tr><td><b>-i</b></td><td>mano</td><td>ismi (mano vardas), shantiti (mano krepšys)</td></tr>
+ <tr><td><b>-ak</b></td><td>tavo (vyrui)</td><td>ismak</td></tr>
+ <tr><td><b>-ik</b></td><td>tavo (moteriai)</td><td>ismik</td></tr>
+ <tr><td><b>-u</b></td><td>jo</td><td>ismu</td></tr>
+ <tr><td><b>-ha</b></td><td>jos</td><td>ismaha</td></tr></table>
+ <p>Žodžiai su <b>-a</b> gale (<i>shanta</i> – krepšys, <i>owda</i> – kambarys) gauna <b>t</b>: <i>shantiti</i>, <i>owditi</i>.</p>
+ <p><b>Turiu</b> – <i>'andi</i> (pažodžiui „pas mane“): <i>'andi hagz</i> (turiu rezervaciją), <i>'andi sudaa'</i> (man skauda galvą). <i>'andak?</i> – ar turi? (vyrui).</p>`},
+{id:"q",t:"Klausiamieji žodžiai",from:"a3",
+ ex:`<p>Egipte klausiamasis žodis dažniausiai eina <b>sakinio gale</b>:</p>
+ <table class="snd"><tr><td><b>eeh?</b></td><td>kas? ką?</td><td>ismak eeh? 'aayiz eeh?</td></tr>
+ <tr><td><b>feen?</b></td><td>kur?</td><td>il-hammaam feen?</td></tr>
+ <tr><td><b>mineen?</b></td><td>iš kur?</td><td>inta mineen?</td></tr>
+ <tr><td><b>imta?</b></td><td>kada?</td><td>ir-rihla imta?</td></tr>
+ <tr><td><b>kaam?</b></td><td>kiek?</td><td>is-saa'a kaam?</td></tr>
+ <tr><td><b>bikaam?</b></td><td>kiek kainuoja?</td><td>da bikaam?</td></tr>
+ <tr><td><b>izzaay?</b></td><td>kaip?</td><td>izzayyak? (kaip tu?)</td></tr>
+ <tr><td><b>walla</b></td><td>ar (renkantis)</td><td>shaay walla ahwa?</td></tr></table>
+ <p>Klausimas „taip / ne“ – tas pats sakinys su klausiama intonacija: <i>fiih mayya?</i> – ar yra vandens?</p>`},
+{id:"num",t:"Skaičiai ir arabiški skaitmenys",from:"a4",
+ ex:`<table class="snd"><tr><td>٠ sifr</td><td>١ waahid</td><td>٢ itneen</td><td>٣ talaata</td></tr>
+ <tr><td>٤ arba'a</td><td>٥ khamsa</td><td>٦ sitta</td><td>٧ sab'a</td></tr>
+ <tr><td>٨ tamanya</td><td>٩ tis'a</td><td>١٠ 'ashara</td><td>١٠٠ miyya</td></tr></table>
+ <p><b>11–19:</b> -aashar (hidaashar, itnaashar, talattaashar…). <b>Dešimtys:</b> -iin ('ishriin, talatiin, arbi'iin…).</p>
+ <p><b>Vienetai pirma:</b> <i>khamsa w talatiin</i> = 35, <i>miyya w 'ishriin</i> = 120.</p>
+ <p>Užsakant <b>skaičius eina pirma</b>: <i>waahid shaay</i>, <i>itneen ahwa</i>, <i>talaata koshari</i>.</p>
+ <p>Du daiktai – galūnė <b>-een</b>: <i>tazkarteen</i> (du bilietai). Nuo 11 žodis vienaskaitos: <i>khamsiin gineeh</i>.</p>`},
+{id:"adj",t:"Būdvardžiai: giminė ir „labai“",from:"a6",
+ ex:`<p>Būdvardis eina <b>po</b> daiktavardžio ir derinasi su gimine. Moteriškoji giminė – galūnė <b>-a</b>:</p>
+ <table class="snd"><tr><td>kibiir → kibiira</td><td>didelis → didelė</td></tr><tr><td>hilw → hilwa</td><td>gražus → graži</td></tr><tr><td>mashwi → mashwiyya</td><td>keptas ant grotelių</td></tr><tr><td>ga'aan → ga'aana</td><td>alkanas → alkana</td></tr></table>
+ <p>Moteriškos giminės žodžiai dažnai baigiasi <b>-a</b>: <i>hadiyya, mayya, shurba, owda</i>. Daiktų daugiskaita (<i>firaakh</i>) irgi derinama kaip moteriškoji.</p>
+ <p><b>Labai</b> – <i>awi</i>, eina po būdvardžio: <i>ghaali awi</i> (labai brangu), <i>laziiz awi</i> (labai skanu).</p>
+ <p><b>Taani / taanya</b> – kitas, kita: <i>haaga taanya?</i> – dar kas nors?</p>`},
+{id:"ayiz",t:"Noriu, galima, mėgstu",from:"a6",
+ ex:`<p>Trys žodžiai, su kuriais pasakysi beveik viską:</p>
+ <table class="snd"><tr><td><b>'aayiz / 'ayza</b></td><td>noriu (vyras / moteris)</td><td>'aayiz shaay. 'ayza ahwa.</td></tr>
+ <tr><td><b>mumkin…?</b></td><td>ar galima…?</td><td>mumkin il-hisaab? mumkin adfa' bil-kart?</td></tr>
+ <tr><td><b>bahibb</b></td><td>mėgstu</td><td>ana bahibb il-akl il-masri.</td></tr></table>
+ <p><i>Mumkin</i> skamba mandagiau nei <i>'aayiz</i>. Paprasčiausia: <i>mumkin</i> + daiktas: <i>mumkin mayya?</i> – ar galima vandens?</p>
+ <p>Neigiamai: <i>mish 'aayiz</i> (nenoriu), <i>mabahibbish</i> (nemėgstu). Paskutinė kaina turguje – <i>aakhir kalaam?</i> (pažodžiui „paskutinis žodis?“).</p>`},
+{id:"fiih",t:"Yra ir nėra: fiih, mafiish",from:"a7",
+ ex:`<p><b>Fiih</b> – yra. Su klausiama intonacija – ar yra? <b>Mafiish</b> – nėra.</p>
+ <table class="snd"><tr><td>fiih mayya?</td><td>ar yra vandens?</td></tr><tr><td>aywa, fiih.</td><td>taip, yra.</td></tr><tr><td>la', mafiish.</td><td>ne, nėra.</td></tr><tr><td>mafiish mushkila</td><td>jokių problemų (nėra problemos)</td></tr></table>
+ <p>Nereikia jokių linksnių: <i>fiih</i> + daiktas. Taip paklausi apie viską: <i>fiih wayfay? fiih fuuta? fiih taksi hina?</i></p>`},
+{id:"time",t:"Laikas: valandos ir dienos",from:"a8",
+ ex:`<p><b>Is-saa'a kaam?</b> – kelinta valanda? <i>Is-saa'a</i> + skaičius: <i>is-saa'a khamsa</i> (penkta).</p>
+ <table class="snd"><tr><td>wi rub'</td><td>ir ketvirtis</td><td>is-saa'a talaata wi rub' (3:15)</td></tr><tr><td>wi nuss</td><td>ir pusė</td><td>is-saa'a talaata wi nuss (3:30)</td></tr><tr><td>illa rub'</td><td>be ketvirčio</td><td>is-saa'a arba'a illa rub' (3:45)</td></tr></table>
+ <p><i>imbaarih</i> (vakar) – <i>innaharda</i> (šiandien) – <i>bukra</i> (rytoj). <i>Is-subh</i> (ryte), <i>bil-leel</i> (vakare).</p>
+ <p>Po, prieš: <i>ba'd il-akl</i> (po valgio), <i>'abl il-akl</i> (prieš valgį). Nuo… iki: <i>min sab'a l-'ashara</i>.</p>`},
+{id:"bi",t:"Su ir be: bi-, min gheer",from:"a9",
+ ex:`<p><b>Bi-</b> (su) prisijungia prie žodžio: <i>shaay bi-na'naa'</i> (su mėtomis), <i>ahwa bi-laban</i> (su pienu), <i>bil-kart</i> (kortele).</p>
+ <p><b>Min gheer</b> – be: <i>min gheer sukkar</i>, <i>min gheer basal</i>, <i>min gheer talg</i> (be ledo).</p>
+ <p><b>Li-</b> – kam, iki: <i>tarabeeza li-itneen</i> (staliukas dviem), <i>bikaam lil-mataar?</i> (kiek iki oro uosto?).</p>
+ <p>Kaina: <i>bi-</i> + skaičius: <i>da b-'ishriin</i> – tai už dvidešimt.</p>`},
+{id:"al",t:"Artikelis il- ir saulės raidės",from:"a10",
+ ex:`<p><b>Il-</b> (dar rašoma <i>el-</i>, arabiškai <b>ال</b>) – kaip anglų <i>the</i>: <i>fundu'</i> (viešbutis) → <i>il-fundu'</i> (tas viešbutis).</p>
+ <p>Prieš „saulės raides“ <b>l</b> susilieja su kita raide, ir ji tariama dvigubai:</p>
+ <table class="snd"><tr><td>sh</td><td>ish-shaay, ish-shams</td></tr><tr><td>s</td><td>is-sukkar, is-saa'a, is-suu'</td></tr><tr><td>t</td><td>it-takyiif</td></tr><tr><td>d</td><td>id-dawa, id-door</td></tr><tr><td>r</td><td>ir-rihla</td></tr><tr><td>n</td><td>in-nuur</td></tr></table>
+ <p>Kitos („mėnulio“) raidės nesikeičia: <i>il-bahr, il-menyu, il-mataar, il-hisaab, il-'addaad</i>.</p>
+ <p>Rašant arabiškai <b>ال</b> visada vienodas: الشاي (ish-shaay), البحر (il-bahr).</p>`},
+{id:"dir",t:"Kur? Kryptys ir vieta",from:"a13",
+ ex:`<table class="snd"><tr><td><b>hina / hinaak</b></td><td>čia / ten</td></tr><tr><td><b>'ala tuul</b></td><td>tiesiai</td></tr><tr><td><b>yimiin / shimaal</b></td><td>dešinėn / kairėn</td></tr><tr><td><b>'urayyib / ba'iid</b></td><td>arti / toli</td></tr><tr><td><b>ganb</b></td><td>šalia</td></tr><tr><td><b>'uddaam / wara</b></td><td>priešais / už</td></tr><tr><td><b>ba'd</b></td><td>po, už (ba'd il-kubri – už tilto)</td></tr></table>
+ <p>Paliepimai vyrui ir moteriai skiriasi: <i>khud / khudi</i> (imk, suk), <i>imshi / imshi</i> (eik), <i>wa''af / wa''afi</i> (sustok).</p>
+ <p>Kelias pėsčiomis – <i>mashi</i>: <i>khamas da'aayi' mashi</i> – penkios minutės pėsčiomis.</p>`}
+],
+
+/* ===== Etapai: 4 po 4 pamokas. Tikslai – ką galiu padaryti kelionėje ===== */
+stages:[
+{t:"Pirmi žodžiai",focus:"Pasisveikiname, padėkojame, prisistatome ir skaičiuojame iki 10.",lessons:["a1","a2","a3","a4"],
+ say:["Pasisveikinu rytą ir vakare ir teisingai atsakau į pasisveikinimą","Prisistatau: vardas, iš kur esu, kad čia atostogauju","Suskaičiuoju nuo 0 iki 10 ir atpažįstu arabiškus skaitmenis ٠–٩"],
+ speak:["Pasisveikink garsiai: sabaah il-kheer, masaa' il-kheer, is-salaamu 'aleekum.","Prisistatyk: ismi…, ana min Lituanya, ana hina fi agaaza.","Pasakyk: nesuprantu, lėčiau prašau, ar kalbate angliškai?","Suskaičiuok garsiai nuo 10 iki 0 ir perskaityk skaitmenis ant savo telefono klaviatūros."]},
+{t:"Pinigai ir turgus",focus:"Kainos, derybos, kioskas ir laikas.",lessons:["a5","a6","a7","a8"],
+ say:["Paklausiu kainos ir suprantu atsakymą iki 1000 svarų","Turguje derėdamasis pasakau, kad per brangu, ir pasiūlau savo kainą","Paklausiu, ar yra prekė, ir paklausiu, kelinta valanda"],
+ speak:["Perskaityk garsiai 5 kainas iš savo čekių arabiškai (pvz. khamsa w 'ishriin gineeh).","Suvaidink derybas: paklausk kainos, pasakyk ghaali awi ir pasiūlyk pusę.","Paklausk kioske: fiih mayya sa''a? fiih kriim shams?","Pasakyk, kelinta dabar valanda, ir kada rytoj keliesi."]},
+{t:"Maistas ir gėrimai",focus:"Kavinė, restoranas, gatvės maistas ir skoniai.",lessons:["a9","a10","a11","a12"],
+ say:["Užsisakau gėrimą: kiek, su kuo ir kiek cukraus","Restorane paprašau staliuko, rekomendacijos ir sąskaitos","Pasakau, ko nenoriu (neaštraus, be svogūnų) ir ką mėgstu"],
+ speak:["Užsisakyk garsiai: waahid shaay bi-na'naa' w itneen ahwa mazbuut.","Paprašyk staliuko dviem ir sąskaitos.","Įvardink arabiškai 6 patiekalus, kuriuos norėtum paragauti.","Pasakyk, ką mėgsti ir ko nemėgsti: ana bahibb…, mabahibbish…"]},
+{t:"Keliaujame",focus:"Taksi, kelio klausimas, viešbutis ir pagalba.",lessons:["a13","a14","a15","a16"],
+ say:["Pasakau taksistui, kur nuvežti, ir susitariu dėl kainos","Paklausiu kelio ir suprantu: tiesiai, dešinėn, kairėn","Viešbutyje užsiregistruoju ir pasakau, kas neveikia","Vaistinėje pasakau, kas skauda"],
+ speak:["Pasakyk taksistui: waddiini il-fundu', bikaam?","Paaiškink kelią nuo savo namų iki parduotuvės arabiškai.","Užsiregistruok viešbutyje: 'andi hagz bi-ism…","Pasakyk, kas tau skauda, ir paprašyk pagalbos."]}
+],
+
+spk:{Ahmedas:'m',Mona:'f',Turistas:'m',Turistė:'f',Praeivis:'m',Gidas:'m',Pardavėjas:'m',Padavėjas:'m',Taksistas:'m',Registratorė:'f',Vaistininkas:'m'},
+
+text:{key:'arabu-kalba-v1',title:'Arabų kalba (Egiptas)',tts:'ar-EG',voiceRe:/^ar/i,inLang:'arabiškai',
+  praise:['Super!','Tamaam!','Mumtaaz!','Teisingai!'],praiseRv:['Tamaam!','Mumtaaz!','Teisingai!'],e90:'Mumtaaz! 🎉',e70:'Kwayyis! 👍',rvDone:'Khalaas! ✓',great:'Mumtaaz!',
+  almost:'Beveik! Palygink rašybą.',almostSent:'Beveik! Palygink rašybą.',almostRv:'Palygink rašybą: ilgosios balsės (aa, ii, uu) ir dvigubos raidės.',
+  noVoice:'Telefone nerastas arabiškas balsas. Kaip įdiegti, rasi Nustatymuose.',gramTab:'Raidynas ir gramatika',
+  finish:'<b>Visi etapai baigti!</b> Dabar gali susikalbėti Egipte: turguje, kavinėje, taksi ir viešbutyje. Toliau kartok korteles, žiūrėk egiptietiškus filmus ar YouTube su subtitrais ir drąsiai kalbėk su vietiniais.',
+  mNames:'Ahmedas, padavėjas…',fNames:'Mona, turistė…',sampleM:'أهلاً، اسمي أحمد.',sampleF:'أهلاً، اسمي منى.',sample:'أهلاً وسهلاً! إزيك؟ اسمي منى.',
+  oneVoice:'Telefone yra tik vienas arabiškas balsas, todėl vyras ir moteris skiriasi tik tonu.',
+  voiceHelp:'<p style="margin-top:6px">Egiptietiškas balsas (ar-EG) yra ne visuose telefonuose. Tinka ir bet kuris arabiškas: jis skaito arabišką raštą, tik su literatūriniu akcentu.</p><p><b>iPhone:</b> Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Arabų (pvz. Majed).</p><p><b>Android:</b> Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google → ⚙ → Įdiegti balso duomenis → Arabų (العربية).</p><p><b>Kompiuteryje</b> Edge naršyklė turi egiptietiškus balsus (Salma, Shakir).</p>',
+  noVoiceHelp:'<b>Arabiškas balsas nerastas.</b><p>Android: Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google variklis → ⚙ → Įdiegti balso duomenis → Arabų (العربية).</p><p>iPhone: Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Arabų.</p><p>Tada iš naujo atidaryk appsą.</p>',
+  resources:'<p><a href="https://forvo.com/languages/arz/" target="_blank" rel="noopener">Forvo</a>: kaip žodžius taria egiptiečiai.</p><p><a href="https://www.italki.com/" target="_blank" rel="noopener">italki</a>: pamokos su mokytoju iš Egipto ar Tuniso, geriausia kalbėjimo praktika.</p><p><a href="https://www.kaleela.com/" target="_blank" rel="noopener">Kaleela</a> ir <a href="https://www.pimsleur.com/" target="_blank" rel="noopener">Pimsleur</a> (Egyptian Arabic): programėlės klausymui.</p><p><a href="https://www.lingualism.com/" target="_blank" rel="noopener">Lingualism</a>: egiptiečių tarmės knygos su įrašais.</p>',
+  customEx:"shukran giddan = labai ačiū&#10;fiih taksi? = ar yra taksi?"}
+};
+</script>
+<script>
 "use strict";
-const VERSION='1.9.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.10.0';   // ⚠️ keičiant – padidinti čia ir version.json
+/* ===== Kursas: lenkų (pl) arba egiptiečių arabų (ar). Kiekvieno kurso pažanga – atskirame localStorage rakte ===== */
+const CKEY='kalba-kursas';
+const CID=(()=>{try{return localStorage.getItem(CKEY)==='ar'?'ar':'pl'}catch(e){return 'pl'}})();
+const AR=CID==='ar';
+const COURSES=[{id:'pl',flag:'🇵🇱',name:'Lenkų kalba'},{id:'ar',flag:'🇪🇬',name:'Egiptiečių arabų'}];
+function switchCourse(id){try{localStorage.setItem(CKEY,id)}catch(e){}location.reload()}
 /* ===== Pamokos (kurso tvarka). Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML),
    gr – gramatikos užduotys [sakinys su ___, atsakymas, užuomina, [klaidingi variantai], gramatikos tema] ===== */
-const LESSONS=[
+const PL_LESSONS=[
 {id:"l1",t:"Tarimas ir pirmi žodžiai",d:"Kaip skaityti lenkiškas raides",
  tip:`<p>Lenkų raidynas atrodo baisiai, bet lietuviui tai lengva: daugelis garsų yra tokie patys, tik užrašomi kitaip.</p>
  <table class="snd">
@@ -485,6 +924,22 @@ const LESSONS=[
      ["Pojadę ___ morze.","nad","Nuvažiuosiu prie jūros.",["na","do"],"ruch"]]}
 ];
 
+/* ===== Aktyvaus kurso duomenys ir tekstai ===== */
+const LESSONS=AR?AR_COURSE.lessons:PL_LESSONS;
+const T=AR?AR_COURSE.text:{
+  key:'lenku-kalba-v1',title:'Lenkų kalba',tts:'pl-PL',voiceRe:/^pl/i,inLang:'lenkiškai',
+  praise:['Super!','Dobrze!','Świetnie!','Teisingai!'],praiseRv:['Dobrze!','Świetnie!','Teisingai!'],e90:'Świetnie! 🎉',e70:'Dobrze! 👍',rvDone:'Gotowe! ✓',great:'Świetnie!',
+  almost:'Beveik! Atkreipk dėmesį į raides su ženkliukais.',almostSent:'Beveik! Palygink raides su ženkliukais ir rašybą.',almostRv:'Atkreipk dėmesį į raides su ženkliukais ir rašybą.',
+  noVoice:'Telefone nerastas lenkiškas balsas. Kaip įdiegti, rasi Nustatymuose.',gramTab:'Gramatika',
+  finish:'<b>Visi etapai baigti!</b> Tai A1 lygis: gali susikalbėti kasdienėse situacijose. Toliau kartok korteles, žiūrėk Easy Polish vaizdo įrašus su subtitrais ir kalbėk su lenkais.',
+  mNames:'Jonas, Tomek…',fNames:'Ola, Ania…',sampleM:'Cześć, mam na imię Jonas.',sampleF:'Cześć, mam na imię Ola.',sample:'Dzień dobry! Jak się masz? Mam na imię Ola.',
+  oneVoice:'Telefone yra tik vienas lenkiškas balsas, todėl vyras ir moteris skiriasi tik tonu. Antrą balsą įdiegsi telefono nustatymuose (žr. žemiau).',
+  voiceHelp:'<p style="margin-top:6px"><b>iPhone:</b> Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski → Zosia (moteris), Krzysztof (vyras).</p><p><b>Android:</b> Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google → ⚙ → Įdiegti balso duomenis → Polski. Ten pasirink balsą. Chrome kartais rodo tik vieną, tada balsą keisk ten.</p>',
+  noVoiceHelp:'<b>Lenkiškas balsas nerastas.</b><p>Android: Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google variklis → ⚙ → Įdiegti balso duomenis → Polski.</p><p>iPhone: Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski.</p><p>Tada iš naujo atidaryk appsą.</p>',
+  resources:'<p><a href="https://polski.info/?hl=lt" target="_blank" rel="noopener">polski.info</a>: dialogai, gramatika, žodynas su įrašais (yra lietuviška sąsaja).</p><p><a href="https://forvo.com/languages/pl/" target="_blank" rel="noopener">Forvo</a>: kaip žodį taria lenkai.</p><p><a href="https://www.youtube.com/@EasyPolish" target="_blank" rel="noopener">Easy Polish</a>: gatvės pokalbiai su subtitrais.</p><p><a href="https://pl.wiktionary.org" target="_blank" rel="noopener">Wikisłownik</a>: linksniai ir asmenuotės.</p>',
+  customEx:'kanapka = sumuštinis&#10;jak się nazywasz? = kuo tu vardu?'};
+document.title=T.title;if(AR){document.documentElement.dataset.course='ar';document.documentElement.lang='lt';
+  const f=document.createElement('link');f.rel='stylesheet';f.href='https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&display=swap';document.head.appendChild(f)}
 /* ===== Pagalbinės ===== */
 const $=id=>document.getElementById(id);
 const app=$('app');
@@ -494,17 +949,31 @@ const pick=a=>a[Math.random()*a.length|0];
 const DAY=864e5;
 const today=()=>new Date().toISOString().slice(0,10);
 const PLMAP={'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ź':'z','ż':'z'};
-const norm=s=>String(s).toLowerCase().replace(/[.,!?;:…"„”“'()\[\]«»—–]/g,' ').replace(/\s+-\s+|\s-|-\s/g,' ').replace(/\s+/g,' ').trim();
-const flat=s=>norm(s).replace(/[ąćęłńóśźż]/g,c=>PLMAP[c]);
+const PUNCT=AR?/[.,!?;:…"„”“()\[\]«»—–؟،]/g:/[.,!?;:…"„”“'()\[\]«»—–]/g; // arabų transliteracijoje apostrofas – garsas (ع, ء)
+const norm=s=>String(s).toLowerCase().replace(PUNCT,' ').replace(/\s+-\s+|\s-|-\s/g,' ').replace(/\s+/g,' ').trim();
+/* Arabų transliteracija atlaidi: be apostrofų ir brūkšnelių, dvigubos raidės = viengubos, š = sh, ch = kh */
+const flat=AR?s=>norm(s).replace(/['ʿʾ’`-]/g,'').replace(/š/g,'sh').replace(/ž/g,'zh').replace(/č/g,'ch').replace(/ch/g,'kh').replace(/\s+/g,' ').replace(/([a-z])\1+/g,'$1')
+  :s=>norm(s).replace(/[ąćęłńóśźż]/g,c=>PLMAP[c]);
+/* Arabiškas raštas pagal transliteraciją: žodžiai [translit., liet., arab.], dialogai [kas, translit., liet., arab.], gramatika x[5] */
+let ARM=null;
+function arOf(s){if(!AR)return '';if(!ARM){ARM=new Map();const put=(k,v)=>{if(v&&!ARM.has(norm(k)))ARM.set(norm(k),v)};
+    for(const l of LESSONS){l.words.forEach(w=>put(w[0],w[2]));l.dialog.forEach(d=>put(d[1],d[3]));(l.gr||[]).forEach(x=>put(x[0].replace('___',x[1]),x[5]))}
+    for(const g of GRAMMAR)(g.items||[]).forEach(x=>put(x[0].replace('___',x[1]),x[5]))}
+  return ARM.get(norm(s))||''}
+/* Užsienio kalbos žodis ekrane: arabų kurse – arabiškai ir po juo transliteracija */
+function tw(s){const a=arOf(s);return a?`<span class="ar" lang="ar">${esc(a)}</span><span class="tr">${esc(s)}</span>`:esc(s)}
+/* Arabiško teksto palyginimas (balso atpažinimui): be balsių ženklų, vienodos alifo, ja ir ta marbuta formos */
+const normAr=s=>String(s).replace(/[\u064B-\u0652\u0670\u0640]/g,'').replace(/[إأآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[^\u0600-\u06FF ]/g,' ').replace(/[؟،]/g,' ').replace(/\s+/g,' ').trim();
 const SAY_ICON='<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" style="stroke:var(--accent)"/></svg>';
 const sayBtn=(t,cls='')=>`<button class="say ${cls}" data-say="${esc(t)}" aria-label="Klausyti">${SAY_ICON}</button>`;
 function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2200)}
 
 /* ===== Būsena (localStorage) ===== */
-const KEY='lenku-kalba-v1';
+const KEY=T.key;
 const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{},hist:{},sg:{},doneD:{},test:{},gram:{},gq:{}});
 let S=fresh();
-try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw));
+  else{const o=JSON.parse(localStorage.getItem(AR?'lenku-kalba-v1':'arabu-kalba-v1')||'null');if(o){S.theme=o.theme||'auto';S.rate=o.rate||S.rate}}}catch(e){} // naujas kursas perima išvaizdą ir greitį
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}updBadge()}
 function applyTheme(){if(S.theme==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=S.theme}
 applyTheme();
@@ -530,7 +999,7 @@ function lessonStage(id){return STAGES.findIndex(s=>s.lessons.includes(id))}
 function topicById(id){return GRAMMAR.find(g=>g.id===id)}
 function topicOpen(g){return lessonStage(g.from)<=S.stage||!!S.done[g.from]}
 function lessonOpen(id){return lessonStage(id)<=S.stage||!!S.done[id]}
-function topicItems(g){const out=[];for(const l of LESSONS)if(lessonOpen(l.id))for(const x of l.gr)if(x[4]===g.id)out.push({x,l:l.id});return out}
+function topicItems(g){const out=(g.items||[]).map(x=>({x,l:g.from}));for(const l of LESSONS)if(lessonOpen(l.id))for(const x of l.gr)if(x[4]===g.id)out.push({x,l:l.id});return out}
 function lessonTopics(l){return [...new Set(l.gr.map(x=>x[4]))].map(topicById).filter(Boolean)}
 
 /* ===== Kartojimas su intervalais (Leitnerio dėžutės) ===== */
@@ -565,11 +1034,13 @@ function updBadge(){const n=dueCards().length,b=$('dueBadge');b.hidden=!n;b.text
 
 /* ===== Balsas (telefono kalbos sintezė) ===== */
 let PLV=[];
-function loadVoices(){if(!('speechSynthesis' in window))return;PLV=speechSynthesis.getVoices().filter(v=>/^pl/i.test(v.lang))}
+function loadVoices(){if(!('speechSynthesis' in window))return;PLV=speechSynthesis.getVoices().filter(v=>T.voiceRe.test(v.lang));
+  if(AR)PLV.sort((a,b)=>(/EG/i.test(b.lang)-/EG/i.test(a.lang))||(b.localService-a.localService))} // egiptietiški balsai pirmi
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(VIEW.tab==='settings'&&!EX&&!RV)render()}}
 /* Pašnekovų lytis dialoguose: m – vyras, f – moteris */
-const SPK={Ania:'f',Ola:'f',Klientka:'f',Pani:'f',B:'f',Tomek:'m',Jonas:'m',Kelner:'m',Klient:'m',Sprzedawca:'m',Turysta:'m',A:'m',Kasjerka:'f',Lekarz:'m',Recepcjonistka:'f',Sprzedawczyni:'f'};
-const FEM=/zosia|ewa|paulina|agnieszka|maja|anna|kasia|joanna|marta|ola|female|kobieta|women|woman/i, MAS=/krzysztof|jacek|adam|marek|jan\b|piotr|male|mężczyzna|\bman\b/i;
+const PL_SPK={Ania:'f',Ola:'f',Klientka:'f',Pani:'f',B:'f',Tomek:'m',Jonas:'m',Kelner:'m',Klient:'m',Sprzedawca:'m',Turysta:'m',A:'m',Kasjerka:'f',Lekarz:'m',Recepcjonistka:'f',Sprzedawczyni:'f'};
+const SPK=AR?AR_COURSE.spk:PL_SPK;
+const FEM=/zosia|ewa|paulina|agnieszka|maja|anna|kasia|joanna|marta|ola|salma|zariyah|amany|laila|layla|mariam|hoda|mona|female|kobieta|women|woman/i, MAS=/krzysztof|jacek|adam|marek|jan\b|piotr|shakir|hamed|maged|majed|tarik|naayf|male|mężczyzna|\bman\b/i;
 function guessG(v){return FEM.test(v.name)&&!/\bmale/i.test(v.name.replace(/female/i,''))?'f':MAS.test(v.name)?'m':''}
 function voiceFor(g){if(!PLV.length)return null;
   const main=PLV.find(v=>v.name===S.voice)||PLV.find(v=>v.localService)||PLV[0];if(!g)return main;
@@ -578,8 +1049,9 @@ function voiceFor(g){if(!PLV.length)return null;
 function pitchFor(g){if(!g)return 1;const v=voiceFor(g),o=voiceFor(g==='f'?'m':'f');if(v&&o&&v!==o)return 1;return g==='f'?1.25:.85}
 function speak(text,o={}){
   if(!('speechSynthesis' in window)){toast('Šis telefonas nemoka skaityti balsu');return Promise.resolve()}
+  if(AR){const a=arOf(text);if(a)text=a;else if(/[a-z]/i.test(text))return Promise.resolve()} // arabų kurse skaitom arabišką raštą
   if(!o.queue)speechSynthesis.cancel();
-  return new Promise(res=>{const u=new SpeechSynthesisUtterance(String(text).replace(/\.\.\.|…/g,''));u.lang='pl-PL';const v=voiceFor(o.g);if(v)u.voice=v;
+  return new Promise(res=>{const u=new SpeechSynthesisUtterance(String(text).replace(/\.\.\.|…/g,''));u.lang=T.tts;const v=voiceFor(o.g);if(v)u.voice=v;
     u.rate=o.slow?Math.max(.45,S.rate-.35):S.rate;u.pitch=pitchFor(o.g);u.onend=u.onerror=()=>res();speechSynthesis.speak(u)});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(!b)return;e.preventDefault();
@@ -589,7 +1061,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(
 
 /* ===== Gramatikos skyrius: temos su paaiškinimu. Pratybos – visų jau atrakintų pamokų užduotys su ta tema.
    Tema atsiranda kartu su pamoka, kurioje ji pirmą kartą reikalinga (from) ===== */
-const GRAMMAR=[
+const PL_GRAMMAR=[
 {id:"byc",t:"Būti: jestem, jesteś…",from:"l3",
  ex:`<p>Veiksmažodis <b>być</b> keičiasi pagal asmenį, kaip lietuvių „būti“. Įvardį (ja, ty…) dažniausiai praleidžiame, nes forma ir taip parodo, kas kalba.</p>
  <table class="snd"><tr><td>ja <b>jestem</b></td><td>aš esu</td></tr><tr><td>ty <b>jesteś</b></td><td>tu esi</td></tr><tr><td>on, ona, ono <b>jest</b></td><td>jis, ji yra</td></tr><tr><td>my <b>jesteśmy</b></td><td>mes esame</td></tr><tr><td>wy <b>jesteście</b></td><td>jūs esate</td></tr><tr><td>oni, one <b>są</b></td><td>jie, jos yra</td></tr></table>
@@ -676,7 +1148,7 @@ const GRAMMAR=[
 ];
 
 /* ===== Etapai: po ~2 savaites, 4 pamokos. Nauja pamoka kas ~2 dienas, tarpuose kartojimas. Pereiti – kai pasiekti tikslai ===== */
-const STAGES=[
+const PL_STAGES=[
 {t:"Garsai ir pirmi žodžiai",focus:"Skaitome lenkiškai, pasisveikiname, prisistatome ir klausiame.",lessons:["l1","l2","l3","l11"],
  say:["Garsiai perskaitau sz, cz, rz, ś, ć, ł, ą, ę žodžiuose ir skamba kaip įraše","Garsiai prisistatau: vardas, iš kur esu, ar kalbu lenkiškai","Užduodu 5 klausimus su kto, co, gdzie, kiedy ir czy"],
  speak:["Pasisveikink garsiai trimis būdais: rytą, vakare ir draugui.","Prisistatyk: Mam na imię…, Jestem z…, Uczę się polskiego.","Paklausk apie nuotrauką: Kto to jest? Gdzie on jest teraz?","Pasakyk: nesuprantu, pakartok, kalbėk lėčiau."]},
@@ -696,6 +1168,7 @@ const STAGES=[
  say:["Parduotuvėje paprašau kito dydžio ir pasimatuoju","Viešbutyje užsiregistruoju ir paklausiu apie pusryčius","Papasakoju savo savaitgalį ir kitos savaitės planus"],
  speak:["Apibūdink, ką šiandien vilki: spalvos ir drabužiai.","Užsiregistruok viešbutyje: Mam rezerwację na nazwisko…","Papasakok savo savaitgalį: Pojechałem/Pojechałam…, Spotkałem/Spotkałam…","Papasakok, ką veiksi kitą savaitę: Będę…, Pojadę…"]}
 ];
+const GRAMMAR=AR?AR_COURSE.grammar:PL_GRAMMAR, STAGES=AR?AR_COURSE.stages:PL_STAGES;
 const TASKS=[
  {id:"rv",n:"Kartok",m:5,h:"Visų ankstesnių pamokų žodžiai ir sakiniai. Pirmiausia kartojimas, tada nauja medžiaga."},
  {id:"gr",n:"Gramatika",m:3,h:"Gramatikos užduotys iš jau išmoktų pamokų grįžta su intervalais, kaip žodžiai: suklydus – rytoj, mokant – vis rečiau."},
@@ -741,7 +1214,7 @@ function recs(){const out=[],due=dueCards().length,l=todayLesson(),day=stageDay(
   if(stageDone()&&!((S.test[S.stage]||0)>=80))out.push(["Etapo testas","Visos etapo pamokos išmoktos. Kai dauguma žodžių bus „moku“, laikyk etapo testą skiltyje „Tikslai“."]);
   {const G=goalsOf(S.stage);if(G.every(g=>g.ok||!g.auto)&&G.some(g=>!g.ok))out.push(["Tikslai","Appso vertinami tikslai pasiekti. Liko kalbėjimo tikslai: pasakyk garsiai ir pažymėk skiltyje „Tikslai“."]);else if(G.every(g=>g.ok))out.push(["Tikslai","Visi etapo tikslai pasiekti! Skiltyje „Tikslai“ gali pereiti į kitą etapą."])}
   if(day>14&&!stageDone())out.push(["Tempas",`Etapas trunka jau ${day-1} d. Tai normalu: tvirtas pagrindas vėliau sutaupo laiko.`]);
-  if(!PLV.length&&'speechSynthesis' in window)out.push(["Balsas","Telefone nerastas lenkiškas balsas. Kaip įdiegti, rasi Nustatymuose."]);
+  if(!PLV.length&&'speechSynthesis' in window)out.push(["Balsas",T.noVoice]);
   return out}
 function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='gr'&&!gramPool().length)return false;if(t.id==='gr'&&!gramDue().length&&Object.keys(S.gq).length)return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
 /* ===== Tikslai: žodžius, pratybas, gramatiką ir testą vertina appsas, kalbėjimą garsiai pažymi pats ===== */
@@ -754,9 +1227,9 @@ function wHint(pl){const c=S.cards[pl];if(!c)return 'Atsiras kartojime po šios 
   if(c.b>=KNOWN_BOX)return `Moku ✓ · ${dueTxt(c)}`;const left=KNOWN_BOX-c.b;
   return `Lygis ${c.b} iš ${KNOWN_BOX} · dar ${left} teising${left>1?'i atsakymai':'as atsakymas'} kartojime · ${dueTxt(c)}`}
 function wordsBreakdown(words){const g={2:[],1:[],0:[],'-1':[]};words.forEach(w=>g[wLvl(w[0])].push(w));
-  const sec=(k,title)=>g[k].length?`<h3 class="wbh">${title} (${g[k].length})</h3><div class="words">${g[k].map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div><div class="wst">${esc(wHint(w[0]))}</div></div></div>`).join('')}</div>`:'';
+  const sec=(k,title)=>g[k].length?`<h3 class="wbh">${title} (${g[k].length})</h3><div class="words">${g[k].map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${tw(w[0])}</div><div class="lt">${esc(w[1])}</div><div class="wst">${esc(wHint(w[0]))}</div></div></div>`).join('')}</div>`:'';
   return sec(2,'✓ Moku')+sec(1,'Dar mokausi')+sec(0,'Nauji / sunkūs')+sec(-1,'Dar nepradėti')}
-function stageTopics(si){return GRAMMAR.filter(g=>STAGES[si].lessons.includes(g.from))}
+function stageTopics(si){return GRAMMAR.filter(g=>!g.opt&&STAGES[si].lessons.includes(g.from))} // opt – neprivaloma tema (raidynas)
 function goalsOf(si){const st=STAGES[si],out=[];
   st.lessons.forEach(id=>{const l=lessonById(id);
     const known=l.words.filter(w=>wLvl(w[0])===2).length,need=Math.ceil(l.words.length*.8),days=exDays(id);
@@ -771,7 +1244,7 @@ function goalsDone(si){return goalsOf(si).filter(g=>g.ok).length}
 function renderToday(){
   const l=todayLesson(),R=recs(),sp=stage().speak[(stageDay()-1)%stage().speak.length],nn=nextNew(),nb=newBlock();
   const done=TASKS.filter(taskState).length,g=goalsDone(S.stage),plan=TASKS.reduce((a,t)=>a+t.m,0),isNew=!S.done[l.id];
-  app.innerHTML=stageHead()+strip()+
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><span class="pill">${COURSES.find(c=>c.id===CID).flag} ${esc(COURSES.find(c=>c.id===CID).name)}</span><button class="btn small" id="crs">${COURSES.filter(c=>c.id!==CID).map(c=>c.flag+' '+esc(c.name)).join('')} ⇄</button></div>`+stageHead()+strip()+
   `<div class="stats"><div class="stat"><b>${done}/${TASKS.length}</b><small>šiandien (~${plan} min)</small></div><div class="stat"><b>${streakDays()}</b><small>dienų iš eilės</small></div><div class="stat"><b>${g}/${goalsOf(S.stage).length}</b><small>tikslų pasiekta</small></div></div>
   ${R.length?`<details class="recs card" open><summary><h2 style="display:inline">Šiandienos rekomendacijos</h2></summary><ul>${R.map(r=>`<li><span class="eyebrow">${esc(r[0])}</span><span>${esc(r[1])}</span></li>`).join('')}</ul></details>`:''}
   <h2 style="margin-top:6px">Šiandienos planas</h2><p class="muted" style="margin-top:-6px">Pamoka: <b>${esc(l.t)}</b>${isNew?' (nauja)':' (įtvirtinimui)'}</p>
@@ -783,9 +1256,10 @@ function renderToday(){
     if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${lessonTopics(l).map(g=>`<button class="btn small" data-gt="${g.id}">📘 ${esc(g.t)}</button>`).join('')}${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
     if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
     return `<div class="task ${d?'done':''}"><button class="chk" data-tg="${t.id}" aria-label="${d?'Pažymėti neatliktu':'Pažymėti atliktu'}"></button><div class="t"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>${esc(t.n)}</h3><span class="min">${t.m} min</span></div><p class="muted" style="font-size:.92rem">${esc(h)}</p>${act?`<div class="row" style="margin-top:8px">${act}</div>`:''}</div></div>`}).join('')}
-  ${done===TASKS.length?`<div class="note"><b>Šiandienos sesija baigta. Świetnie!</b> Pažiūrėk į „Tikslai“ ir pažymėk, ką jau moki.</div>`:''}`;
+  ${done===TASKS.length?`<div class="note"><b>Šiandienos sesija baigta. ${T.great}</b> Pažiūrėk į „Tikslai“ ir pažymėk, ką jau moki.</div>`:''}`;
   app.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{const id=b.dataset.tg;markT(id,!doneT().includes(id));renderToday()});
   if($('force'))$('force').onclick=()=>{S.force=dkey();save();renderToday()};
+  $('crs').onclick=()=>switchCourse(AR?'pl':'ar');
   app.querySelectorAll('[data-gt]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.gt,from:'today'};render();scrollTo(0,0)});
   app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;
     if(a==='rv')startReview();
@@ -810,7 +1284,7 @@ function renderGoals(){
     if(all)h+=`<button class="btn primary" id="next">Pereiti į ${S.stage+2} etapą: ${esc(STAGES[S.stage+1].t)}</button>`;
     else if(day>14)h+=`<div class="note">Praėjo ${day-1} d. Tęsk tas pačias pamokas ir kartojimą, kol pasieksi visus tikslus.</div>`;
     if(!all)h+=confirmNext?`<div class="note row"><span>Ne visi tikslai pasiekti. Pereinant anksčiau spragos vėliau trukdys. Tikrai pereiti?</span><button class="btn small primary" id="nextForce">Taip, pereiti</button><button class="btn small" id="nextCancel">Ne</button></div>`:`<button class="btn small" id="nextAsk" style="align-self:flex-start">Pereiti anksčiau</button>`;
-  }else if(all)h+=`<div class="note"><b>Visi etapai baigti!</b> Tai A1 lygis: gali susikalbėti kasdienėse situacijose. Toliau kartok korteles, žiūrėk Easy Polish vaizdo įrašus su subtitrais ir kalbėk su lenkais.</div>`;
+  }else if(all)h+=`<div class="note">${T.finish}</div>`;
   h+=`<h2 style="margin-top:12px">Visas kelias</h2><ul class="road">${STAGES.map((s,i)=>`<li class="${i<S.stage?'past':i===S.stage?'cur':''}"><b>${i+1}. ${esc(s.t)}</b><br><span class="muted" style="font-size:.9rem">${s.lessons.map(id=>esc(lessonById(id).t)).join(' · ')}</span></li>`).join('')}</ul>
   ${S.stage>0?`<button class="btn small" id="prev" style="align-self:flex-start">Grįžti į ankstesnį etapą</button>`:''}`;
   app.innerHTML=h;
@@ -835,24 +1309,26 @@ function goBack(){const f=VIEW.from;VIEW=f==='today'?{tab:'today'}:f==='goals'?{
 /* ===== Balso atpažinimas (kalbėjimo tikrinimas). Chrome Android'e veikia pl-PL ===== */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const micBtn=()=>SR?'<button class="btn small" id="mic" type="button">🎤 Pasakyk</button>':'';
-function listenPl(){return new Promise((res,rej)=>{const r=new SR();r.lang='pl-PL';r.interimResults=false;r.maxAlternatives=5;let fin=false;
+function listenPl(){return new Promise((res,rej)=>{const r=new SR();r.lang=T.tts;r.interimResults=false;r.maxAlternatives=5;let fin=false;
   r.onresult=e=>{fin=true;res([...e.results[0]].map(a=>a.transcript))};r.onerror=e=>{if(!fin){fin=true;rej(e.error)}};r.onend=()=>{if(!fin){fin=true;res([])}};
   if('speechSynthesis' in window)speechSynthesis.cancel();r.start()})}
 /* Išgirstą variantą, kuris labiausiai panašus į teisingą, įrašom į laukelį ir tikrinam (spoken=true – atlaidžiau) */
 function bindMic(input,target,go){const b=$('mic');if(!b)return;b.onclick=async()=>{b.disabled=true;b.textContent='🎙 Klausausi…';
   try{const alts=await listenPl();if(!alts.length){toast('Nieko neišgirdau. Bandyk dar kartą.');return}
-    const best=alts.map(a=>({a,s:checkSent(a,target)})).sort((x,y)=>y.s-x.s)[0];input.value=best.a;go(true)}
+    const best=alts.map(a=>({a,s:AR?checkAr(a,target):checkSent(a,target)})).sort((x,y)=>y.s-x.s)[0];input.value=AR&&best.s?target:best.a;go(true)}
   catch(e){toast(e==='not-allowed'||e==='service-not-allowed'?'Leisk naršyklei naudoti mikrofoną':'Balso atpažinimas nepavyko')}
   finally{if(document.body.contains(b)){b.disabled=false;b.textContent='🎤 Pasakyk'}}}}
 /* Sakinio tikrinimas: 2 – tiksliai, 1 – be ženkliukų arba 1–2 raidžių klaida, 0 – neteisingai */
 function levFull(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
-function checkSent(v,t){if(norm(v)===norm(t))return 2;const a=flat(v),b=flat(t);if(a===b)return 1;return levFull(a,b)<=Math.max(1,Math.floor(b.length/10))?1:0}
-const PK=()=>`<div class="pk">${'ąćęłńóśźż'.split('').map(c=>`<button data-k="${c}">${c}</button>`).join('')}</div>`;
+/* Arabų kurse atpažintas tekstas būna arabiškas: lyginam su arabišku raštu, atlaidžiau (tarmė, rašyba) */
+function checkAr(heard,t){const b=normAr(arOf(t)),a=normAr(heard);if(!b)return 0;if(a===b)return 2;return levFull(a.replace(/ /g,''),b.replace(/ /g,''))<=Math.max(1,Math.floor(b.length/5))?1:0}
+function checkSent(v,t){if(norm(v)===norm(t)||AR&&flat(v)===flat(t))return 2;const a=flat(v),b=flat(t);if(a===b)return 1;return levFull(a,b)<=Math.max(1,Math.floor(b.length/10))?1:0}
+const PK=()=>AR?'':`<div class="pk">${'ąćęłńóśźż'.split('').map(c=>`<button data-k="${c}">${c}</button>`).join('')}</div>`;
 function bindKeys(a){app.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const s=a.selectionStart??a.value.length,e=a.selectionEnd??s;a.value=a.value.slice(0,s)+b.dataset.k+a.value.slice(e);a.focus();a.setSelectionRange(s+1,s+1)})}
 
 /* ===== Pamokų sąrašas ir gramatikos skyrius ===== */
 function lessonBtn(l,n){return `<button class="lesson ${S.done[l.id]?'done':''}" data-l="${l.id}"><span class="n">${S.done[l.id]?'✓':n}</span><span class="t"><b>${esc(l.t)}</b><small>${esc(l.d)} · ${l.words.length} žodž.</small></span>${S.done[l.id]?`<span class="sc">${S.done[l.id]}%</span>`:S.last[l.id]!=null?`<span class="sc" style="color:var(--muted)">${S.last[l.id]}%</span>`:''}</button>`}
-function subTabs(cur){return `<div class="row seg"><button class="btn small ${cur==='lessons'?'primary':''}" data-sub="lessons">Pamokos</button><button class="btn small ${cur==='gram'?'primary':''}" data-sub="gram">Gramatika</button></div>`}
+function subTabs(cur){return `<div class="row seg"><button class="btn small ${cur==='lessons'?'primary':''}" data-sub="lessons">Pamokos</button><button class="btn small ${cur==='gram'?'primary':''}" data-sub="gram">${T.gramTab}</button></div>`}
 function renderLessons(){
   const c=customLesson();
   if(VIEW.sub==='gram')return renderGrammarList();
@@ -865,10 +1341,10 @@ function renderLessons(){
 }
 function topicsInOrder(){return GRAMMAR.slice().sort((a,b)=>ORDER.indexOf(a.from)-ORDER.indexOf(b.from))}
 function renderGrammarList(){
-  app.innerHTML=`<div class="head"><span class="eyebrow">Paaiškinimai ir pratybos</span><h1>Gramatika</h1><p class="muted">Kiekviena tema atsiveria kartu su pamoka, kurioje ji pirmą kartą reikalinga. Pirmiausia perskaityk paaiškinimą, tada atlik pratybas. Tema laikoma išmokta nuo 80%.</p></div>
+  app.innerHTML=`<div class="head"><span class="eyebrow">Paaiškinimai ir pratybos</span><h1>${T.gramTab}</h1><p class="muted">Kiekviena tema atsiveria kartu su pamoka, kurioje ji pirmą kartą reikalinga. Pirmiausia perskaityk paaiškinimą, tada atlik pratybas. Tema laikoma išmokta nuo 80%.${AR?' Raidyno temos neprivalomos: jos padės perskaityti užrašus ir meniu, bet etapo tikslams nereikalingos.':''}</p></div>
   ${subTabs('gram')}
   ${topicsInOrder().map(g=>{const open=topicOpen(g),p=S.gram[g.id],l=lessonById(g.from);
-    return `<button class="lesson ${p>=80?'done':''}" data-topic="${g.id}"><span class="n">${p>=80?'✓':open?'§':'🔒'}</span><span class="t"><b>${esc(g.t)}</b><small>${open?'':'Atsivers su '}${ORDER.indexOf(g.from)+1} pamoka „${esc(l.t)}“</small></span>${p!=null?`<span class="sc" ${p>=80?'':'style="color:var(--muted)"'}>${p}%</span>`:''}</button>`}).join('')}`;
+    return `<button class="lesson ${p>=80?'done':''}" data-topic="${g.id}"><span class="n">${p>=80?'✓':open?'§':'🔒'}</span><span class="t"><b>${esc(g.t)}</b><small>${g.opt?'Neprivaloma · ':''}${open?'':'Atsivers su '}${ORDER.indexOf(g.from)+1} pamoka „${esc(l.t)}“</small></span>${p!=null?`<span class="sc" ${p>=80?'':'style="color:var(--muted)"'}>${p}%</span>`:''}</button>`}).join('')}`;
   app.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',sub:b.dataset.sub};render()});
   app.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.topic};render();scrollTo(0,0)});
 }
@@ -891,7 +1367,7 @@ function renderTopic(){
   <div class="head"><span class="eyebrow">Gramatika${p!=null?` · geriausias rezultatas ${p}%`:''}</span><h1>${esc(g.t)}</h1></div>
   <div class="card gram">${g.ex}</div>
   ${open&&n?`<button class="btn primary wide" id="gex">Pratybos (${Math.min(10,n)} užduočių)</button>`:`<div class="note">Pratybos atsivers su ${ORDER.indexOf(g.from)+1} pamoka „${esc(lessonById(g.from).t)}“. Paaiškinimą skaityti gali jau dabar.</div>`}
-  <div class="card"><h3 style="margin-bottom:6px">Ši tema pamokose</h3><div class="row">${uses.map(l=>`<button class="btn small" data-l="${l.id}">${ORDER.indexOf(l.id)+1}. ${esc(l.t)}</button>`).join('')}</div></div>`;
+  ${uses.length?`<div class="card"><h3 style="margin-bottom:6px">Ši tema pamokose</h3><div class="row">${uses.map(l=>`<button class="btn small" data-l="${l.id}">${ORDER.indexOf(l.id)+1}. ${esc(l.t)}</button>`).join('')}</div></div>`:''}`;
   $('back').onclick=goBack;
   if($('gex'))$('gex').onclick=()=>startEx({id:'g:'+g.id,t:g.t,words:[]},buildGram(g));
   app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',lesson:b.dataset.l};render();scrollTo(0,0)});
@@ -907,10 +1383,10 @@ function renderLesson(){
   ${l.tip?`<div class="note">${l.tip}</div>`:''}
   ${T.length?`<div class="row"><span class="muted" style="font-size:.9rem">Gramatika:</span>${T.map(g=>`<button class="btn small" data-gt="${g.id}">📘 ${esc(g.t)}${S.gram[g.id]>=80?' ✓':''}</button>`).join('')}</div>`:''}
   ${l.dialog.length?`<div class="card stack"><div class="row" style="justify-content:space-between"><h2>Dialogas</h2><div class="row"><button class="btn small" id="hideLt">${S.hideLt?'Rodyti vertimą':'Slėpti vertimą'}</button><button class="btn small primary" id="playAll">▶ Visas</button></div></div>
-   <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-g="${SPK[d[0]]||(sp.indexOf(d[0])%2?'f':'m')}"><div class="who">${esc(d[0])}</div><div class="pl">${esc(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
+   <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-g="${SPK[d[0]]||(sp.indexOf(d[0])%2?'f':'m')}"><div class="who">${esc(d[0])}</div><div class="pl">${tw(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
    <p class="muted" style="font-size:.85rem">Bakstelėk sakinį, kad išgirstum. Bakstelėk dar kartą: lėčiau.</p>
    <div class="row"><span class="muted" style="font-size:.9rem">🎭 Vaidmenų žaidimas, būk:</span>${sp.map(s=>`<button class="btn small" data-role="${esc(s)}">${esc(s)}</button>`).join('')}</div></div>`:''}
-  <div class="card"><h2 style="margin-bottom:6px">Žodžiai</h2><div class="words">${l.words.map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${esc(w[0])}</div><div class="lt">${esc(w[1])}</div></div></div>`).join('')}</div></div>
+  <div class="card"><h2 style="margin-bottom:6px">Žodžiai</h2><div class="words">${l.words.map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${tw(w[0])}</div><div class="lt">${esc(w[1])}</div></div></div>`).join('')}</div></div>
   <button class="btn primary wide" id="startEx">Pratybos (~${buildEx(l).length} užduočių)</button>
   <button class="btn wide" id="addAll">Įtraukti žodžius į kartojimą</button>`;
   $('back').onclick=()=>{VIEW={tab:VIEW.from==='today'?'today':'lessons'};render();scrollTo(0,0)};
@@ -927,10 +1403,11 @@ function playAll(){}
 /* ===== Užduočių generavimas =====
    Pratybos remiasi aktyviu prisiminimu: kuo daugiau užduočių, kur atsakymą pateiki pats (rašai, sakai), o ne atpažįsti */
 function tokens(s){return norm(s).split(' ').filter(Boolean)}
-function distract(right,pool,key,n=3){const r=norm(right[key]);return shuffle(pool.filter(w=>norm(w[key])!==r)).slice(0,n)}
+function distract(right,pool,key,n=3){const r=norm(right[key]),ra=AR&&key==='pl'?arOf(right.pl):'';return shuffle(pool.filter(w=>norm(w[key])!==r&&!(ra&&arOf(w.pl)===ra))).slice(0,n)} // arabų kurse – ne tas pats arabiškas žodis (izzayyak / izzayyik skamba vienodai)
 const CAN_HEAR='speechSynthesis' in window;
 function lineItems(l){return l.dialog.filter(d=>{const n=tokens(d[1]).length;return n>=2&&n<=9})}
 function gramItem(x){return {t:'gram',x,opts:shuffle([x[1],...x[3]]),say:x[0].replace('___',x[1]),lt:x[2],topic:x[4]}}
+const optTxt=o=>/[\u0600-\u06FF]/.test(o)?`<span class="ar" lang="ar" style="text-align:left">${esc(o)}</span>`:esc(o);
 function lmcItem(d,lines){let pool=lines.filter(x=>x!==d&&x[2]!==d[2]);if(pool.length<3)pool=pool.concat(LESSONS.flatMap(lineItems).filter(x=>x!==d&&!pool.includes(x)));
   return {t:'lmc',line:d,opts:shuffle([d,...shuffle(pool).slice(0,3)]),say:d[1],lt:d[2],g:SPK[d[0]]}}
 function dictItem(d){return {t:'dict',line:d,say:d[1],lt:d[2],g:SPK[d[0]]}}
@@ -985,35 +1462,35 @@ function startRole(l,sp){const all=speakers(l);sp=sp||all[1]||all[0];const items
 function startEx(l,items,o={}){items=items||buildEx(l);items.forEach((it,i)=>it.k=i); // k – užduoties numeris: pakartojimas turi tą patį
   EX={l,items,i:0,ok:0,bad:0,first:{},retried:new Set(),graded:new Set(),lapsed:new Set(),done:false,state:null,mode:o.mode,sp:o.sp};if(!EX.items.length){EX=null;toast('Nėra užduočių');return}render();scrollTo(0,0)}
 function exHead(){const p=Math.round(EX.i/EX.items.length*100);return `<div class="exbar"><button class="x" id="exX" aria-label="Baigti">✕</button><div class="bar"><i style="width:${p}%"></i></div><span class="muted" style="font-size:.85rem">${EX.i}/${EX.items.length}</span></div>`}
-const inputBox=(ph='lenkiškai…')=>`<input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${ph}">`;
+const inputBox=(ph=T.inLang+'…')=>`<input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${ph}">`;
 function renderEx(){
   if(EX.done)return renderExEnd();
   const it=EX.items[EX.i];EX.state=null;
   let h=exHead();
-  if(it.t==='mc'&&it.dir==='pl'){h+=`<p class="qsub">Ką reiškia?</p><div class="q">${esc(it.w.pl)}</div><div style="text-align:center">${sayBtn(it.w.pl)}</div>
+  if(it.t==='mc'&&it.dir==='pl'){h+=`<p class="qsub">Ką reiškia?</p><div class="q">${tw(it.w.pl)}</div><div style="text-align:center">${sayBtn(it.w.pl)}</div>
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o.lt)}</button>`).join('')}</div>`}
-  else if(it.t==='mc'){h+=`<p class="qsub">Kaip lenkiškai?</p><div class="q">${esc(it.w.lt)}</div>
-    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o.pl)}</button>`).join('')}</div>`}
+  else if(it.t==='mc'){h+=`<p class="qsub">Kaip ${T.inLang}?</p><div class="q">${esc(it.w.lt)}</div>
+    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${tw(o.pl)}</button>`).join('')}</div>`}
   else if(it.t==='listen'){h+=`<p class="qsub">Ką išgirdai?</p><button class="say bigsay" data-say="${esc(it.w.pl)}" aria-label="Klausyti">${SAY_ICON}</button>
-    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o.pl)}</button>`).join('')}</div>`}
+    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${tw(o.pl)}</button>`).join('')}</div>`}
   else if(it.t==='lmc'){h+=`<p class="qsub">Klausyk ir pasirink, ką tai reiškia</p><button class="say bigsay" data-say="${esc(it.say)}" data-g="${it.g||''}" aria-label="Klausyti">${SAY_ICON}</button>
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o[2])}</button>`).join('')}</div>`}
   else if(it.t==='gram'){const tp=topicById(it.topic);h+=`<p class="qsub">Įrašyk tinkamą formą${tp?` · <a href="#" id="gtl">${esc(tp.t)}</a>`:''}</p><div class="q" style="font-size:1.35rem">${esc(it.x[0]).replace('___','<span class="blank">___</span>')}</div><p class="qsub">${esc(it.lt)}</p>
-    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o)}</button>`).join('')}</div>`}
-  else if(it.t==='type'){h+=`<p class="qsub">Parašyk lenkiškai</p><div class="q">${esc(it.w.lt)}</div>${inputBox()}${PK()}
+    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${optTxt(o)}</button>`).join('')}</div>`}
+  else if(it.t==='type'){h+=`<p class="qsub">Parašyk ${T.inLang}${AR?' (lotyniškomis raidėmis)':''}</p><div class="q">${esc(it.w.lt)}</div>${inputBox()}${PK()}
     <button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}
   else if(it.t==='dict'){h+=`<p class="qsub">Diktantas: parašyk, ką girdi</p><button class="say bigsay" data-say="${esc(it.say)}" data-g="${it.g||''}" aria-label="Klausyti">${SAY_ICON}</button>
     <p class="qsub" style="font-size:.85rem">Bakstelėk du kartus – lėčiau</p>${inputBox()}${PK()}
     <button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}
-  else if(it.t==='role'){h+=`<p class="qsub">🎭 Tu esi <b>${esc(it.sp)}</b>. Atsakyk lenkiškai${SR?' – parašyk arba pasakyk':''}</p><div class="dlg">
-    ${it.prev?`<div class="bub" data-say="${esc(it.prev[1])}" data-g="${SPK[it.prev[0]]||''}"><div class="who">${esc(it.prev[0])}</div><div class="pl">${esc(it.prev[1])}</div><div class="lt">${esc(it.prev[2])}</div></div>`:''}
+  else if(it.t==='role'){h+=`<p class="qsub">🎭 Tu esi <b>${esc(it.sp)}</b>. Atsakyk ${T.inLang}${SR?' – parašyk arba pasakyk':''}</p><div class="dlg">
+    ${it.prev?`<div class="bub" data-say="${esc(it.prev[1])}" data-g="${SPK[it.prev[0]]||''}"><div class="who">${esc(it.prev[0])}</div><div class="pl">${tw(it.prev[1])}</div><div class="lt">${esc(it.prev[2])}</div></div>`:''}
     <div class="bub r"><div class="who">${esc(it.sp)} (tu)</div><div class="pl">${esc(it.lt)}</div></div></div>
     ${inputBox()}${PK()}<div class="row" style="justify-content:center"><button class="btn primary" id="chk" style="flex:1">Tikrinti</button>${micBtn()}</div><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}
-  else if(it.t==='order'){EX.state=[];h+=`<p class="qsub">Sudėliok sakinį lenkiškai</p><div class="q" style="font-size:1.3rem">${esc(it.line[2])}</div>
+  else if(it.t==='order'){EX.state=[];h+=`<p class="qsub">Sudėliok sakinį ${T.inLang}</p><div class="q" style="font-size:1.3rem">${esc(it.line[2])}</div>
     <div class="tiles built" id="built"></div><div class="tiles" id="pool">${it.tiles.map((t,i)=>`<button class="tile" data-t="${i}">${esc(t)}</button>`).join('')}</div>
     <button class="btn primary wide" id="chk">Tikrinti</button>`}
   else if(it.t==='cloze'){const parts=it.line[1].split(' ');let used=false;
-    const shown=parts.map(p=>{if(!used&&norm(p)===it.gap){used=true;return '<span class="blank">___</span>'+esc(p.replace(/^[\p{L}-]+/u,''))}return esc(p)}).join(' ');
+    const shown=parts.map(p=>{if(!used&&norm(p)===it.gap){used=true;return '<span class="blank">___</span>'+esc(p.replace(/^[\p{L}'-]+/u,''))}return esc(p)}).join(' ');
     h+=`<p class="qsub">Įrašyk praleistą žodį · <i>${esc(it.line[0])}</i></p><div class="q" style="font-size:1.35rem">${shown}</div><p class="qsub">${esc(it.line[2])}</p>
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o)}</button>`).join('')}</div>`}
   h+='<div id="fb"></div>';
@@ -1034,13 +1511,14 @@ function renderEx(){
     answer(ok,right)});
   if(it.t==='type'){const a=$('ans');a.focus();bindKeys(a);
     const go=()=>{if(EX.answered)return;const v=a.value;if(!v.trim())return;
-      if(norm(v)===norm(it.w.pl))answer(true,it.w.pl);
-      else if(flat(v)===flat(it.w.pl))answer(true,it.w.pl,'Beveik! Atkreipk dėmesį į raides su ženkliukais.');
+      if(norm(v)===norm(it.w.pl)||AR&&flat(v)===flat(it.w.pl))answer(true,it.w.pl);
+      else if(AR&&checkAns(v,it.w,'pl'))answer(true,it.w.pl,T.almost);
+      else if(flat(v)===flat(it.w.pl))answer(true,it.w.pl,T.almost);
       else answer(false,it.w.pl)};
     $('chk').onclick=go;a.onkeydown=e=>{if(e.key==='Enter')go()};$('dunno').onclick=()=>{if(!EX.answered)answer(false,it.w.pl)}}
   if(it.t==='dict'||it.t==='role'){const a=$('ans');if(it.t==='dict')a.focus();bindKeys(a);
     const go=spoken=>{if(EX.answered)return;const v=a.value;if(!v.trim())return;const s=checkSent(v,it.say);
-      if(s===2||spoken&&s===1)answer(true,it.say);else if(s===1)answer(true,it.say,'Beveik! Palygink raides su ženkliukais ir rašybą.');else answer(false,it.say)};
+      if(s===2||spoken&&s===1)answer(true,it.say);else if(s===1)answer(true,it.say,T.almostSent);else answer(false,it.say)};
     $('chk').onclick=()=>go(false);a.onkeydown=e=>{if(e.key==='Enter')go(false)};$('dunno').onclick=()=>{if(!EX.answered)answer(false,it.say)};
     bindMic(a,it.say,go)}
   if(it.t==='order'){const draw=()=>{$('built').innerHTML=EX.state.map((ti,j)=>`<button class="tile" data-b="${j}">${esc(it.tiles[ti])}</button>`).join('');
@@ -1064,8 +1542,8 @@ function answer(ok,right,hint){
   if(it.w)exGrade(it,ok);
   const say=it.w?it.w.pl:it.say||it.line[1],tr=it.w?(it.t!=='mc'?it.w.lt:''):it.t==='gram'?'':it.lt||(it.line&&it.line[2])||'';
   const tp=it.t==='gram'&&!ok?topicById(it.topic):null;
-  $('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b class="h">${ok?pick(['Super!','Dobrze!','Świetnie!','Teisingai!']):'Ne visai'}</b>
-   ${hint?`<span>${esc(hint)}</span>`:''}${!ok||hint||it.t!=='mc'?`<div class="row">${sayBtn(say).replace('class="say ','data-g="'+(it.g||'')+'" class="say ')}<span><b>${esc(right)}</b>${tr?' · '+esc(tr):''}</span></div>`:''}
+  $('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b class="h">${ok?pick(T.praise):'Ne visai'}</b>
+   ${hint?`<span>${esc(hint)}</span>`:''}${!ok||hint||it.t!=='mc'?`<div class="row">${sayBtn(say).replace('class="say ','data-g="'+(it.g||'')+'" class="say ')}<span><b>${tw(right)}</b>${tr?' · '+esc(tr):''}</span></div>`:''}
    ${tp?`<span class="muted" style="font-size:.9rem">Taisyklė: skyrius „${esc(tp.t)}“ (Pamokos → Gramatika).</span>`:''}
    <button class="btn primary wide" id="next">Toliau</button></div>`;
   if(!ok||!['mc','listen','lmc'].includes(it.t))speak(say,{g:it.g});
@@ -1088,7 +1566,7 @@ function renderExEnd(){const l=EX.l,pct=EX.pct,id=l.id,role=EX.mode==='role';
     :id.startsWith('g:')?(pct>=80?'Tema išmokta.':'Temai reikia 80%. Dar kartą perskaityk paaiškinimą ir bandyk vėl.')
     :id==='gday'?'Užduotys grįš pagal tai, kaip sekėsi: suklydus – rytoj, mokant – vis rečiau.'
     :id==='mix'?'':`Pamokos žodžiai įtraukti į kartojimą${pct>=70?', o dialogo sakiniai – į sakinių korteles':''}. ${pct<70?'Pamoka laikoma išmokta nuo 70%.':''}`;
-  app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><span class="eyebrow">${esc(role?l.t+' · vaidmenys':l.t)}</span><h1>${pct>=90?'Świetnie! 🎉':pct>=70?'Dobrze! 👍':'Dar pasimankštink 💪'}</h1></div>
+  app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><span class="eyebrow">${esc(role?l.t+' · vaidmenys':l.t)}</span><h1>${pct>=90?T.e90:pct>=70?T.e70:'Dar pasimankštink 💪'}</h1></div>
   <div class="stats"><div class="stat"><b>${pct}%</b><small>iš pirmo karto</small></div><div class="stat"><b>${EX.ok}</b><small>teisingai</small></div><div class="stat"><b>${streakNow()}</b><small>dienų iš eilės</small></div></div>
   ${note?`<p class="muted" style="text-align:center">${esc(note)}</p>`:''}
   <button class="btn primary wide" id="again">Dar kartą</button><button class="btn wide" id="out">Baigti</button>`;
@@ -1139,7 +1617,8 @@ function ctxOf(w){if(w.pl in CTX)return CTX[w.pl];const t=tokens(w.pl),own=[],ot
   return CTX[w.pl]=r}
 function ctxBlock(w){const r=ctxOf(w);if(!r)return '';let t=0;
   const pl=r.d[1].split(' ').map(p=>{const m=tokens(p).length,hit=m&&t<r.i+r.n&&t+m>r.i;t+=m;return hit?`<b>${esc(p)}</b>`:esc(p)}).join(' ');
-  return `<div class="ctx"><button class="say" data-say="${esc(r.d[1])}" data-g="${SPK[r.d[0]]||''}" aria-label="Klausyti sakinio">${SAY_ICON}</button><div><div>${pl}</div><div class="muted">${esc(r.d[2])}</div></div></div>`}
+  const a=arOf(r.d[1]);
+  return `<div class="ctx"><button class="say" data-say="${esc(r.d[1])}" data-g="${SPK[r.d[0]]||''}" aria-label="Klausyti sakinio">${SAY_ICON}</button><div>${a?`<span class="ar" lang="ar">${esc(a)}</span>`:''}<div>${pl}</div><div class="muted">${esc(r.d[2])}</div></div></div>`}
 /* Po atsakymo: žodis, o po jo – sakinys iš dialogo (jei dar neperėjai prie kito žodžio) */
 function rvSpeak(w){if(w.s)return speak(w.pl,{g:SPK[w.sp]});const me=RV,i=RV.i,r=ctxOf(w);speak(w.pl).then(()=>new Promise(res=>setTimeout(res,300))).then(()=>{if(r&&RV===me&&RV.i===i&&RV.res&&'speechSynthesis' in window)speak(r.d[1],{queue:true,g:SPK[r.d[0]]})})}
 /* Atsakymo tikrinimas: lenkiškai tiksliai (be ženkliukų – „beveik“), lietuviškai – bet kuris iš variantų */
@@ -1150,23 +1629,23 @@ function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>1)return 2;const 
 function ltAlts(lt){const base=lt.replace(/\([^)]*\)/g,' ');const out=new Set([flatLt(base),flatLt(lt)]);
   base.split(/[,/;]| ar /).forEach(x=>{const f=flatLt(x);if(f)out.add(f)});return [...out].filter(Boolean)}
 function checkAns(v,w,dir){ // grąžina 2 teisingai, 1 beveik, 0 neteisingai
-  if(dir==='pl'){if(norm(v)===norm(w.pl))return 2;const a=flat(v),b=flat(w.pl);if(a===b||(b.length>=5&&lev(a,b)<=1))return 1;return 0}
+  if(dir==='pl'){if(norm(v)===norm(w.pl)||AR&&flat(v)===flat(w.pl))return 2;const a=flat(v),b=flat(w.pl);if(a===b||(b.length>=5&&lev(a,b)<=1))return 1;return 0}
   const a=flatLt(v),alts=ltAlts(w.lt);if(alts.includes(a))return 2;if(alts.some(x=>x.length>=5&&lev(a,x)<=1))return 1;return 0}
 function renderRv(){
-  if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>Gotowe! ✓</h1><p class="muted">Pakartojai ${RV.n} kortel. Teisingai: ${RV.ok||0}.</p></div>
+  if(RV.i>=RV.q.length){if(!RV.marked){RV.marked=1;markDay(RV.n);if(!dueCards().length)markT('rv')}app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><h1>${T.rvDone}</h1><p class="muted">Pakartojai ${RV.n} kortel. Teisingai: ${RV.ok||0}.</p></div>
     <button class="btn primary wide" id="out">Baigti</button>${Object.keys(S.cards).length>=5?`<button class="btn wide" id="more">Dar ${dueCards().length?dueCards().length+' laiku kartotinų':Math.min(RV_MIN,Object.keys(S.cards).length)+' žodž.'}</button>`:''}`;
     $('out').onclick=()=>{RV=null;render()};if($('more'))$('more').onclick=startReview;return}
   const k=RV.q[RV.i],w=wordInfo(k);
   const dir=RV.res?RV.res.dir:rvDir(k);
   const p=Math.round(RV.i/RV.q.length*100),R=RV.res;
   app.innerHTML=`<div class="exbar"><button class="x" id="rvX">✕</button><div class="bar"><i style="width:${p}%"></i></div><span class="muted" style="font-size:.85rem">${RV.i}/${RV.q.length}</span></div>
-   <div class="flash"><span class="eyebrow">${dir==='pl'?'Parašyk lenkiškai':dir==='hear'?'Papildomas žodis · įrašyk, ką girdi':dir==='dict'?'Sakinys · diktantas: parašyk, ką girdi':dir==='spl'?'Sakinys · '+(SR?'parašyk arba pasakyk':'parašyk')+' lenkiškai':'Parašyk, ką reiškia'}</span>
-    ${dir==='hear'||dir==='dict'?`<button class="say bigsay" data-say="${esc(w.pl)}" data-g="${w.s?SPK[w.sp]||'':''}" aria-label="Klausyti">${SAY_ICON}</button>`:`<div class="front" ${w.s?'style="font-size:1.35rem"':''}>${esc(dir==='pl'||dir==='spl'?w.lt:w.pl)}</div>${dir==='lt'?sayBtn(w.pl):''}`}</div>
-   <input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${dir==='lt'?'lietuviškai…':'lenkiškai…'}" ${R?'disabled':''} value="${R?esc(R.v):''}">
+   <div class="flash"><span class="eyebrow">${dir==='pl'?'Parašyk '+T.inLang:dir==='hear'?'Papildomas žodis · įrašyk, ką girdi':dir==='dict'?'Sakinys · diktantas: parašyk, ką girdi':dir==='spl'?'Sakinys · '+(SR?'parašyk arba pasakyk':'parašyk')+' '+T.inLang:'Parašyk, ką reiškia'}</span>
+    ${dir==='hear'||dir==='dict'?`<button class="say bigsay" data-say="${esc(w.pl)}" data-g="${w.s?SPK[w.sp]||'':''}" aria-label="Klausyti">${SAY_ICON}</button>`:`<div class="front" ${w.s?'style="font-size:1.35rem"':''}>${dir==='pl'||dir==='spl'?esc(w.lt):tw(w.pl)}</div>${dir==='lt'?sayBtn(w.pl):''}`}</div>
+   <input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${dir==='lt'?'lietuviškai…':T.inLang+'…'}" ${R?'disabled':''} value="${R?esc(R.v):''}">
    ${dir!=='lt'&&!R?PK():''}
-   ${R?`<div class="fb ${R.g===2?'good':'bad'}"><b class="h">${R.g===2?pick(['Dobrze!','Świetnie!','Teisingai!']):R.g===1?'Beveik!':R.skip?'Nieko tokio':'Ne visai'}</b>
-      ${R.g===1?`<span>${dir==='lt'?'Nedidelė rašybos klaida.':'Atkreipk dėmesį į raides su ženkliukais ir rašybą.'}</span>`:''}
-      <div class="row">${sayBtn(w.pl).replace('class="say ','data-g="'+(w.s?SPK[w.sp]||'':'')+'" class="say ')}<span><b>${esc(w.pl)}</b> · ${esc(w.lt)}</span></div>
+   ${R?`<div class="fb ${R.g===2?'good':'bad'}"><b class="h">${R.g===2?pick(T.praiseRv):R.g===1?'Beveik!':R.skip?'Nieko tokio':'Ne visai'}</b>
+      ${R.g===1?`<span>${dir==='lt'?'Nedidelė rašybos klaida.':T.almostRv}</span>`:''}
+      <div class="row">${sayBtn(w.pl).replace('class="say ','data-g="'+(w.s?SPK[w.sp]||'':'')+'" class="say ')}<span><b>${tw(w.pl)}</b> · ${esc(w.lt)}</span></div>
       ${w.s?'':ctxBlock(w)}
       ${R.g===0&&!R.skip&&(dir==='lt'||dir==='spl')?`<button class="btn small" id="iwas" style="align-self:flex-start">Mano atsakymas irgi teisingas</button>`:''}
       <button class="btn primary wide" id="next">Toliau</button></div>`
@@ -1185,20 +1664,20 @@ function renderRv(){
 /* ===== Žodynas + savi žodžiai ===== */
 function renderDict(){
   const q=VIEW.q||'';
-  const list=allWords().filter(w=>!q||flat(w.pl).includes(flat(q))||norm(w.lt).includes(norm(q)));
+  const list=allWords().filter(w=>!q||flat(w.pl).includes(flat(q))||norm(w.lt).includes(norm(q))||AR&&normAr(q)&&normAr(arOf(w.pl)).includes(normAr(q)));
   app.innerHTML=`<div class="head"><span class="eyebrow">${allWords().length} žodž.</span><h1>Žodynas</h1></div>
-  <input class="ans search" id="q" placeholder="Ieškoti lenkiškai ar lietuviškai" value="${esc(q)}" autocapitalize="off">
-  <div class="card"><div class="words" id="wl">${list.slice(0,300).map(w=>{const c=card(w.pl);return `<div class="w">${sayBtn(w.pl)}<div class="tx"><div class="pl">${esc(w.pl)}</div><div class="lt">${esc(w.lt)}</div></div>${c?`<span class="wtag l${wLvl(w.pl)}" title="${esc(wHint(w.pl))}">${LVL_NAME[wLvl(w.pl)]}</span>`:''}</div>`}).join('')||'<p class="muted">Nieko nerasta</p>'}</div></div>
+  <input class="ans search" id="q" placeholder="Ieškoti ${T.inLang} ar lietuviškai" value="${esc(q)}" autocapitalize="off">
+  <div class="card"><div class="words" id="wl">${list.slice(0,300).map(w=>{const c=card(w.pl);return `<div class="w">${sayBtn(w.pl)}<div class="tx"><div class="pl">${tw(w.pl)}</div><div class="lt">${esc(w.lt)}</div></div>${c?`<span class="wtag l${wLvl(w.pl)}" title="${esc(wHint(w.pl))}">${LVL_NAME[wLvl(w.pl)]}</span>`:''}</div>`}).join('')||'<p class="muted">Nieko nerasta</p>'}</div></div>
   <details class="card" ${S.custom.length?'':'open'}><summary>➕ Pridėti savo žodžių</summary>
-   <div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.92rem">Vienas žodis eilutėje: <b>lenkiškai = lietuviškai</b> (tinka ir „-“ arba tabuliacija).</p>
-   <textarea id="cw" placeholder="kanapka = sumuštinis&#10;jak się nazywasz? = kuo tu vardu?"></textarea>
+   <div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.92rem">Vienas žodis eilutėje: <b>${T.inLang} = lietuviškai</b> (tinka ir „-“ arba tabuliacija).</p>
+   <textarea id="cw" placeholder="${T.customEx}"></textarea>
    <button class="btn primary" id="addCw">Pridėti</button>
    ${S.custom.length?`<p class="muted" style="font-size:.9rem">Jau pridėta: ${S.custom.length}. Jie yra pamokoje „Mano žodžiai“.</p><button class="btn small" id="clrCw" style="align-self:flex-start">Ištrinti visus savo žodžius</button>`:''}</div></details>`;
   const qi=$('q');qi.oninput=()=>{VIEW.q=qi.value;const pos=qi.selectionStart;renderDict();const n=$('q');n.focus();n.setSelectionRange(pos,pos)};
   $('addCw').onclick=()=>{const lines=$('cw').value.split('\n');let n=0;
     for(const ln of lines){const m=ln.split(/\s*(?:=|\t|\s[-–—]\s)\s*/);if(m.length<2)continue;const pl=m[0].trim(),lt=m.slice(1).join(' ').trim();if(!pl||!lt)continue;
       if(allWords().some(w=>w.pl===pl))continue;S.custom.push([pl,lt]);addCard(pl,'custom');n++}
-    save();toast(n?`Pridėta ${n} žodž.`:'Nieko nepridėta. Naudok formatą: lenkiškai = lietuviškai');renderDict()};
+    save();toast(n?`Pridėta ${n} žodž.`:'Nieko nepridėta. Naudok formatą: '+T.inLang+' = lietuviškai');renderDict()};
   if($('clrCw'))$('clrCw').onclick=()=>{if(!confirm('Ištrinti visus savo žodžius?'))return;S.custom.forEach(w=>delete S.cards[w[0]]);S.custom=[];save();renderDict()};
 }
 
@@ -1206,15 +1685,16 @@ function renderDict(){
 function renderSettings(){
   const has='speechSynthesis' in window;
   app.innerHTML=`<div class="head"><h1>Nustatymai</h1></div>
+  <div class="card stack"><h2>Kursas</h2><div class="row">${COURSES.map(c=>`<button class="btn small ${c.id===CID?'primary':''}" data-crs="${c.id}">${c.flag} ${esc(c.name)}</button>`).join('')}</div><p class="muted" style="font-size:.92rem">Kiekvieno kurso pažanga saugoma atskirai: perjungus nieko neprarasi.</p></div>
   <div class="card stack"><h2>Balsas</h2>
    ${!has?'<p>Ši naršyklė nemoka skaityti balsu.</p>':PLV.length?`<div><label class="lab" for="vc">Žodžiai ir pratybos</label><select id="vc">${PLV.map(v=>`<option ${v===voiceFor()?'selected':''}>${esc(v.name)}</option>`).join('')}</select></div>
-    <div><label class="lab" for="vm">Vyras dialoguose (Jonas, Tomek…)</label><div class="row" style="flex-wrap:nowrap"><select id="vm">${PLV.map(v=>`<option ${v===voiceFor('m')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="Cześć, mam na imię Jonas." data-g="m">🔊</button></div></div>
-    <div><label class="lab" for="vf">Moteris dialoguose (Ola, Ania…)</label><div class="row" style="flex-wrap:nowrap"><select id="vf">${PLV.map(v=>`<option ${v===voiceFor('f')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="Cześć, mam na imię Ola." data-g="f">🔊</button></div></div>
-    ${PLV.length<2?'<p class="muted" style="font-size:.9rem">Telefone yra tik vienas lenkiškas balsas, todėl vyras ir moteris skiriasi tik tonu. Antrą balsą įdiegsi telefono nustatymuose (žr. žemiau).</p>':''}
-    <details><summary class="muted" style="cursor:pointer">Kaip įdiegti daugiau balsų</summary><p style="margin-top:6px"><b>iPhone:</b> Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski → Zosia (moteris), Krzysztof (vyras).</p><p><b>Android:</b> Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google → ⚙ → Įdiegti balso duomenis → Polski. Ten pasirink balsą. Chrome kartais rodo tik vieną, tada balsą keisk ten.</p></details>`
-   :`<div class="note"><b>Lenkiškas balsas nerastas.</b><p>Android: Nustatymai → Sistema → Kalbos → Teksto į kalbą išvestis → Google variklis → ⚙ → Įdiegti balso duomenis → Polski.</p><p>iPhone: Nustatymai → Pritaikymas neįgaliesiems → Ištarti turinį → Balsai → Polski.</p><p>Tada iš naujo atidaryk appsą.</p></div>`}
+    <div><label class="lab" for="vm">Vyras dialoguose (${T.mNames})</label><div class="row" style="flex-wrap:nowrap"><select id="vm">${PLV.map(v=>`<option ${v===voiceFor('m')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="${T.sampleM}" data-g="m">🔊</button></div></div>
+    <div><label class="lab" for="vf">Moteris dialoguose (${T.fNames})</label><div class="row" style="flex-wrap:nowrap"><select id="vf">${PLV.map(v=>`<option ${v===voiceFor('f')?'selected':''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small" data-say="${T.sampleF}" data-g="f">🔊</button></div></div>
+    ${PLV.length<2?`<p class="muted" style="font-size:.9rem">${T.oneVoice}</p>`:''}
+    <details><summary class="muted" style="cursor:pointer">Kaip įdiegti daugiau balsų</summary>${T.voiceHelp}</details>`
+   :`<div class="note">${T.noVoiceHelp}</div>`}
    <div><label class="lab" for="rt">Greitis: <span id="rtv">${S.rate.toFixed(2)}</span></label><input type="range" id="rt" min="0.5" max="1.2" step="0.05" value="${S.rate}"></div>
-   <button class="btn" data-say="Dzień dobry! Jak się masz? Mam na imię Ola.">🔊 Išbandyti</button></div>
+   <button class="btn" data-say="${T.sample}">🔊 Išbandyti</button></div>
   <div class="card stack"><h2>Išvaizda</h2><div class="row">${[['auto','Kaip telefone'],['light','Šviesi'],['dark','Tamsi']].map(([v,n])=>`<button class="btn small ${S.theme===v?'primary':''}" data-th="${v}">${n}</button>`).join('')}</div></div>
   <div class="card stack"><h2>Įdiegti telefone</h2><p><b>Android (Chrome):</b> meniu ⋮ → „Įdiegti programą“ arba „Pridėti prie pradžios ekrano“.</p><p><b>iPhone (Safari):</b> mygtukas „Bendrinti“ → „Į pradžios ekraną“.</p><p class="muted">Įdiegus veikia ir be interneto.</p></div>
   <div class="card stack"><h2>Pažanga</h2><p class="muted" style="font-size:.92rem">Pažanga saugoma tik šiame telefone. Galima nusikopijuoti ir perkelti į kitą įrenginį.</p>
@@ -1227,9 +1707,7 @@ function renderSettings(){
    <p><b>Frazės, ne tik žodžiai.</b> Dialogų sakiniai kartojami kaip kortelės: gyva kalba sudaryta iš paruoštų frazių.</p>
    <p><b>Aiškūs tikslai.</b> Etapai remiasi Europos kalbų mokėjimo lygių (CEFR) A1 „galiu“ teiginiais: prisistatyti, klausti ir atsakyti apie save, susitarti dėl laiko, apsipirkti.</p>
   </div></details>
-  <div class="card stack"><h2>Naudingi šaltiniai</h2><p><a href="https://polski.info/?hl=lt" target="_blank" rel="noopener">polski.info</a>: dialogai, gramatika, žodynas su įrašais (yra lietuviška sąsaja).</p>
-   <p><a href="https://forvo.com/languages/pl/" target="_blank" rel="noopener">Forvo</a>: kaip žodį taria lenkai.</p><p><a href="https://www.youtube.com/@EasyPolish" target="_blank" rel="noopener">Easy Polish</a>: gatvės pokalbiai su subtitrais.</p>
-   <p><a href="https://pl.wiktionary.org" target="_blank" rel="noopener">Wikisłownik</a>: linksniai ir asmenuotės.</p></div>
+  <div class="card stack"><h2>Naudingi šaltiniai</h2>${T.resources}</div>
   <div class="row" style="justify-content:space-between"><span class="muted" style="font-size:.85rem">Versija ${VERSION}</span><button class="btn small" id="upd">Tikrinti atnaujinimus</button></div>`;
   if($('vc'))$('vc').onchange=e=>{S.voice=e.target.value;save()};if($('vm'))$('vm').onchange=e=>{S.voiceM=e.target.value;save()};if($('vf'))$('vf').onchange=e=>{S.voiceF=e.target.value;save()};
   $('rt').oninput=e=>{S.rate=+e.target.value;$('rtv').textContent=S.rate.toFixed(2);save()};
@@ -1238,6 +1716,7 @@ function renderSettings(){
   $('imp').onclick=()=>{const t=prompt('Įklijuok nukopijuotą pažangą:');if(!t)return;try{const o=JSON.parse(t);if(!o.cards)throw 0;S=Object.assign(fresh(),o);migrate();save();applyTheme();toast('Pažanga įkelta');render()}catch(e){toast('Netinkamas tekstas')}};
   $('rst').onclick=()=>{if(!confirm('Ištrinti visą pažangą ir savo žodžius?'))return;S=fresh();S.stageStart=dkey();save();applyTheme();render()};
   $('upd').onclick=checkUpdate;
+  app.querySelectorAll('[data-crs]').forEach(b=>b.onclick=()=>{if(b.dataset.crs!==CID)switchCourse(b.dataset.crs)});
 }
 async function checkUpdate(){try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});const j=await r.json();
   if(j.version!==VERSION){toast('Atnaujinama į '+j.version+'…');const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(reg)await reg.update();setTimeout(()=>location.reload(),800)}
