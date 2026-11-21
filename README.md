@@ -2,6 +2,8 @@
 
 Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (CEFR).
 
+**Antras kursas – egiptiečių arabų kalba kelionėms.** Perjungiama mygtuku „Šiandien“ skiltyje arba Nustatymuose → Kursas. Atidarius appsą visada rodoma lenkų kalba. Kiekvieno kurso pažanga saugoma atskirai (`lenku-kalba-v1` ir `arabu-kalba-v1`). Arabų kurse: 16 pamokų, 4 etapai (pasisveikinimai ir skaičiai; kainos, derybos, kioskas, laikas; kavinė, restoranas, maistas; taksi, kelias, viešbutis, vaistinė), ~250 žodžių ir frazių arabiškai su lotyniška transliteracija, dialogai, 10 gramatikos temų ir neprivalomas raidynas (4 temos su skaitymo pratybomis). Rašoma transliteracija (atlaidžiai: be apostrofų, dvigubų raidžių), balsas ir balso atpažinimas ar-EG. Pamokose pastabos apie Tuniso tarmę ir prancūzų kalbą.
+
 **Kursas:** 24 pamokos, 6 etapai po 4 pamokas (~2 savaitės etapui), ~370 žodžių. Kiekvienoje pamokoje gyvas dialogas, žodžiai, trumpa pastaba ir gramatikos užduotys.
 
 **Gramatika:** atskiras skyrius (Pamokos → Gramatika), 14 temų su paaiškinimais lietuviškai ir pratybomis: būti, asmenuotė, klausimai, skaičiai, galininkas, kilmininkas, vietininkas, įnagininkas, giminės ir būdvardžiai, noriu/galiu/privalau, laikas, kryptis, būtasis ir būsimasis laikas. Tema atsiveria kartu su pamoka, kurioje ji pirmą kartą reikalinga.
@@ -21,8 +23,8 @@ Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (
 - **CEFR A1** „galiu“ teiginiai etapų tikslams – [Europos Taryba, Global scale](https://www.coe.int/en/web/common-european-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale).
 - Kaitaliojimas (mišrios užduotys iš skirtingų pamokų) ir frazių mokymasis (dialogų sakinių kortelės).
 
-Garsas: telefono kalbos sintezė (lenkiškas balsas, pl-PL).
+Garsas: telefono kalbos sintezė (lenkiškas balsas pl-PL, arabiškas ar-EG arba bet kuris arabiškas).
 
 Atidaryti: https://arnoldasbud.github.io/Lenk-kalba/
 
-Viskas viename `index.html` faile, be priklausomybių. Pažanga saugoma naršyklėje (localStorage). Veikia be interneto (`sw.js`). Versija keičiama `index.html` (`VERSION`) ir `version.json`.
+Viskas viename `index.html` faile, be priklausomybių (arabų kurso turinys – atskirame `<script>` bloke `AR_COURSE`). Pažanga saugoma naršyklėje (localStorage). Veikia be interneto (`sw.js`). Versija keičiama `index.html` (`VERSION`) ir `version.json`.
