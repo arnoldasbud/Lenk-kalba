@@ -607,7 +607,7 @@ text:{key:'arabu-kalba-v1',title:'Arabų kalba (Egiptas)',tts:'ar-EG',voiceRe:/^
 </script>
 <script>
 "use strict";
-const VERSION='1.10.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.11.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Kursas: lenkų (pl) arba egiptiečių arabų (ar). Kiekvieno kurso pažanga – atskirame localStorage rakte ===== */
 const CKEY='kalba-kursas';
 // Pasirinkimas galioja tik šiam atidarymui (sessionStorage): kiekvieną kartą atidarius appsą – lenkų kalba
@@ -639,54 +639,33 @@ const PL_LESSONS=[
  </table>
  <p><b>Kirtis</b> beveik visada krinta į priešpaskutinį skiemenį: dzię-<b>KU</b>-ję, prze-pra-<b>SZAM</b>. Žodžio gale <b>ę</b> tariama beveik kaip paprasta e: <i>proszę</i>.</p>`,
  words:[["tak","taip"],["nie","ne"],["proszę","prašau"],["dziękuję","ačiū"],["przepraszam","atsiprašau"],["dobrze","gerai"],["woda","vanduo"],["mleko","pienas"],["poproszę","prašyčiau (paduoti)"],["proszę bardzo","prašom (atsakant į ačiū)"]],
- dialog:[["A","Przepraszam!","Atsiprašau!"],["B","Tak?","Taip?"],["A","Poproszę wodę.","Prašyčiau vandens."],["B","Proszę bardzo.","Prašom."],["A","Dziękuję!","Ačiū!"]],
- gr:[]},
+ dialog:[["A","Przepraszam!","Atsiprašau!"],["B","Tak?","Taip?"],["A","Poproszę wodę.","Prašyčiau vandens."],["B","Proszę bardzo.","Prašom."],["A","Dziękuję!","Ačiū!"]]},
 
 {id:"l2",t:"Pasisveikinimai",d:"Labas, kaip sekasi, iki",
  tip:`<p><b>Cześć</b> sakome draugams, <b>dzień dobry</b> nepažįstamiems ir parduotuvėje. Lenkai mandagiai kreipiasi ne „jūs“, o <b>pan</b> (ponas) ir <b>pani</b> (ponia) su 3 asmeniu:</p>
  <p><i>Jak się masz?</i> = Kaip tau sekasi?<br><i>Jak się pan ma?</i> = Kaip jums sekasi? (vyrui)<br><i>Jak się pani ma?</i> = Kaip jums sekasi? (moteriai)</p>`,
  words:[["dzień dobry","laba diena"],["dobry wieczór","labas vakaras"],["cześć","labas, sveikas"],["do widzenia","viso gero"],["na razie","iki"],["do zobaczenia","iki pasimatymo"],["dobranoc","labanakt"],["jak się masz?","kaip sekasi?"],["świetnie","puikiai"],["tak sobie","šiaip sau"],["a ty?","o tu?"],["dzięki","ačiū (šnekamai)"],["pan","ponas (jūs vyrui)"],["pani","ponia (jūs moteriai)"],["zmęczony","pavargęs"],["odpocznij","pailsėk"]],
- dialog:[["Ania","Cześć, Tomek!","Labas, Tomai!"],["Tomek","Cześć, Ania! Jak się masz?","Labas, Ania! Kaip sekasi?"],["Ania","Dobrze, dzięki. A ty?","Gerai, ačiū. O tau?"],["Tomek","Tak sobie. Jestem zmęczony.","Šiaip sau. Esu pavargęs."],["Ania","Oj! To odpocznij.","Oi! Tai pailsėk."],["Tomek","Dobrze. Na razie!","Gerai. Iki!"],["Ania","Na razie!","Iki!"]],
- gr:[["Jak się ___?","masz","Kaip tau sekasi?",["ma","mam"],"czas"],
-     ["Jak się pan ___?","ma","Kaip jums (vyrui) sekasi?",["masz","mam"],"czas"],
-     ["Jak się ___ ma?","pani","Kaip jums (moteriai) sekasi?",["pan","ty"],"czas"],
-     ["Dobrze, ___. A ty?","dzięki","Gerai, ačiū. O tu?",["dobranoc","na razie"],"czas"]]},
+ dialog:[["Ania","Cześć, Tomek!","Labas, Tomai!"],["Tomek","Cześć, Ania! Jak się masz?","Labas, Ania! Kaip sekasi?"],["Ania","Dobrze, dzięki. A ty?","Gerai, ačiū. O tau?"],["Tomek","Tak sobie. Jestem zmęczony.","Šiaip sau. Esu pavargęs."],["Ania","Oj! To odpocznij.","Oi! Tai pailsėk."],["Tomek","Dobrze. Na razie!","Gerai. Iki!"],["Ania","Na razie!","Iki!"]]},
 
 {id:"l3",t:"Prisistatymas",d:"Vardas, iš kur esi, ar kalbi lenkiškai",
  tip:`<p>Veiksmažodis <b>być</b> (būti):</p>
  <p class="conj">jestem — aš esu<br>jesteś — tu esi<br>jest — jis, ji yra<br>jesteśmy — mes esame<br>jesteście — jūs esate<br>są — jie yra</p>
  <p>Įvardžio dažnai nesakome: <i>Jestem z Litwy</i> = (Aš) esu iš Lietuvos.</p>`,
  words:[["jak masz na imię?","kuo tu vardu?"],["mam na imię","mano vardas"],["jestem","aš esu"],["skąd jesteś?","iš kur tu?"],["jestem z Litwy","esu iš Lietuvos"],["Litwa","Lietuva"],["Polska","Lenkija"],["miło mi","malonu"],["mówisz po polsku?","ar kalbi lenkiškai?"],["trochę","truputį"],["nie rozumiem","nesuprantu"],["uczę się","mokausi"],["wolniej","lėčiau"],["powtórz, proszę","pakartok, prašau"],["ale","bet"],["mów","kalbėk"]],
- dialog:[["Ola","Cześć! Jak masz na imię?","Labas! Kuo tu vardu?"],["Jonas","Mam na imię Jonas. A ty?","Mano vardas Jonas. O tu?"],["Ola","Ola. Miło mi! Skąd jesteś?","Ola. Malonu! Iš kur tu?"],["Jonas","Jestem z Litwy, z Wilna.","Esu iš Lietuvos, iš Vilniaus."],["Ola","Mówisz po polsku?","Kalbi lenkiškai?"],["Jonas","Trochę. Uczę się.","Truputį. Mokausi."],["Ola","Mówisz bardzo dobrze!","Kalbi labai gerai!"],["Jonas","Dziękuję! Ale mów wolniej, proszę.","Ačiū! Bet kalbėk lėčiau, prašau."]],
- gr:[["Ja ___ z Litwy.","jestem","Aš esu iš Lietuvos.",["jest","jesteś"],"byc"],
-     ["Ty ___ z Polski?","jesteś","Tu iš Lenkijos?",["jestem","są"],"byc"],
-     ["Ola ___ z Warszawy.","jest","Ola iš Varšuvos.",["są","jestem"],"byc"],
-     ["My ___ z Wilna.","jesteśmy","Mes iš Vilniaus.",["jesteście","są"],"byc"],
-     ["Oni ___ z Kowna.","są","Jie iš Kauno.",["jest","jesteśmy"],"byc"]]},
+ dialog:[["Ola","Cześć! Jak masz na imię?","Labas! Kuo tu vardu?"],["Jonas","Mam na imię Jonas. A ty?","Mano vardas Jonas. O tu?"],["Ola","Ola. Miło mi! Skąd jesteś?","Ola. Malonu! Iš kur tu?"],["Jonas","Jestem z Litwy, z Wilna.","Esu iš Lietuvos, iš Vilniaus."],["Ola","Mówisz po polsku?","Kalbi lenkiškai?"],["Jonas","Trochę. Uczę się.","Truputį. Mokausi."],["Ola","Mówisz bardzo dobrze!","Kalbi labai gerai!"],["Jonas","Dziękuję! Ale mów wolniej, proszę.","Ačiū! Bet kalbėk lėčiau, prašau."]]},
 
 {id:"l11",t:"Klausimai",d:"Kas, kur, kada, kodėl, ar; mano brolis",
  tip:`<p>Lietuvių „kas“ lenkiškai yra du žodžiai: <b>kto</b> (apie žmogų) ir <b>co</b> (apie daiktą). <i>Kto to jest?</i> = Kas tai (per žmogus)? <i>Co to jest?</i> = Kas tai (per daiktas)?</p>
  <p>Klausimas „taip / ne“ dažnai prasideda <b>czy</b>, kaip lietuvių „ar“: <i>Czy to jest kawa?</i> = Ar tai kava?</p>
  <p><b>Mano</b> derinasi su gimine: <i>mój brat</i>, <i>moja siostra</i>, <i>moje dziecko</i>.</p>`,
  words:[["kto?","kas? (apie žmogų)"],["co?","kas? ką? (apie daiktą)"],["gdzie?","kur?"],["kiedy?","kada?"],["dlaczego?","kodėl?"],["jak?","kaip?"],["czy","ar (klausime)"],["to jest","tai yra"],["mój","mano"],["on","jis"],["ona","ji"],["teraz","dabar"],["naprawdę?","tikrai?"],["może","gal"],["nie wiem","nežinau"],["po litewsku","lietuviškai"]],
- dialog:[["Ola","Kto to jest?","Kas tai?"],["Jonas","To jest mój brat, Paweł.","Tai mano brolis Paulius."],["Ola","A gdzie on jest teraz?","O kur jis dabar?"],["Jonas","W Polsce, w Krakowie.","Lenkijoje, Krakove."],["Ola","Naprawdę? Dlaczego?","Tikrai? Kodėl?"],["Jonas","Nie wiem. Może ma tam dziewczynę!","Nežinau. Gal turi ten merginą!"],["Ola","Czy on mówi po polsku?","Ar jis kalba lenkiškai?"],["Jonas","Tak, i trochę po litewsku.","Taip, ir truputį lietuviškai."]],
- gr:[["___ to jest? – To jest Ola.","Kto","Kas tai? – Tai Ola.",["Co","Gdzie"],"pyt"],
-     ["___ to jest? – To jest kawa.","Co","Kas tai? – Tai kava.",["Kto","Jak"],"pyt"],
-     ["___ jest Paweł? – W Krakowie.","Gdzie","Kur Paulius? – Krakove.",["Kiedy","Kto"],"pyt"],
-     ["___ to jest kawa? – Tak.","Czy","Ar tai kava? – Taip.",["Co","Jak"],"pyt"],
-     ["To jest ___ brat.","mój","Tai mano brolis.",["moja","moje"],"przym"],
-     ["To jest ___ siostra.","moja","Tai mano sesuo.",["mój","moje"],"przym"]]},
+ dialog:[["Ola","Kto to jest?","Kas tai?"],["Jonas","To jest mój brat, Paweł.","Tai mano brolis Paulius."],["Ola","A gdzie on jest teraz?","O kur jis dabar?"],["Jonas","W Polsce, w Krakowie.","Lenkijoje, Krakove."],["Ola","Naprawdę? Dlaczego?","Tikrai? Kodėl?"],["Jonas","Nie wiem. Może ma tam dziewczynę!","Nežinau. Gal turi ten merginą!"],["Ola","Czy on mówi po polsku?","Ar jis kalba lenkiškai?"],["Jonas","Tak, i trochę po litewsku.","Taip, ir truputį lietuviškai."]]},
 
 {id:"l4",t:"Skaičiai ir amžius",d:"0–10, 20, 30, kiek tau metų",
  tip:`<p>Amžių sakome su <b>mieć</b> (turėti): <i>Mam trzydzieści lat</i> = Man trisdešimt metų (pažodžiui: turiu 30 metų).</p>
  <p>Žodis „metai“ keičiasi pagal skaičių: <i>1 rok</i>, <i>2–4 lata</i>, <i>5 ir daugiau lat</i>. Pvz. <i>mam dwa lata</i>, <i>mam pięć lat</i>.</p>`,
  words:[["zero","nulis"],["jeden","vienas"],["dwa","du"],["trzy","trys"],["cztery","keturi"],["pięć","penki"],["sześć","šeši"],["siedem","septyni"],["osiem","aštuoni"],["dziewięć","devyni"],["dziesięć","dešimt"],["dwadzieścia","dvidešimt"],["trzydzieści","trisdešimt"],["ile?","kiek?"],["ile masz lat?","kiek tau metų?"],["numer telefonu","telefono numeris"],["zadzwonię","paskambinsiu"]],
- dialog:[["Ola","Ile masz lat?","Kiek tau metų?"],["Jonas","Mam trzydzieści lat. A ty?","Man trisdešimt metų. O tau?"],["Ola","Mam dwadzieścia osiem lat.","Man dvidešimt aštuoneri."],["Jonas","Masz numer telefonu?","Turi telefono numerį?"],["Ola","Tak. Sześć, dwa, trzy, dziewięć, pięć.","Taip. Šeši, du, trys, devyni, penki."],["Jonas","Dzięki! Zadzwonię jutro.","Ačiū! Paskambinsiu rytoj."]],
- gr:[["Mam dwadzieścia ___.","lat","Man dvidešimt metų.",["lata","rok"],"lic"],
-     ["Dziecko ma dwa ___.","lata","Vaikui dveji metai.",["lat","rok"],"lic"],
-     ["Dziecko ma jeden ___.","rok","Vaikui vieneri metai.",["lata","lat"],"lic"],
-     ["Ile ___ lat?","masz","Kiek tau metų?",["mam","ma"],"czas"],
-     ["Ona ___ trzydzieści lat.","ma","Jai trisdešimt metų.",["mam","masz"],"czas"]]},
+ dialog:[["Ola","Ile masz lat?","Kiek tau metų?"],["Jonas","Mam trzydzieści lat. A ty?","Man trisdešimt metų. O tau?"],["Ola","Mam dwadzieścia osiem lat.","Man dvidešimt aštuoneri."],["Jonas","Masz numer telefonu?","Turi telefono numerį?"],["Ola","Tak. Sześć, dwa, trzy, dziewięć, pięć.","Taip. Šeši, du, trys, devyni, penki."],["Jonas","Dzięki! Zadzwonię jutro.","Ačiū! Paskambinsiu rytoj."]]},
 
 {id:"l12",t:"Skaičiai iki 1000 ir kainos",d:"11–19, dešimtys, šimtai, kasoje",
  tip:`<p><b>11–19</b> daromi su <b>-naście</b> (kaip lietuvių -lika): jedenaście, dwanaście, trzynaście, czternaście, piętnaście, szesnaście, siedemnaście, osiemnaście, dziewiętnaście.</p>
@@ -694,48 +673,27 @@ const PL_LESSONS=[
  <p><b>Šimtai:</b> sto, dwieście, trzysta, czterysta, pięćset… Sudėtiniai kaip lietuviškai: <i>czterdzieści pięć</i> = keturiasdešimt penki.</p>
  <p>Pinigai: <i>1 złoty</i>, <i>2–4 złote</i>, <i>5+ złotych</i>. Taip pat <i>grosz / grosze / groszy</i>. Po 22–24, 32–34… vėl <i>złote</i>: <i>dwadzieścia trzy złote</i>.</p>`,
  words:[["jedenaście","vienuolika"],["dwanaście","dvylika"],["piętnaście","penkiolika"],["dziewiętnaście","devyniolika"],["czterdzieści","keturiasdešimt"],["pięćdziesiąt","penkiasdešimt"],["sto","šimtas"],["dwieście","du šimtai"],["tysiąc","tūkstantis"],["grosz","grašis (1/100 zloto)"],["razem","iš viso"],["kartą","kortele (mokėti)"],["gotówką","grynaisiais"],["reszta","grąža"],["paragon","kvitas (čekis)"],["niestety","deja"],["tylko","tik"]],
- dialog:[["Kasjerka","Dzień dobry. Razem czterdzieści pięć złotych.","Laba diena. Iš viso keturiasdešimt penki zlotai."],["Klient","Kartą, proszę.","Kortele, prašau."],["Kasjerka","Niestety, tylko gotówką.","Deja, tik grynaisiais."],["Klient","Dobrze. Proszę, sto złotych.","Gerai. Prašom, šimtas zlotų."],["Kasjerka","Pięćdziesiąt pięć złotych reszty. I paragon.","Penkiasdešimt penki zlotai grąžos. Ir kvitas."],["Klient","Dziękuję. Do widzenia!","Ačiū. Viso gero!"]],
- gr:[["To kosztuje dwa ___.","złote","Tai kainuoja du zlotus.",["złotych","złoty"],"lic"],
-     ["To kosztuje pięć ___.","złotych","Tai kainuoja penkis zlotus.",["złote","złoty"],"lic"],
-     ["To kosztuje jeden ___.","złoty","Tai kainuoja vieną zlotą.",["złote","złotych"],"lic"],
-     ["Razem dwadzieścia cztery ___.","złote","Iš viso dvidešimt keturi zlotai.",["złotych","złoty"],"lic"],
-     ["Razem trzynaście ___.","złotych","Iš viso trylika zlotų.",["złote","złoty"],"lic"]]},
+ dialog:[["Kasjerka","Dzień dobry. Razem czterdzieści pięć złotych.","Laba diena. Iš viso keturiasdešimt penki zlotai."],["Klient","Kartą, proszę.","Kortele, prašau."],["Kasjerka","Niestety, tylko gotówką.","Deja, tik grynaisiais."],["Klient","Dobrze. Proszę, sto złotych.","Gerai. Prašom, šimtas zlotų."],["Kasjerka","Pięćdziesiąt pięć złotych reszty. I paragon.","Penkiasdešimt penki zlotai grąžos. Ir kvitas."],["Klient","Dziękuję. Do widzenia!","Ačiū. Viso gero!"]]},
 
 {id:"l5",t:"Kavinėje",d:"Užsisakyti kavos ir susimokėti",
  tip:`<p>Po <b>poproszę</b> (prašyčiau) daiktavardis keičiasi, kaip lietuvių galininkas. Moteriškos giminės <b>-a</b> virsta <b>-ę</b>:</p>
  <p><i>kawa → poproszę kawę</i><br><i>herbata → poproszę herbatę</i><br><i>woda → poproszę wodę</i></p>
  <p>Vyriškos giminės negyvi daiktai nekinta: <i>poproszę sok</i>.</p>`,
  words:[["kawa","kava"],["herbata","arbata"],["sok","sultys"],["piwo","alus"],["ciastko","pyragaitis"],["z mlekiem","su pienu"],["bez cukru","be cukraus"],["co dla pana?","ko jums? (vyrui)"],["coś jeszcze?","dar ko nors?"],["to wszystko","tai viskas"],["rachunek","sąskaita"],["ile płacę?","kiek mokėti?"],["złoty","zlotas"],["i","ir"]],
- dialog:[["Kelner","Dzień dobry, co dla pana?","Laba diena, ko jums?"],["Klient","Poproszę kawę z mlekiem.","Prašyčiau kavos su pienu."],["Kelner","Coś jeszcze?","Dar ko nors?"],["Klient","I ciastko.","Ir pyragaitį."],["Kelner","Proszę bardzo.","Prašom."],["Klient","Ile płacę?","Kiek mokėti?"],["Kelner","Dwadzieścia złotych.","Dvidešimt zlotų."],["Klient","Proszę. Dziękuję!","Prašom. Ačiū!"]],
- gr:[["Poproszę ___.","kawę","kawa → Prašyčiau kavos.",["kawa","kawy"],"bier"],
-     ["Poproszę ___.","herbatę","herbata → Prašyčiau arbatos.",["herbata","herbaty"],"bier"],
-     ["Poproszę ___.","sok","sok → Prašyčiau sulčių.",["soka","soki"],"bier"],
-     ["Poproszę ___.","ciastko","ciastko → Prašyčiau pyragaičio.",["ciastkę","ciastka"],"bier"],
-     ["Kawa ___ mlekiem.","z","Kava su pienu.",["bez","i"],"narz"],
-     ["Herbata bez ___.","cukru","cukier → Arbata be cukraus.",["cukier","cukrem"],"dop"]]},
+ dialog:[["Kelner","Dzień dobry, co dla pana?","Laba diena, ko jums?"],["Klient","Poproszę kawę z mlekiem.","Prašyčiau kavos su pienu."],["Kelner","Coś jeszcze?","Dar ko nors?"],["Klient","I ciastko.","Ir pyragaitį."],["Kelner","Proszę bardzo.","Prašom."],["Klient","Ile płacę?","Kiek mokėti?"],["Kelner","Dwadzieścia złotych.","Dvidešimt zlotų."],["Klient","Proszę. Dziękuję!","Prašom. Ačiū!"]]},
 
 {id:"l6",t:"Parduotuvėje",d:"Maistas, kainos, kur yra",
  tip:`<p>Zlotai keičiasi kaip lietuvių eurai: <i>1 złoty</i>, <i>2–4 złote</i>, <i>5 ir daugiau złotych</i>.</p>
  <p><b>Po lewej</b> = kairėje, <b>po prawej</b> = dešinėje. <b>Obok</b> = šalia (po jo žodis keičiasi kaip kilmininkas: <i>obok mleka</i> = šalia pieno).</p>
  <p><b>Šis, ši, šitas</b>: <i>ten ser</i> (vyr.), <i>ta ryba</i> (mot.), <i>to masło</i> (bevardė giminė).</p>`,
  words:[["sklep","parduotuvė"],["chleb","duona"],["ser","sūris"],["masło","sviestas"],["jajka","kiaušiniai"],["jabłko","obuolys"],["ziemniaki","bulvės"],["mięso","mėsa"],["ryba","žuvis"],["gdzie jest...?","kur yra...?"],["ile kosztuje?","kiek kainuoja?"],["drogo","brangu"],["tanio","pigu"],["po lewej","kairėje"],["po prawej","dešinėje"],["obok","šalia"],["ten","šis, tas"]],
- dialog:[["Klientka","Przepraszam, gdzie jest chleb?","Atsiprašau, kur yra duona?"],["Sprzedawca","Tam, po lewej.","Ten, kairėje."],["Klientka","A ser?","O sūris?"],["Sprzedawca","Ser jest obok mleka.","Sūris yra šalia pieno."],["Klientka","Ile kosztuje ten ser?","Kiek kainuoja šis sūris?"],["Sprzedawca","Dziesięć złotych.","Dešimt zlotų."],["Klientka","Trochę drogo. Ale dobrze, poproszę.","Truputį brangu. Bet gerai, prašyčiau."]],
- gr:[["Ser jest obok ___.","mleka","mleko → Sūris šalia pieno.",["mleko","mlekiem"],"dop"],
-     ["Nie ma ___.","chleba","chleb → Nėra duonos.",["chleb","chlebem"],"dop"],
-     ["Ile kosztuje ___ ser?","ten","Kiek kainuoja šis sūris?",["ta","to"],"przym"],
-     ["Ile kosztuje ___ ryba?","ta","Kiek kainuoja ši žuvis?",["ten","to"],"przym"],
-     ["Ile kosztuje ___ masło?","to","Kiek kainuoja šis sviestas?",["ten","ta"],"przym"]]},
+ dialog:[["Klientka","Przepraszam, gdzie jest chleb?","Atsiprašau, kur yra duona?"],["Sprzedawca","Tam, po lewej.","Ten, kairėje."],["Klientka","A ser?","O sūris?"],["Sprzedawca","Ser jest obok mleka.","Sūris yra šalia pieno."],["Klientka","Ile kosztuje ten ser?","Kiek kainuoja šis sūris?"],["Sprzedawca","Dziesięć złotych.","Dešimt zlotų."],["Klientka","Trochę drogo. Ale dobrze, poproszę.","Truputį brangu. Bet gerai, prašyčiau."]]},
 
 {id:"l8",t:"Šeima",d:"Broliai, seserys, vaikai",
  tip:`<p>Kaip ir lietuvių kalboje, po neiginio žodis keičiasi į kilmininką: <i>mam brata</i> (turiu brolį), bet <i>nie mam brata</i> (neturiu brolio).</p>
  <p>Gyvi vyriškos giminės daiktavardžiai galininke gauna <b>-a</b>: <i>brat → mam brata</i>, <i>syn → mam syna</i>, <i>pies → mam psa</i>.</p>`,
  words:[["rodzina","šeima"],["mama","mama"],["tata","tėtis"],["brat","brolis"],["siostra","sesuo"],["syn","sūnus"],["córka","dukra"],["mąż","vyras (sutuoktinis)"],["żona","žmona"],["dziecko","vaikas"],["dzieci","vaikai"],["rodzeństwo","broliai ir seserys"],["pies","šuo"],["mam","turiu"],["nie mam","neturiu"]],
- dialog:[["Ola","Masz rodzeństwo?","Turi brolių ar seserų?"],["Jonas","Tak, mam brata i siostrę.","Taip, turiu brolį ir seserį."],["Ola","A dzieci?","O vaikų?"],["Jonas","Mam syna i córkę. A ty?","Turiu sūnų ir dukrą. O tu?"],["Ola","Nie mam dzieci. Ale mam psa!","Neturiu vaikų. Bet turiu šunį!"],["Jonas","Jak ma na imię?","Kuo jis vardu?"],["Ola","Burek.","Burekas."]],
- gr:[["Mam ___.","brata","brat → Turiu brolį.",["brat","bratem"],"bier"],
-     ["Mam ___.","siostrę","siostra → Turiu seserį.",["siostra","siostry"],"bier"],
-     ["Mam ___.","psa","pies → Turiu šunį.",["pies","psy"],"bier"],
-     ["Nie mam ___.","siostry","siostra → Neturiu sesers.",["siostrę","siostra"],"dop"],
-     ["Nie mam ___.","brata","brat → Neturiu brolio.",["brat","bratem"],"dop"]]},
+ dialog:[["Ola","Masz rodzeństwo?","Turi brolių ar seserų?"],["Jonas","Tak, mam brata i siostrę.","Taip, turiu brolį ir seserį."],["Ola","A dzieci?","O vaikų?"],["Jonas","Mam syna i córkę. A ty?","Turiu sūnų ir dukrą. O tu?"],["Ola","Nie mam dzieci. Ale mam psa!","Neturiu vaikų. Bet turiu šunį!"],["Jonas","Jak ma na imię?","Kuo jis vardu?"],["Ola","Burek.","Burekas."]]},
 
 {id:"l9",t:"Darbas ir namai",d:"Kur gyveni, ką dirbi, ką mėgsti",
  tip:`<p>Dauguma veiksmažodžių keičiasi pagal du modelius:</p>
@@ -744,72 +702,40 @@ const PL_LESSONS=[
  <p>Miestai po <b>w</b> keičiasi (vietininkas): <i>Wilno → w Wilnie</i>, <i>Kowno → w Kownie</i>, <i>Warszawa → w Warszawie</i>.</p>
  <p>Profesija po <b>jestem</b> – įnagininkas, kaip lietuvių „dirbu vairuotoju“: <i>jestem kierowcą</i>, <i>jestem lekarzem</i>.</p>`,
  words:[["mieszkać","gyventi"],["pracować","dirbti"],["lubić","mėgti"],["robić","daryti"],["jeść","valgyti"],["pić","gerti"],["mieszkam","gyvenu"],["pracuję","dirbu"],["lubię","mėgstu"],["praca","darbas"],["biuro","biuras"],["dom","namas, namai"],["w domu","namie"],["kierowca","vairuotojas"],["bardzo","labai"]],
- dialog:[["Ola","Gdzie mieszkasz?","Kur gyveni?"],["Jonas","Mieszkam w Kownie. A ty?","Gyvenu Kaune. O tu?"],["Ola","W Wilnie. Gdzie pracujesz?","Vilniuje. Kur dirbi?"],["Jonas","Jestem kierowcą. A ty?","Esu vairuotojas. O tu?"],["Ola","Pracuję w biurze.","Dirbu biure."],["Jonas","Lubisz swoją pracę?","Ar mėgsti savo darbą?"],["Ola","Tak, bardzo lubię.","Taip, labai mėgstu."]],
- gr:[["Ja ___ w Wilnie.","mieszkam","mieszkać → Aš gyvenu Vilniuje.",["mieszka","mieszkasz"],"czas"],
-     ["Gdzie ty ___?","pracujesz","pracować → Kur tu dirbi?",["pracuję","pracuje"],"czas"],
-     ["Ona ___ w biurze.","pracuje","pracować → Ji dirba biure.",["pracuję","pracują"],"czas"],
-     ["Oni ___ w Kownie.","mieszkają","mieszkać → Jie gyvena Kaune.",["mieszkamy","mieszka"],"czas"],
-     ["Mieszkam w ___.","Warszawie","Warszawa → Gyvenu Varšuvoje.",["Warszawa","Warszawę"],"miej"],
-     ["Jestem ___.","kierowcą","kierowca → Esu vairuotojas.",["kierowca","kierowcę"],"narz"]]},
+ dialog:[["Ola","Gdzie mieszkasz?","Kur gyveni?"],["Jonas","Mieszkam w Kownie. A ty?","Gyvenu Kaune. O tu?"],["Ola","W Wilnie. Gdzie pracujesz?","Vilniuje. Kur dirbi?"],["Jonas","Jestem kierowcą. A ty?","Esu vairuotojas. O tu?"],["Ola","Pracuję w biurze.","Dirbu biure."],["Jonas","Lubisz swoją pracę?","Ar mėgsti savo darbą?"],["Ola","Tak, bardzo lubię.","Taip, labai mėgstu."]]},
 
 {id:"l13",t:"Koks? Būdvardžiai ir spalvos",d:"Didelis, naujas, raudonas; trys giminės",
  tip:`<p>Būdvardis derinasi su daiktavardžio gimine, kaip lietuviškai. Tik lenkų kalboje giminės <b>trys</b>:</p>
  <p class="conj">vyr.: <b>duży</b> dom, <b>tani</b> ser<br>mot.: <b>duża</b> kawa, <b>tania</b> ryba<br>bevardė: <b>duże</b> piwo, <b>tanie</b> mleko</p>
  <p>Giminę dažniausiai matai iš galūnės: priebalsis – vyriškoji (dom, ser), <b>-a</b> – moteriškoji (kawa, ulica), <b>-o, -e, -ę</b> – bevardė (mleko, piwo, dziecko).</p>`,
  words:[["jaki?","koks?"],["duży","didelis"],["mały","mažas"],["nowy","naujas"],["stary","senas"],["dobry","geras"],["ładny","gražus"],["tani","pigus"],["drogi","brangus"],["biały","baltas"],["czarny","juodas"],["czerwony","raudonas"],["zielony","žalias"],["niebieski","mėlynas"],["samochód","automobilis"],["twój","tavo"]],
- dialog:[["Ola","Masz nowy samochód?","Turi naują automobilį?"],["Jonas","Tak! Jest czerwony i bardzo ładny.","Taip! Jis raudonas ir labai gražus."],["Ola","Duży czy mały?","Didelis ar mažas?"],["Jonas","Mały, ale dobry. A twój?","Mažas, bet geras. O tavo?"],["Ola","Mój jest stary i biały. Ale lubię go!","Mano senas ir baltas. Bet aš jį mėgstu!"]],
- gr:[["To jest ___ dom.","duży","didelis → Tai didelis namas.",["duża","duże"],"przym"],
-     ["To jest ___ kawa.","dobra","geras → Tai gera kava.",["dobry","dobre"],"przym"],
-     ["To jest ___ piwo.","tanie","pigus → Tai pigus alus.",["tani","tania"],"przym"],
-     ["Mój samochód jest ___.","czerwony","raudonas → Mano automobilis raudonas.",["czerwona","czerwone"],"przym"],
-     ["Moja ulica jest ___.","stara","senas → Mano gatvė sena.",["stary","stare"],"przym"],
-     ["To jest ___ kawa?","twoja","tavo → Ar tai tavo kava?",["twój","twoje"],"przym"]]},
+ dialog:[["Ola","Masz nowy samochód?","Turi naują automobilį?"],["Jonas","Tak! Jest czerwony i bardzo ładny.","Taip! Jis raudonas ir labai gražus."],["Ola","Duży czy mały?","Didelis ar mažas?"],["Jonas","Mały, ale dobry. A twój?","Mažas, bet geras. O tavo?"],["Ola","Mój jest stary i biały. Ale lubię go!","Mano senas ir baltas. Bet aš jį mėgstu!"]]},
 
 {id:"l14",t:"Noriu, galiu, turiu",d:"chcieć, móc, musieć + veiksmažodis",
  tip:`<p>Po šių veiksmažodžių eina bendratis (-ć), kaip lietuviškai: <i>Chcę pić</i> = Noriu gerti.</p>
  <p class="conj"><b>chcieć</b>: chcę, chcesz, chce, chcemy, chcecie, chcą<br><b>móc</b>: mogę, możesz, może, możemy, możecie, mogą<br><b>musieć</b>: muszę, musisz, musi, musimy, musicie, muszą</p>
  <p>Mandagiai: <i>Chciałbym</i> (sako vyras) / <i>Chciałabym</i> (sako moteris) = Norėčiau. Pastaba: <i>może</i> = „gal“ ir „(jis) gali“.</p>`,
  words:[["chcieć","norėti"],["chcę","noriu"],["chcesz?","ar nori?"],["móc","galėti"],["mogę","galiu"],["możesz?","ar gali?"],["musieć","privalėti"],["muszę","turiu (privalau)"],["chciałbym","norėčiau (sako vyras)"],["chciałabym","norėčiau (sako moteris)"],["pomóc","padėti"],["kupić","nupirkti"],["później","vėliau"],["dużo","daug"],["czas","laikas"],["nie mam czasu","neturiu laiko"]],
- dialog:[["Jonas","Ola, możesz mi pomóc?","Ola, ar gali man padėti?"],["Ola","Teraz nie mogę. Muszę pracować.","Dabar negaliu. Turiu dirbti."],["Jonas","A później?","O vėliau?"],["Ola","Później tak. Co chcesz zrobić?","Vėliau taip. Ką nori padaryti?"],["Jonas","Chcę kupić nowy telewizor.","Noriu nusipirkti naują televizorių."],["Ola","Dobrze, ale nie mam dużo czasu.","Gerai, bet neturiu daug laiko."],["Jonas","Dzięki! Potem kawa?","Ačiū! Paskui kavos?"],["Ola","Chętnie!","Mielai!"]],
- gr:[["Ja ___ pić.","chcę","norėti → Aš noriu gerti.",["chce","chcesz"],"modal"],
-     ["Czy ___ mi pomóc?","możesz","móc → Ar (tu) gali man padėti?",["mogę","może"],"modal"],
-     ["Teraz nie ___.","mogę","móc → Dabar (aš) negaliu.",["może","możesz"],"modal"],
-     ["Ona ___ pracować.","musi","musieć → Ji turi dirbti.",["muszę","musisz"],"modal"],
-     ["Chcę ___ kawę.","kupić","Noriu nupirkti kavos.",["kupię","kupi"],"modal"],
-     ["Nie mam ___.","czasu","czas → Neturiu laiko.",["czas","czasem"],"dop"]]},
+ dialog:[["Jonas","Ola, możesz mi pomóc?","Ola, ar gali man padėti?"],["Ola","Teraz nie mogę. Muszę pracować.","Dabar negaliu. Turiu dirbti."],["Jonas","A później?","O vėliau?"],["Ola","Później tak. Co chcesz zrobić?","Vėliau taip. Ką nori padaryti?"],["Jonas","Chcę kupić nowy telewizor.","Noriu nusipirkti naują televizorių."],["Ola","Dobrze, ale nie mam dużo czasu.","Gerai, bet neturiu daug laiko."],["Jonas","Dzięki! Potem kawa?","Ačiū! Paskui kavos?"],["Ola","Chętnie!","Mielai!"]]},
 
 {id:"l10",t:"Dienos ir planai",d:"Savaitės dienos, susitikimas",
  tip:`<p>Kada? <b>w</b> + diena: <i>w poniedziałek, we wtorek, w środę, w czwartek, w piątek, w sobotę, w niedzielę</i>. Moteriškos giminės dienos keičia galūnę (<i>środa → w środę</i>).</p>
  <p><b>O której?</b> = Kelintą valandą? Atsakymas: <i>o siódmej</i> (septintą).</p>`,
  words:[["poniedziałek","pirmadienis"],["wtorek","antradienis"],["środa","trečiadienis"],["czwartek","ketvirtadienis"],["piątek","penktadienis"],["sobota","šeštadienis"],["niedziela","sekmadienis"],["dzisiaj","šiandien"],["jutro","rytoj"],["wczoraj","vakar"],["rano","ryte"],["wieczorem","vakare"],["o której?","kelintą valandą?"],["chętnie","mielai"],["kino","kinas"],["nic","nieko"]],
- dialog:[["Ola","Co robisz w sobotę?","Ką veiki šeštadienį?"],["Jonas","Nic. Dlaczego?","Nieko. Kodėl?"],["Ola","Idziemy do kina?","Einam į kiną?"],["Jonas","Chętnie! O której?","Mielai! Kelintą valandą?"],["Ola","O siódmej wieczorem.","Septintą vakare."],["Jonas","Dobrze. Do zobaczenia w sobotę!","Gerai. Iki pasimatymo šeštadienį!"]],
- gr:[["Co robisz w ___?","sobotę","sobota → Ką veiki šeštadienį?",["sobota","soboty"],"kiedy"],
-     ["Do zobaczenia w ___.","środę","środa → Iki trečiadienio.",["środa","środy"],"kiedy"],
-     ["Do zobaczenia ___ piątek.","w","Iki penktadienio.",["we","na"],"kiedy"],
-     ["Do zobaczenia ___ wtorek.","we","Iki antradienio.",["w","na"],"kiedy"],
-     ["Idziemy do ___.","kina","kino → Einam į kiną.",["kino","kinie"],"dop"]]},
+ dialog:[["Ola","Co robisz w sobotę?","Ką veiki šeštadienį?"],["Jonas","Nic. Dlaczego?","Nieko. Kodėl?"],["Ola","Idziemy do kina?","Einam į kiną?"],["Jonas","Chętnie! O której?","Mielai! Kelintą valandą?"],["Ola","O siódmej wieczorem.","Septintą vakare."],["Jonas","Dobrze. Do zobaczenia w sobotę!","Gerai. Iki pasimatymo šeštadienį!"]]},
 
 {id:"l15",t:"Kelinta valanda?",d:"Valandos, pusė, po penkių minučių",
  tip:`<p>Valandos sakomos kelintiniais skaitvardžiais (moteriškoji giminė, nes <i>godzina</i>): pierwsza, druga, trzecia, czwarta, piąta, szósta, siódma, ósma, dziewiąta, dziesiąta, jedenasta, dwunasta.</p>
  <p><i>Która jest godzina?</i> – <i>Jest ósma.</i> (Aštunta.)<br>Kada? <b>o</b> + galūnė <b>-ej</b>: <i>o ósmej</i> (aštuntą), <i>o dziewiątej</i> (devintą).</p>
  <p><b>Wpół do dziewiątej</b> = pusė devynių (8:30), lygiai kaip lietuviškai. Paprasčiau: <i>ósma trzydzieści</i>. <b>Za pięć minut</b> = po penkių minučių.</p>`,
  words:[["która jest godzina?","kelinta valanda?"],["godzina","valanda"],["minuta","minutė"],["pierwsza","pirma (valanda)"],["druga","antra (valanda)"],["trzecia","trečia (valanda)"],["ósma","aštunta (valanda)"],["dziewiąta","devinta (valanda)"],["o dziewiątej","devintą (valandą)"],["wpół do","pusė (8:30 = wpół do dziewiątej)"],["pół godziny","pusvalandis"],["za pięć minut","po penkių minučių"],["po południu","po pietų"],["pociąg","traukinys"],["jeszcze","dar"],["spokojnie","ramiai"]],
- dialog:[["Ania","Przepraszam, która jest godzina?","Atsiprašau, kelinta valanda?"],["Tomek","Jest wpół do dziewiątej.","Pusė devynių."],["Ania","Oj! Pociąg jest o dziewiątej!","Oi! Traukinys devintą!"],["Tomek","Spokojnie, masz jeszcze pół godziny.","Ramiai, dar turi pusvalandį."],["Ania","A o której jest autobus na dworzec?","O kelintą autobusas į stotį?"],["Tomek","Za pięć minut. Tam, na przystanku.","Po penkių minučių. Ten, stotelėje."],["Ania","Dziękuję!","Ačiū!"]],
- gr:[["Jest ___.","ósma","8:00 → Aštunta valanda.",["ósmej","osiem"],"kiedy"],
-     ["Pociąg jest o ___.","dziewiątej","9:00 → Traukinys devintą.",["dziewiąta","dziewięć"],"kiedy"],
-     ["Kino jest o ___.","siódmej","7:00 → Kinas septintą.",["siódma","siedem"],"kiedy"],
-     ["Jest wpół do ___.","dziewiątej","8:30 → Pusė devynių.",["ósmej","dziewiąta"],"kiedy"],
-     ["Autobus jest ___ pięć minut.","za","Autobusas po penkių minučių.",["po","o"],"kiedy"]]},
+ dialog:[["Ania","Przepraszam, która jest godzina?","Atsiprašau, kelinta valanda?"],["Tomek","Jest wpół do dziewiątej.","Pusė devynių."],["Ania","Oj! Pociąg jest o dziewiątej!","Oi! Traukinys devintą!"],["Tomek","Spokojnie, masz jeszcze pół godziny.","Ramiai, dar turi pusvalandį."],["Ania","A o której jest autobus na dworzec?","O kelintą autobusas į stotį?"],["Tomek","Za pięć minut. Tam, na przystanku.","Po penkių minučių. Ten, stotelėje."],["Ania","Dziękuję!","Ačiū!"]]},
 
 {id:"l7",t:"Mieste",d:"Kelio klausimas, transportas",
  tip:`<p><b>W lewo</b> = į kairę (kryptis), <b>po lewej</b> = kairėje (vieta). Taip pat <b>w prawo</b> ir <b>po prawej</b>.</p>
  <p>Kai kas nors padėkoja, atsakoma <b>nie ma za co</b> (nėra už ką).</p>`,
  words:[["dworzec","stotis"],["przystanek","stotelė"],["ulica","gatvė"],["prosto","tiesiai"],["w lewo","į kairę"],["w prawo","į dešinę"],["potem","paskui"],["daleko","toli"],["blisko","arti"],["tutaj","čia"],["tam","ten"],["autobus","autobusas"],["tramwaj","tramvajus"],["bilet","bilietas"],["pieszo","pėsčiomis"],["nie ma za co","nėra už ką"],["kiosk","kioskas"]],
- dialog:[["Turysta","Przepraszam, gdzie jest dworzec?","Atsiprašau, kur yra stotis?"],["Pani","Prosto, potem w lewo.","Tiesiai, paskui į kairę."],["Turysta","Czy to daleko?","Ar tai toli?"],["Pani","Nie, blisko. Pięć minut pieszo.","Ne, arti. Penkios minutės pėsčiomis."],["Turysta","A gdzie kupię bilet?","O kur nusipirksiu bilietą?"],["Pani","W kiosku, tam po prawej.","Kioske, ten dešinėje."],["Turysta","Dziękuję bardzo!","Labai ačiū!"],["Pani","Nie ma za co.","Nėra už ką."]],
- gr:[["Prosto, potem ___ lewo.","w","Tiesiai, paskui į kairę.",["po","na"],"ruch"],
-     ["Kiosk jest ___ prawej.","po","Kioskas dešinėje.",["w","na"],"ruch"],
-     ["Kupię bilet w ___.","kiosku","kiosk → Nusipirksiu bilietą kioske.",["kiosk","kioskiem"],"miej"],
-     ["Dziękuję! – Nie ma za ___.","co","Ačiū! – Nėra už ką.",["to","nic"],"pyt"]]},
+ dialog:[["Turysta","Przepraszam, gdzie jest dworzec?","Atsiprašau, kur yra stotis?"],["Pani","Prosto, potem w lewo.","Tiesiai, paskui į kairę."],["Turysta","Czy to daleko?","Ar tai toli?"],["Pani","Nie, blisko. Pięć minut pieszo.","Ne, arti. Penkios minutės pėsčiomis."],["Turysta","A gdzie kupię bilet?","O kur nusipirksiu bilietą?"],["Pani","W kiosku, tam po prawej.","Kioske, ten dešinėje."],["Turysta","Dziękuję bardzo!","Labai ačiū!"],["Pani","Nie ma za co.","Nėra už ką."]]},
 
 {id:"l16",t:"Eiti ar važiuoti",d:"iść, jechać; į ką ir kuo",
  tip:`<p>Lenkai skiria: <b>iść</b> = eiti pėsčiomis, <b>jechać</b> = važiuoti.</p>
@@ -817,112 +743,62 @@ const PL_LESSONS=[
  <p>Kur (į ką)? Dažniausiai <b>do</b> + kilmininkas: <i>do domu, do pracy, do Warszawy, do kina</i>. Į renginį ar atvirą vietą – <b>na</b>: <i>na dworzec, na koncert</i>.</p>
  <p>Kuo? Įnagininkas, kaip lietuviškai: <i>autobusem</i> (autobusu), <i>pociągiem</i>, <i>samochodem</i>.</p>`,
  words:[["iść","eiti"],["idę","einu"],["jechać","važiuoti"],["jadę","važiuoju"],["dokąd?","kur? (į kur?)"],["do domu","namo"],["do pracy","į darbą"],["na dworzec","į stotį"],["autobusem","autobusu"],["pociągiem","traukiniu"],["samochodem","automobiliu"],["samolotem","lėktuvu"],["wracać","grįžti"],["szczęśliwej podróży!","laimingos kelionės!"]],
- dialog:[["Ola","Cześć! Dokąd idziesz?","Labas! Kur eini?"],["Jonas","Idę na dworzec. Jadę do Warszawy.","Einu į stotį. Važiuoju į Varšuvą."],["Ola","Pociągiem?","Traukiniu?"],["Jonas","Tak. Samolotem jest drogo.","Taip. Lėktuvu brangu."],["Ola","A kiedy wracasz?","O kada grįžti?"],["Jonas","W niedzielę wieczorem.","Sekmadienį vakare."],["Ola","Szczęśliwej podróży!","Laimingos kelionės!"]],
- gr:[["Ja ___ do pracy pieszo.","idę","eiti → Einu į darbą pėsčiomis.",["jadę","idzie"],"ruch"],
-     ["Jutro ___ do Krakowa pociągiem.","jadę","važiuoti → Rytoj (aš) važiuoju į Krakovą traukiniu.",["idę","jedzie"],"ruch"],
-     ["Jedziemy ___.","autobusem","autobus → Važiuojame autobusu.",["autobus","autobusu"],"narz"],
-     ["Idę do ___.","domu","dom → Einu namo.",["dom","domem"],"dop"],
-     ["Jadę do ___.","Warszawy","Warszawa → Važiuoju į Varšuvą.",["Warszawa","Warszawie"],"dop"],
-     ["Idę ___ dworzec.","na","Einu į stotį.",["do","w"],"ruch"]]},
+ dialog:[["Ola","Cześć! Dokąd idziesz?","Labas! Kur eini?"],["Jonas","Idę na dworzec. Jadę do Warszawy.","Einu į stotį. Važiuoju į Varšuvą."],["Ola","Pociągiem?","Traukiniu?"],["Jonas","Tak. Samolotem jest drogo.","Taip. Lėktuvu brangu."],["Ola","A kiedy wracasz?","O kada grįžti?"],["Jonas","W niedzielę wieczorem.","Sekmadienį vakare."],["Ola","Szczęśliwej podróży!","Laimingos kelionės!"]]},
 
 {id:"l17",t:"Restorane",d:"Užsisakyti patiekalą, su kuo, skanaus",
  tip:`<p>Su kuo? <b>z</b> + įnagininkas: vyr. ir bev. giminė <b>-em</b> (<i>z serem, z mięsem</i>), mot. giminė <b>-ą</b> (<i>z rybą, z cytryną</i>).</p>
  <p>Užsisakant: <i>Dla mnie…</i> = Man… <i>Smacznego!</i> = Skanaus! Sąskaitos prašome: <i>Poproszę rachunek</i>.</p>`,
  words:[["menu","meniu"],["co pan poleca?","ką rekomenduojate? (vyrui)"],["polecam","rekomenduoju"],["pierogi","pierogai (koldūnai)"],["zupa","sriuba"],["sałatka","salotos"],["kurczak","vištiena"],["dla mnie","man (užsakant)"],["albo","arba"],["do picia","atsigerti"],["cytryna","citrina"],["smacznego!","skanaus!"],["pyszne","labai skanu"],["deser","desertas"],["kelner","padavėjas"]],
- dialog:[["Kelner","Dobry wieczór. Proszę, tu jest menu.","Labas vakaras. Prašom, štai meniu."],["Klientka","Dziękuję. Co pan poleca?","Ačiū. Ką rekomenduojate?"],["Kelner","Polecam pierogi z mięsem albo zupę.","Rekomenduoju pierogus su mėsa arba sriubą."],["Klientka","Dla mnie pierogi i sałatka.","Man pierogai ir salotos."],["Kelner","A do picia?","O ką gersite?"],["Klientka","Woda z cytryną, proszę.","Vanduo su citrina, prašau."],["Kelner","Proszę bardzo. Smacznego!","Prašom. Skanaus!"],["Klientka","Pyszne! Poproszę rachunek.","Labai skanu! Prašyčiau sąskaitos."]],
- gr:[["Pierogi z ___.","mięsem","mięso → Pierogai su mėsa.",["mięso","mięsa"],"narz"],
-     ["Woda z ___.","cytryną","cytryna → Vanduo su citrina.",["cytryna","cytrynę"],"narz"],
-     ["Kawa z ___.","mlekiem","mleko → Kava su pienu.",["mleko","mleka"],"narz"],
-     ["Herbata z ___.","cukrem","cukier → Arbata su cukrumi.",["cukru","cukier"],"narz"],
-     ["Poproszę ___.","zupę","zupa → Prašyčiau sriubos.",["zupa","zupą"],"bier"],
-     ["Kurczak ___ ziemniakami.","z","Vištiena su bulvėmis.",["bez","o"],"narz"]]},
+ dialog:[["Kelner","Dobry wieczór. Proszę, tu jest menu.","Labas vakaras. Prašom, štai meniu."],["Klientka","Dziękuję. Co pan poleca?","Ačiū. Ką rekomenduojate?"],["Kelner","Polecam pierogi z mięsem albo zupę.","Rekomenduoju pierogus su mėsa arba sriubą."],["Klientka","Dla mnie pierogi i sałatka.","Man pierogai ir salotos."],["Kelner","A do picia?","O ką gersite?"],["Klientka","Woda z cytryną, proszę.","Vanduo su citrina, prašau."],["Kelner","Proszę bardzo. Smacznego!","Prašom. Skanaus!"],["Klientka","Pyszne! Poproszę rachunek.","Labai skanu! Prašyčiau sąskaitos."]]},
 
 {id:"l18",t:"Savijauta ir gydytojas",d:"Man skauda, jaučiuosi blogai, vaistinė",
  tip:`<p><b>Boli mnie</b> + kas (vardininkas): <i>Boli mnie głowa</i> = Man skauda galvą (pažodžiui „skauda mane galva“). Daugiskaita: <i>Bolą mnie nogi</i>.</p>
  <p><i>Czuję się dobrze / źle</i> = Jaučiuosi gerai / blogai. Būdvardis pagal lytį: <i>jestem chory</i> (vyras), <i>jestem chora</i> (moteris).</p>
  <p>Pagalbos numeris Lenkijoje, kaip ir Lietuvoje: <b>112</b>.</p>`,
  words:[["lekarz","gydytojas"],["apteka","vaistinė"],["co się dzieje?","kas atsitiko?"],["źle","blogai"],["czuję się","jaučiuosi"],["boli mnie","man skauda"],["głowa","galva"],["gardło","gerklė"],["brzuch","pilvas"],["ząb","dantis"],["gorączka","karščiavimas"],["grypa","gripas"],["tabletka","tabletė"],["trzy razy dziennie","tris kartus per dieną"],["chory","sergantis (vyr.)"]],
- dialog:[["Lekarz","Dzień dobry. Co się dzieje?","Laba diena. Kas atsitiko?"],["Jonas","Źle się czuję. Boli mnie głowa i gardło.","Blogai jaučiuosi. Skauda galvą ir gerklę."],["Lekarz","Ma pan gorączkę?","Ar karščiuojate?"],["Jonas","Tak, trochę. Od wczoraj.","Taip, truputį. Nuo vakar."],["Lekarz","To grypa. Proszę dużo pić i odpoczywać.","Tai gripas. Gerkite daug ir ilsėkitės."],["Lekarz","I tabletka trzy razy dziennie.","Ir tabletė tris kartus per dieną."],["Jonas","Dziękuję bardzo.","Labai ačiū."]],
- gr:[["Boli mnie ___.","głowa","galva → Man skauda galvą.",["głowę","głowy"],"czas"],
-     ["___ mnie nogi.","Bolą","Man skauda kojas.",["Boli","Bolę"],"czas"],
-     ["Ja ___ się dobrze.","czuję","Aš jaučiuosi gerai.",["czuje","czujesz"],"czas"],
-     ["Muszę iść do ___.","lekarza","lekarz → Turiu eiti pas gydytoją.",["lekarz","lekarzem"],"dop"],
-     ["Ona jest ___.","chora","sergantis → Ji serga.",["chory","chore"],"przym"]]},
+ dialog:[["Lekarz","Dzień dobry. Co się dzieje?","Laba diena. Kas atsitiko?"],["Jonas","Źle się czuję. Boli mnie głowa i gardło.","Blogai jaučiuosi. Skauda galvą ir gerklę."],["Lekarz","Ma pan gorączkę?","Ar karščiuojate?"],["Jonas","Tak, trochę. Od wczoraj.","Taip, truputį. Nuo vakar."],["Lekarz","To grypa. Proszę dużo pić i odpoczywać.","Tai gripas. Gerkite daug ir ilsėkitės."],["Lekarz","I tabletka trzy razy dziennie.","Ir tabletė tris kartus per dieną."],["Jonas","Dziękuję bardzo.","Labai ačiū."]]},
 
 {id:"l19",t:"Vakar: būtasis laikas",d:"Buvau, dariau, mačiau",
  tip:`<p>Būtasis laikas lenkų kalboje skiriasi pagal lytį! Kalbantis vyras sako <b>byłem</b> (buvau), moteris – <b>byłam</b>.</p>
  <p class="conj">vyras: byłem, byłeś, był<br>moteris: byłam, byłaś, była<br>bevardė: było (<i>Było pyszne</i> = Buvo skanu)</p>
  <p>Daryba paprasta: bendratis be <b>-ć</b> + <b>ł</b> + galūnė: <i>robić → robiłem / robiłam</i>, <i>widzieć → widziałem / widziałam</i>, <i>pracować → pracowałem / pracowałam</i>.</p>`,
  words:[["byłem","buvau (sako vyras)"],["byłam","buvau (sako moteris)"],["był","buvo (jis)"],["była","buvo (ji)"],["było","buvo (bev. g.)"],["byłeś?","ar buvai? (vyrui)"],["byłaś?","ar buvai? (moteriai)"],["robiłem","dariau (sako vyras)"],["robiłam","dariau (sako moteris)"],["widziałem","mačiau (sako vyras)"],["widziałam","mačiau (sako moteris)"],["kolacja","vakarienė"],["też","irgi"],["kiedyś","kada nors"],["rok temu","prieš metus"],["film","filmas"]],
- dialog:[["Ola","Co robiłeś wczoraj wieczorem?","Ką veikei vakar vakare?"],["Jonas","Byłem w kinie. A ty?","Buvau kine. O tu?"],["Ola","Ja byłam w domu. Robiłam kolację.","Aš buvau namie. Gaminau vakarienę."],["Jonas","Widziałem nowy film. Był świetny!","Mačiau naują filmą. Buvo puikus!"],["Ola","Naprawdę? Ja też chcę go zobaczyć.","Tikrai? Aš irgi noriu jį pamatyti."],["Jonas","Byłaś kiedyś w Gdańsku?","Ar kada nors buvai Gdanske?"],["Ola","Tak, rok temu. Było pięknie!","Taip, prieš metus. Buvo gražu!"]],
- gr:[["Wczoraj ___ w domu.","byłem","(aš, vyras) Vakar buvau namie.",["byłam","był"],"przesz"],
-     ["Wczoraj ___ w kinie.","byłam","(aš, moteris) Vakar buvau kine.",["byłem","była"],"przesz"],
-     ["Ola ___ w Gdańsku.","była","Ola buvo Gdanske.",["był","byłam"],"przesz"],
-     ["Jonas ___ w pracy.","był","Jonas buvo darbe.",["była","było"],"przesz"],
-     ["Co ___ wczoraj?","robiłeś","(tu, vyras) Ką veikei vakar?",["robiłaś","robił"],"przesz"],
-     ["To ___ pyszne!","było","Tai buvo labai skanu!",["był","była"],"przesz"]]},
+ dialog:[["Ola","Co robiłeś wczoraj wieczorem?","Ką veikei vakar vakare?"],["Jonas","Byłem w kinie. A ty?","Buvau kine. O tu?"],["Ola","Ja byłam w domu. Robiłam kolację.","Aš buvau namie. Gaminau vakarienę."],["Jonas","Widziałem nowy film. Był świetny!","Mačiau naują filmą. Buvo puikus!"],["Ola","Naprawdę? Ja też chcę go zobaczyć.","Tikrai? Aš irgi noriu jį pamatyti."],["Jonas","Byłaś kiedyś w Gdańsku?","Ar kada nors buvai Gdanske?"],["Ola","Tak, rok temu. Było pięknie!","Taip, prieš metus. Buvo gražu!"]]},
 
 {id:"l20",t:"Orai ir metų laikai",d:"Šilta, šalta, lyja, žiemą",
  tip:`<p><i>Jaka jest pogoda?</i> = Koks oras? Atsakymas su prieveiksmiu, kaip lietuviškai: <i>jest ciepło</i> (šilta), <i>jest zimno</i> (šalta).</p>
  <p><b>Pada deszcz</b> = lyja, <b>pada śnieg</b> = sninga (pažodžiui „krenta lietus, sniegas“).</p>
  <p>Kada? Metų laikai įnagininku: <i>zimą</i> (žiemą), <i>latem</i> (vasarą), <i>wiosną</i>, <i>jesienią</i>. Po neiginio kilmininkas: <i>nie lubię zimy</i> (nemėgstu žiemos).</p>`,
  words:[["pogoda","oras"],["jaka jest pogoda?","koks oras?"],["ciepło","šilta"],["zimno","šalta"],["gorąco","karšta"],["słońce","saulė"],["pada deszcz","lyja"],["pada śnieg","sninga"],["zima","žiema"],["wiosna","pavasaris"],["lato","vasara"],["jesień","ruduo"],["zimą","žiemą"],["latem","vasarą"],["parasol","skėtis"],["znowu","vėl"]],
- dialog:[["Ania","Jaka jest dzisiaj pogoda?","Koks šiandien oras?"],["Tomek","Zimno i pada deszcz.","Šalta ir lyja."],["Ania","Znowu! Wczoraj też padało.","Vėl! Vakar irgi lijo."],["Tomek","Weź parasol!","Pasiimk skėtį!"],["Ania","A jutro?","O rytoj?"],["Tomek","Jutro będzie ciepło i słońce.","Rytoj bus šilta ir saulėta."],["Ania","Super! Lubię lato, nie lubię zimy.","Super! Mėgstu vasarą, nemėgstu žiemos."]],
- gr:[["Dzisiaj jest ___.","ciepło","šilta → Šiandien šilta.",["ciepły","ciepła"],"przym"],
-     ["Lubię ___.","lato","lato → Mėgstu vasarą.",["lata","latem"],"bier"],
-     ["Nie lubię ___.","zimy","zima → Nemėgstu žiemos.",["zimę","zima"],"dop"],
-     ["___ jest zimno.","Zimą","Žiemą šalta.",["Zima","Zimę"],"narz"],
-     ["Wczoraj ___ deszcz.","padał","Vakar lijo.",["pada","padała"],"przesz"]]},
+ dialog:[["Ania","Jaka jest dzisiaj pogoda?","Koks šiandien oras?"],["Tomek","Zimno i pada deszcz.","Šalta ir lyja."],["Ania","Znowu! Wczoraj też padało.","Vėl! Vakar irgi lijo."],["Tomek","Weź parasol!","Pasiimk skėtį!"],["Ania","A jutro?","O rytoj?"],["Tomek","Jutro będzie ciepło i słońce.","Rytoj bus šilta ir saulėta."],["Ania","Super! Lubię lato, nie lubię zimy.","Super! Mėgstu vasarą, nemėgstu žiemos."]]},
 
 {id:"l21",t:"Drabužiai ir apsipirkimas",d:"Ieškau, pasimatuoti, per didelis",
  tip:`<p><b>Szukam</b> (ieškau) + kilmininkas, kaip lietuviškai: <i>szukam kurtki</i> (ieškau striukės).</p>
  <p>Spalva derinasi su gimine: <i>czarny sweter</i>, <i>czarna kurtka</i>, <i>czarne buty</i> (daugiskaita daiktams – <b>-e</b>). <i>Spodnie</i>, kaip ir „kelnės“, turi tik daugiskaitą.</p>
  <p><b>Za duży</b> = per didelis. Galininkas nuo <i>ta</i> yra <b>tę</b>: <i>Mogę przymierzyć tę kurtkę?</i></p>`,
  words:[["w czym mogę pomóc?","kuo galiu padėti?"],["szukam","ieškau"],["kurtka","striukė"],["sweter","megztinis"],["koszula","marškiniai"],["spodnie","kelnės"],["buty","batai"],["sukienka","suknelė"],["rozmiar","dydis"],["przymierzyć","pasimatuoti"],["przymierzalnia","matavimosi kabina"],["za duży","per didelis"],["za mały","per mažas"],["oczywiście","žinoma"],["promocja","akcija (nuolaida)"]],
- dialog:[["Sprzedawczyni","Dzień dobry, w czym mogę pomóc?","Laba diena, kuo galiu padėti?"],["Klient","Szukam kurtki. Czarnej albo niebieskiej.","Ieškau striukės. Juodos arba mėlynos."],["Sprzedawczyni","Jaki rozmiar?","Koks dydis?"],["Klient","M. Mogę przymierzyć tę?","M. Ar galiu pasimatuoti šitą?"],["Sprzedawczyni","Oczywiście. Przymierzalnia jest tam.","Žinoma. Matavimosi kabina ten."],["Klient","Jest trochę za duża. Ma pani rozmiar S?","Šiek tiek per didelė. Ar turite S dydį?"],["Sprzedawczyni","Tak, proszę. I dzisiaj jest promocja!","Taip, prašom. O šiandien akcija!"]],
- gr:[["Szukam ___.","kurtki","kurtka → Ieškau striukės.",["kurtkę","kurtka"],"dop"],
-     ["Ta kurtka jest ___ duża.","za","Ši striukė per didelė.",["na","do"],"przym"],
-     ["Mam ___ buty.","czarne","juodas → Turiu juodus batus.",["czarny","czarna"],"przym"],
-     ["To jest ___ sweter.","nowy","naujas → Tai naujas megztinis.",["nowa","nowe"],"przym"],
-     ["Mogę przymierzyć ___ koszulę?","tę","ta → Ar galiu pasimatuoti šiuos marškinius?",["ten","to"],"bier"],
-     ["Te spodnie ___ drogie.","są","Šios kelnės brangios.",["jest","jestem"],"byc"]]},
+ dialog:[["Sprzedawczyni","Dzień dobry, w czym mogę pomóc?","Laba diena, kuo galiu padėti?"],["Klient","Szukam kurtki. Czarnej albo niebieskiej.","Ieškau striukės. Juodos arba mėlynos."],["Sprzedawczyni","Jaki rozmiar?","Koks dydis?"],["Klient","M. Mogę przymierzyć tę?","M. Ar galiu pasimatuoti šitą?"],["Sprzedawczyni","Oczywiście. Przymierzalnia jest tam.","Žinoma. Matavimosi kabina ten."],["Klient","Jest trochę za duża. Ma pani rozmiar S?","Šiek tiek per didelė. Ar turite S dydį?"],["Sprzedawczyni","Tak, proszę. I dzisiaj jest promocja!","Taip, prašom. O šiandien akcija!"]]},
 
 {id:"l22",t:"Viešbutyje",d:"Rezervacija, kambarys, pusryčiai",
  tip:`<p><i>Mam rezerwację na nazwisko…</i> = Turiu rezervaciją … pavarde.</p>
  <p>Kur? <b>w / na</b> + vietininkas: <i>w pokoju</i> (kambaryje), <i>w łazience</i> (vonioje), <i>na drugim piętrze</i> (antrame aukšte).</p>
  <p><i>Czy jest…?</i> = Ar yra…? Neigiamas atsakymas <b>nie ma</b> + kilmininkas: <i>Nie ma ręcznika</i> = Nėra rankšluosčio.</p>`,
  words:[["hotel","viešbutis"],["recepcja","registratūra"],["pokój","kambarys"],["klucz","raktas"],["rezerwacja","rezervacija"],["na nazwisko","... pavarde"],["noc","naktis"],["śniadanie","pusryčiai"],["piętro","aukštas"],["winda","liftas"],["łazienka","vonios kambarys"],["ręcznik","rankšluostis"],["nie ma","nėra"],["od ... do ...","nuo ... iki ..."],["hasło","slaptažodis"]],
- dialog:[["Recepcjonistka","Dobry wieczór. W czym mogę pomóc?","Labas vakaras. Kuo galiu padėti?"],["Jonas","Dobry wieczór. Mam rezerwację na nazwisko Kazlauskas.","Labas vakaras. Turiu rezervaciją Kazlausko pavarde."],["Recepcjonistka","Tak, pokój na dwie noce. Proszę, klucz.","Taip, kambarys dviem naktims. Prašom, raktas."],["Jonas","Na którym piętrze?","Kuriame aukšte?"],["Recepcjonistka","Na trzecim. Winda jest po prawej.","Trečiame. Liftas dešinėje."],["Jonas","O której jest śniadanie?","Kelintą pusryčiai?"],["Recepcjonistka","Od siódmej do dziesiątej.","Nuo septintos iki dešimtos."],["Jonas","A jakie jest hasło do wifi?","O koks wifi slaptažodis?"]],
- gr:[["Mam ___ na nazwisko Nowak.","rezerwację","rezerwacja → Turiu rezervaciją Novako pavarde.",["rezerwacja","rezerwacji"],"bier"],
-     ["Pokój jest na drugim ___.","piętrze","piętro → Kambarys antrame aukšte.",["piętro","piętra"],"miej"],
-     ["W pokoju nie ma ___.","ręcznika","ręcznik → Kambaryje nėra rankšluosčio.",["ręcznik","ręcznikiem"],"dop"],
-     ["Śniadanie jest od siódmej ___ dziesiątej.","do","Pusryčiai nuo septintos iki dešimtos.",["od","o"],"kiedy"],
-     ["Ręcznik jest w ___.","łazience","łazienka → Rankšluostis vonioje.",["łazienka","łazienkę"],"miej"]]},
+ dialog:[["Recepcjonistka","Dobry wieczór. W czym mogę pomóc?","Labas vakaras. Kuo galiu padėti?"],["Jonas","Dobry wieczór. Mam rezerwację na nazwisko Kazlauskas.","Labas vakaras. Turiu rezervaciją Kazlausko pavarde."],["Recepcjonistka","Tak, pokój na dwie noce. Proszę, klucz.","Taip, kambarys dviem naktims. Prašom, raktas."],["Jonas","Na którym piętrze?","Kuriame aukšte?"],["Recepcjonistka","Na trzecim. Winda jest po prawej.","Trečiame. Liftas dešinėje."],["Jonas","O której jest śniadanie?","Kelintą pusryčiai?"],["Recepcjonistka","Od siódmej do dziesiątej.","Nuo septintos iki dešimtos."],["Jonas","A jakie jest hasło do wifi?","O koks wifi slaptažodis?"]]},
 
 {id:"l23",t:"Savaitgalis",d:"Nuėjau, nuvažiavau, susitikau",
  tip:`<p>Lenkų veiksmažodžiai turi poras, kaip lietuvių <i>daryti – padaryti</i>: <i>robić – zrobić</i>, <i>jechać – pojechać</i>. Baigtam veiksmui praeityje dažniausiai naudojamas veiksmažodis su priešdėliu.</p>
  <p class="conj">iść → <b>poszedłem</b> (vyras) / <b>poszłam</b> (moteris) – nuėjau<br>jechać → <b>pojechałem</b> / <b>pojechałam</b> – nuvažiavau<br>spotkać → <b>spotkałem</b> / <b>spotkałam</b> – sutikau, susitikau</p>
  <p><b>Nad</b> + vandens telkinys: <i>nad jezioro, nad morze</i> (prie ežero, prie jūros).</p>`,
  words:[["weekend","savaitgalis"],["jak minął weekend?","kaip praėjo savaitgalis?"],["poszedłem","nuėjau (sako vyras)"],["poszłam","nuėjau (sako moteris)"],["pojechałem","nuvažiavau (sako vyras)"],["pojechałam","nuvažiavau (sako moteris)"],["spotkałem","susitikau (sako vyras)"],["spotkałam","susitikau (sako moteris)"],["jezioro","ežeras"],["nad jezioro","prie ežero (kryptis)"],["znajomi","pažįstami, draugai"],["spacer","pasivaikščiojimas"],["sam","vienas (pats)"],["fajnie","šaunu"],["kawiarnia","kavinė"]],
- dialog:[["Ania","Jak minął weekend?","Kaip praėjo savaitgalis?"],["Tomek","Super! Pojechałem nad jezioro.","Puikiai! Nuvažiavau prie ežero."],["Ania","Sam?","Vienas?"],["Tomek","Nie, ze znajomymi. Było fajnie. A ty?","Ne, su draugais. Buvo šaunu. O tu?"],["Ania","W sobotę poszłam na spacer.","Šeštadienį nuėjau pasivaikščioti."],["Ania","A w niedzielę spotkałam siostrę w kawiarni.","O sekmadienį susitikau su seserimi kavinėje."],["Tomek","Fajnie!","Šaunu!"]],
- gr:[["W sobotę ___ do kina.","poszedłem","(aš, vyras) Šeštadienį nuėjau į kiną.",["poszłam","poszedł"],"przesz"],
-     ["W niedzielę ___ do Krakowa.","pojechałam","(aš, moteris) Sekmadienį nuvažiavau į Krakovą.",["pojechałem","pojechała"],"przesz"],
-     ["Wczoraj Tomek ___ Anię.","spotkał","Vakar Tomas sutiko Anią.",["spotkała","spotkałem"],"przesz"],
-     ["Było ___!","fajnie","Buvo šaunu!",["fajny","fajna"],"przym"],
-     ["Pojechałem ___ jezioro.","nad","Nuvažiavau prie ežero.",["na","do"],"ruch"]]},
+ dialog:[["Ania","Jak minął weekend?","Kaip praėjo savaitgalis?"],["Tomek","Super! Pojechałem nad jezioro.","Puikiai! Nuvažiavau prie ežero."],["Ania","Sam?","Vienas?"],["Tomek","Nie, ze znajomymi. Było fajnie. A ty?","Ne, su draugais. Buvo šaunu. O tu?"],["Ania","W sobotę poszłam na spacer.","Šeštadienį nuėjau pasivaikščioti."],["Ania","A w niedzielę spotkałam siostrę w kawiarni.","O sekmadienį susitikau su seserimi kavinėje."],["Tomek","Fajnie!","Šaunu!"]]},
 
 {id:"l24",t:"Planai: būsimasis laikas",d:"Būsiu, veiksiu, nuvažiuosiu",
  tip:`<p>Būsimasis laikas paprastas: <b>będę</b> + bendratis: <i>będę pracować</i> = dirbsiu.</p>
  <p class="conj"><b>być</b> ateityje: będę, będziesz, będzie, będziemy, będziecie, będą</p>
  <p>Baigtam veiksmui ateityje – priešdėlinis veiksmažodis esamojo laiko forma, kaip lietuvių „padarysiu“: <i>zrobię</i> (padarysiu), <i>kupię</i> (nupirksiu), <i>pojadę</i> (nuvažiuosiu), <i>zadzwonię</i> (paskambinsiu).</p>`,
  words:[["będę","būsiu"],["będziesz","būsi"],["będzie","bus"],["będziemy","būsime"],["wakacje","atostogos"],["plan","planas"],["miesiąc","mėnuo"],["morze","jūra"],["nad morze","prie jūros (kryptis)"],["pojadę","nuvažiuosiu"],["w przyszłym tygodniu","kitą savaitę"],["za rok","po metų"],["na pewno","tikrai"],["chyba","turbūt"],["zobaczymy","pamatysim"],["nauczyć się","išmokti"]],
- dialog:[["Ola","Jakie masz plany na wakacje?","Kokie tavo atostogų planai?"],["Jonas","Będę w Polsce cały miesiąc!","Visą mėnesį būsiu Lenkijoje!"],["Ola","Super! Co będziesz robić?","Super! Ką veiksi?"],["Jonas","Pojadę do Krakowa i nad morze.","Nuvažiuosiu į Krakovą ir prie jūros."],["Ola","A będziesz mówić po polsku?","O kalbėsi lenkiškai?"],["Jonas","Na pewno! Chcę się dobrze nauczyć.","Tikrai! Noriu gerai išmokti."],["Ola","Brawo! Zadzwoń, jak wrócisz.","Šaunuolis! Paskambink, kai grįši."]],
- gr:[["Jutro ___ w pracy.","będę","(aš) Rytoj būsiu darbe.",["będzie","byłem"],"przysz"],
-     ["Co ___ robić w sobotę?","będziesz","(tu) Ką veiksi šeštadienį?",["będę","będzie"],"przysz"],
-     ["Jutro Ola ___ w domu.","będzie","Rytoj Ola bus namie.",["będę","była"],"przysz"],
-     ["Wczoraj byłem w domu, a jutro ___ w biurze.","będę","Vakar buvau namie, o rytoj būsiu biure.",["byłem","jestem"],"przysz"],
-     ["Jutro ___ do ciebie.","zadzwonię","Rytoj tau paskambinsiu.",["dzwonię","zadzwoniłem"],"przysz"],
-     ["Pojadę ___ morze.","nad","Nuvažiuosiu prie jūros.",["na","do"],"ruch"]]}
+ dialog:[["Ola","Jakie masz plany na wakacje?","Kokie tavo atostogų planai?"],["Jonas","Będę w Polsce cały miesiąc!","Visą mėnesį būsiu Lenkijoje!"],["Ola","Super! Co będziesz robić?","Super! Ką veiksi?"],["Jonas","Pojadę do Krakowa i nad morze.","Nuvažiuosiu į Krakovą ir prie jūros."],["Ola","A będziesz mówić po polsku?","O kalbėsi lenkiškai?"],["Jonas","Na pewno! Chcę się dobrze nauczyć.","Tikrai! Noriu gerai išmokti."],["Ola","Brawo! Zadzwoń, jak wrócisz.","Šaunuolis! Paskambink, kai grįši."]]}
 ];
 
 /* ===== Aktyvaus kurso duomenys ir tekstai ===== */
@@ -971,7 +847,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout
 
 /* ===== Būsena (localStorage) ===== */
 const KEY=T.key;
-const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{},hist:{},sg:{},doneD:{},test:{},gram:{},gq:{}});
+const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{},hist:{},sg:{},doneD:{},test:{},gram:{},gq:{},gstep:{}});
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw));
   else{const o=JSON.parse(localStorage.getItem(AR?'lenku-kalba-v1':'arabu-kalba-v1')||'null');if(o){S.theme=o.theme||'auto';S.rate=o.rate||S.rate}}}catch(e){} // naujas kursas perima išvaizdą ir greitį
@@ -998,10 +874,22 @@ function lessonSents(l){return l.dialog.map(d=>index().sent.get(d[1])).filter(Bo
 const ORDER=LESSONS.map(l=>l.id);
 function lessonStage(id){return STAGES.findIndex(s=>s.lessons.includes(id))}
 function topicById(id){return GRAMMAR.find(g=>g.id===id)}
-function topicOpen(g){return lessonStage(g.from)<=S.stage||!!S.done[g.from]}
+
 function lessonOpen(id){return lessonStage(id)<=S.stage||!!S.done[id]}
-function topicItems(g){const out=(g.items||[]).map(x=>({x,l:g.from}));for(const l of LESSONS)if(lessonOpen(l.id))for(const x of l.gr)if(x[4]===g.id)out.push({x,l:l.id});return out}
-function lessonTopics(l){return [...new Set(l.gr.map(x=>x[4]))].map(topicById).filter(Boolean)}
+/* ===== Gramatika žingsniais: viena taisyklė vienu metu. Žingsnis atsiveria, kai pradėta jo pamoka (formas pirma pamatai dialoge)
+   ir išmoktas ankstesnis tos pačios temos žingsnis (≥80%) ===== */
+function stepById(id){return GSTEPS.find(s=>s.id===id)}
+function stepsOf(tid){return GSTEPS.filter(s=>s.topic===tid)}
+const stepPassed=s=>(S.gstep[s.id]||0)>=80;
+function stepReady(s){return !!S.done[s.from]||(S.hist[s.from]||[]).length>0||lessonStage(s.from)<S.stage||(!!s.opt&&lessonOpen(s.from))}
+function stepPrev(s){const a=stepsOf(s.topic),i=a.indexOf(s);return i>0?a[i-1]:null}
+function stepOpen(s){const p=stepPrev(s);return stepReady(s)&&(!p||stepPassed(p))}
+function stepOrder(){return GSTEPS.slice().sort((a,b)=>ORDER.indexOf(a.from)-ORDER.indexOf(b.from)||GSTEPS.indexOf(a)-GSTEPS.indexOf(b))}
+function nextStep(){return stepOrder().find(s=>!s.opt&&stepOpen(s)&&!stepPassed(s))}
+function lessonSteps(l){return GSTEPS.filter(s=>s.from===l.id)}
+function lessonGr(l){return lessonSteps(l).filter(s=>!s.opt).flatMap(s=>s.it)}
+function topicOpen(g){return stepsOf(g.id).some(stepOpen)}
+function lessonTopics(l){return [...new Set(lessonSteps(l).map(s=>s.topic))].map(topicById).filter(Boolean)}
 
 /* ===== Kartojimas su intervalais (Leitnerio dėžutės) ===== */
 const IV=[0,1,2,4,8,16,32,64,120]; // dienomis
@@ -1028,6 +916,7 @@ function migrate(){const now=Date.now();
   if(S.sched<3){S.doneD=S.doneD||{};for(const id of Object.keys(S.done)){const h=(S.hist[id]||[]).find(x=>x.p>=70);S.doneD[id]=S.doneD[id]||(h?h.d:'2000-01-01')}
     const first=ORDER.find(id=>!S.done[id]),ns=first?lessonStage(first):STAGES.length-1;
     if(ns!==S.stage){S.stage=ns;S.stageStart=dkey()}S.sg={};S.test=S.test||{};S.gram=S.gram||{};S.sched=3}
+  if(S.sched<4){S.gstep=S.gstep||{};for(const s of GSTEPS)if((S.gram[s.topic]||0)>=80&&stepReady(s))S.gstep[s.id]=Math.max(S.gstep[s.id]||0,S.gram[s.topic]);S.sched=4} // 1.11: išmokta tema – išmokti jos atsivėrę žingsniai
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function dueCards(){const now=Date.now();return Object.entries(S.cards).filter(([k,c])=>c.due<=now&&wordInfo(k)).sort((a,b)=>a[1].due-b[1].due).map(([k])=>k)}
 function wordInfo(pl){const I=index();return I.words.get(pl)||I.sent.get(pl)}
@@ -1149,6 +1038,159 @@ const PL_GRAMMAR=[
 ];
 
 /* ===== Etapai: po ~2 savaites, 4 pamokos. Nauja pamoka kas ~2 dienas, tarpuose kartojimas. Pereiti – kai pasiekti tikslai ===== */
+/* ===== Gramatikos žingsniai. Kiekviena tema suskaidyta į mažus žingsnius: viena taisyklė ar viena funkcija vienu metu.
+   Žingsnis atsiveria su pamoka (from), kai ankstesnis tos pačios temos žingsnis išmoktas (≥80%).
+   Užduotis: [sakinys su ___, atsakymas, užuomina (bazinė forma → vertimas), [klaidingi variantai]] ===== */
+const PL_GSTEPS=[
+{id:"byc1",topic:"byc",from:"l3",t:"Aš esu, tu esi, jis yra",
+ r:`<p><b>być</b> (būti) vienaskaitoje:</p><p class="conj">(ja) <b>jestem</b> – aš esu<br>(ty) <b>jesteś</b> – tu esi<br>(on, ona) <b>jest</b> – jis, ji yra</p><p>Įvardį dažniausiai praleidžiame: <i>Jestem z Litwy.</i></p>`,
+ it:[["Ja ___ z Litwy.","jestem","Aš esu iš Lietuvos.",["jest","jesteś"]],["Ty ___ z Polski?","jesteś","Tu iš Lenkijos?",["jestem","jest"]],["Ola ___ z Warszawy.","jest","Ola iš Varšuvos.",["jestem","jesteś"]],["Tomek ___ zmęczony.","jest","Tomas pavargęs.",["jestem","jesteś"]],["___ zmęczony.","Jestem","(aš) Esu pavargęs.",["Jest","Jesteś"]],["Skąd ___?","jesteś","(tu) Iš kur tu?",["jestem","jest"]]]},
+{id:"byc2",topic:"byc",from:"l3",t:"Mes esame, jūs esate, jie yra",
+ r:`<p>Daugiskaita:</p><p class="conj">(my) <b>jesteśmy</b> – mes esame<br>(wy) <b>jesteście</b> – jūs esate<br>(oni, one) <b>są</b> – jie, jos yra</p><p><i>Ania i Tomek są z Polski.</i></p>`,
+ it:[["My ___ z Wilna.","jesteśmy","Mes iš Vilniaus.",["jesteście","są"]],["Oni ___ z Kowna.","są","Jie iš Kauno.",["jest","jesteśmy"]],["Wy ___ z Polski?","jesteście","Jūs iš Lenkijos?",["jesteśmy","są"]],["Ania i Tomek ___ zmęczeni.","są","Ania ir Tomas pavargę.",["jest","jesteśmy"]],["Ja i Ola ___ z Wilna.","jesteśmy","Aš ir Ola iš Vilniaus.",["są","jesteście"]],["Skąd ___?","jesteście","(jūs) Iš kur jūs?",["jesteśmy","są"]]]},
+
+{id:"czas1",topic:"czas",from:"l3",t:"Turėti: mam, masz, ma",
+ r:`<p><b>mieć</b> (turėti): <b>mam</b> – turiu, <b>masz</b> – turi, <b>ma</b> – (jis, ji) turi.</p><p>Jis slepiasi pažįstamose frazėse: <i>Jak się masz?</i> (kaip sekasi), <i>Mam na imię…</i> (mano vardas). Mandagiai su <i>pan / pani</i> – 3 asmuo: <i>Jak się pan ma?</i></p>`,
+ it:[["Jak się ___?","masz","(tu) Kaip tau sekasi?",["ma","mam"]],["Jak się pan ___?","ma","Kaip jums (vyrui) sekasi?",["masz","mam"]],["Jak ___ na imię?","masz","(tu) Kuo tu vardu?",["mam","ma"]],["___ na imię Jonas.","Mam","(aš) Mano vardas Jonas.",["Masz","Ma"]],["Jak ona ___ na imię?","ma","Kuo ji vardu?",["mam","masz"]],["Jak się pani ___?","ma","Kaip jums (moteriai) sekasi?",["masz","mam"]]]},
+{id:"czas2",topic:"czas",from:"l9",t:"Veiksmažodžiai su -am: mieszkam",
+ r:`<p>Didelė grupė veiksmažodžių (bendratis <b>-ać</b>) keičiasi taip:</p><p class="conj">mieszk<b>am</b>, mieszk<b>asz</b>, mieszk<b>a</b><br>mieszk<b>amy</b>, mieszk<b>acie</b>, mieszk<b>ają</b></p><p>Užtenka įsiminti galūnes <b>-am, -asz, -a</b>: taip pat <i>mam, masz, ma</i>.</p>`,
+ it:[["Ja ___ w Wilnie.","mieszkam","mieszkać → Aš gyvenu Vilniuje.",["mieszka","mieszkasz"]],["Gdzie ty ___?","mieszkasz","mieszkać → Kur tu gyveni?",["mieszkam","mieszka"]],["Ola ___ w Wilnie.","mieszka","mieszkać → Ola gyvena Vilniuje.",["mieszkam","mieszkają"]],["My ___ w Kownie.","mieszkamy","mieszkać → Mes gyvename Kaune.",["mieszkają","mieszkam"]],["Oni ___ w Kownie.","mieszkają","mieszkać → Jie gyvena Kaune.",["mieszkamy","mieszka"]],["Gdzie ___ Paweł?","mieszka","mieszkać → Kur gyvena Paulius?",["mieszkam","mieszkasz"]]]},
+{id:"czas3",topic:"czas",from:"l9",t:"Veiksmažodžiai su -ę: pracuję, lubię",
+ r:`<p>Kita grupė: aš – <b>-ę</b>, tu – <b>-esz</b> arba <b>-isz</b>, jis – <b>-e</b> arba <b>-i</b>:</p><p class="conj">pracuj<b>ę</b>, pracuj<b>esz</b>, pracuj<b>e</b>, … pracuj<b>ą</b><br>lubi<b>ę</b>, lub<b>isz</b>, lub<b>i</b>, … lubi<b>ą</b></p><p>Svarbiausia: <b>aš = -ę</b>. <i>Pracuję, lubię, mówię, uczę się.</i></p>`,
+ it:[["Ja ___ w biurze.","pracuję","pracować → Aš dirbu biure.",["pracuje","pracujesz"]],["Gdzie ty ___?","pracujesz","pracować → Kur tu dirbi?",["pracuję","pracuje"]],["Ona ___ w biurze.","pracuje","pracować → Ji dirba biure.",["pracuję","pracują"]],["Bardzo ___ kawę.","lubię","lubić → (aš) Labai mėgstu kavą.",["lubi","lubisz"]],["___ swoją pracę?","Lubisz","lubić → (tu) Ar mėgsti savo darbą?",["Lubię","Lubi"]],["Oni ___ w Wilnie.","pracują","pracować → Jie dirba Vilniuje.",["pracuje","pracujemy"]]]},
+{id:"czas4",topic:"czas",from:"l18",t:"Skauda: boli ir bolą",
+ r:`<p><b>Boli mnie głowa</b> – pažodžiui „skauda mane galva“. Tai, kas skauda, yra <b>vardininkas</b> (głowa, gardło), o ne galininkas, kaip lietuviškai.</p><p>Kai skauda keli dalykai: <b>bolą</b> (<i>bolą mnie nogi</i>). <i>Czuję się</i> = jaučiuosi.</p>`,
+ it:[["Boli mnie ___.","głowa","głowa → Man skauda galvą.",["głowę","głowy"]],["___ mnie nogi.","Bolą","Man skauda kojas.",["Boli","Bolę"]],["Boli mnie ___.","gardło","gardło → Man skauda gerklę.",["gardła","gardłem"]],["Ja ___ się dobrze.","czuję","Aš jaučiuosi gerai.",["czuje","czujesz"]],["Jak się pan ___?","czuje","Kaip jūs (vyrui) jaučiatės?",["czuję","czujesz"]],["Boli mnie ___.","brzuch","brzuch → Man skauda pilvą.",["brzucha","brzuchem"]]]},
+
+{id:"pyt1",topic:"pyt",from:"l11",t:"Kas? – kto ar co",
+ r:`<p>Lietuvių „kas“ lenkiškai turi du žodžius:</p><p><b>kto?</b> – apie žmogų: <i>Kto to jest? – To jest Ola.</i><br><b>co?</b> – apie daiktą: <i>Co to jest? – To jest kawa.</i></p>`,
+ it:[["___ to jest? – To jest Ola.","Kto","Kas tai? – Tai Ola.",["Co","Gdzie"]],["___ to jest? – To jest woda.","Co","Kas tai? – Tai vanduo.",["Kto","Jak"]],["___ to jest? – To jest mój brat.","Kto","Kas tai? – Tai mano brolis.",["Co","Gdzie"]],["___ to jest? – To jest mleko.","Co","Kas tai? – Tai pienas.",["Kto","Czy"]],["___ mówi po polsku? – Ola.","Kto","Kas kalba lenkiškai? – Ola.",["Co","Jak"]]]},
+{id:"pyt2",topic:"pyt",from:"l11",t:"Kur, iš kur, kaip, ar",
+ r:`<p><b>gdzie?</b> – kur? · <b>skąd?</b> – iš kur? · <b>jak?</b> – kaip? · <b>kiedy?</b> – kada? · <b>dlaczego?</b> – kodėl?</p><p>Klausimas „taip / ne“: <b>czy</b> (ar): <i>Czy on mówi po polsku?</i></p>`,
+ it:[["___ jest Paweł? – W Krakowie.","Gdzie","Kur Paulius? – Krakove.",["Kiedy","Kto"]],["___ to jest kawa? – Tak.","Czy","Ar tai kava? – Taip.",["Co","Jak"]],["___ się masz? – Dobrze.","Jak","Kaip sekasi? – Gerai.",["Gdzie","Czy"]],["___ on mówi po polsku? – Tak, trochę.","Czy","Ar jis kalba lenkiškai? – Taip, truputį.",["Kto","Gdzie"]],["___ jesteś? – Z Litwy.","Skąd","Iš kur tu? – Iš Lietuvos.",["Gdzie","Kiedy"]]]},
+
+{id:"przym1",topic:"przym",from:"l11",t:"Mano: mój, moja, moje",
+ r:`<p>„Mano“ prisitaiko prie daikto giminės:</p><p><b>mój</b> brat (vyr.) · <b>moja</b> siostra (mot., -a) · <b>moje</b> mleko (bevardė, -o).</p><p>Giminę matai iš galūnės: priebalsis – vyr., <b>-a</b> – mot., <b>-o, -e</b> – bevardė.</p>`,
+ it:[["To jest ___ brat.","mój","Tai mano brolis.",["moja","moje"]],["To jest ___ siostra.","moja","Tai mano sesuo.",["mój","moje"]],["To jest ___ mleko.","moje","Tai mano pienas.",["mój","moja"]],["To jest ___ woda.","moja","Tai mano vanduo.",["mój","moje"]],["Gdzie jest ___ brat?","mój","Kur mano brolis?",["moja","moje"]]]},
+{id:"przym2",topic:"przym",from:"l6",t:"Šis: ten, ta, to",
+ r:`<p>„Šis, ši“ irgi pagal giminę: <b>ten</b> ser · <b>ta</b> ryba · <b>to</b> masło.</p><p>Tas pats principas kaip <i>mój, moja, moje</i>.</p>`,
+ it:[["Ile kosztuje ___ ser?","ten","Kiek kainuoja šis sūris?",["ta","to"]],["Ile kosztuje ___ ryba?","ta","Kiek kainuoja ši žuvis?",["ten","to"]],["Ile kosztuje ___ masło?","to","Kiek kainuoja šis sviestas?",["ten","ta"]],["Ile kosztuje ___ chleb?","ten","Kiek kainuoja ši duona?",["ta","to"]],["Ile kosztuje ___ jabłko?","to","Kiek kainuoja šis obuolys?",["ten","ta"]],["___ kawa jest dobra.","Ta","Ši kava gera.",["Ten","To"]]]},
+{id:"przym3",topic:"przym",from:"l13",t:"Būdvardis pagal giminę",
+ r:`<p>Būdvardžio galūnė rodo giminę:</p><p class="conj">vyr. <b>-y / -i</b>: duży dom, tani ser<br>mot. <b>-a</b>: duża kawa, tania ryba<br>bev. <b>-e</b>: duże piwo, tanie mleko</p><p>Patarimas: pažiūrėk į daiktavardžio galą ir pakartok tą patį „garsą“: kaw<b>a</b> → dobr<b>a</b>.</p>`,
+ it:[["To jest ___ dom.","duży","duży → Tai didelis namas.",["duża","duże"]],["To jest ___ kawa.","dobra","dobry → Tai gera kava.",["dobry","dobre"]],["To jest ___ piwo.","tanie","tani → Tai pigus alus.",["tani","tania"]],["Mój samochód jest ___.","czerwony","czerwony → Mano automobilis raudonas.",["czerwona","czerwone"]],["Moja ulica jest ___.","stara","stary → Mano gatvė sena.",["stary","stare"]],["To jest ___ kawa?","twoja","twój → Ar tai tavo kava?",["twój","twoje"]],["To jest ___ mleko.","dobre","dobry → Tai geras pienas.",["dobry","dobra"]]]},
+{id:"przym4",topic:"przym",from:"l20",t:"Šilta, šalta, pigu: prieveiksmis -o",
+ r:`<p>Kai sakome, koks oras ar kaip yra, naudojame prieveiksmį su <b>-o</b>, kaip lietuvių „šilta“: <i>jest ciepło, jest zimno, drogo, tanio</i>. Jis nesikeičia.</p><p><b>za</b> + žodis = per…: <i>za drogo</i> (per brangu), <i>za duży</i> (per didelis).</p>`,
+ it:[["Dzisiaj jest ___.","ciepło","ciepły → Šiandien šilta.",["ciepły","ciepła"]],["Jest bardzo ___.","zimno","zimny → Labai šalta.",["zimny","zimna"]],["Latem jest ___.","gorąco","gorący → Vasarą karšta.",["gorący","gorąca"]],["To jest ___ drogo!","za","Tai per brangu!",["na","po"]],["Dziesięć złotych? O, ___!","tanio","tani → Dešimt zlotų? O, pigu!",["tani","tania"]]]},
+{id:"przym5",topic:"przym",from:"l21",t:"Daugiskaita ir šitą: czarne buty, tę",
+ r:`<p>Daiktų daugiskaitoje būdvardis baigiasi <b>-e</b>: <i>czarne buty, drogie spodnie, te buty</i>.</p><p>„Šitą“ moteriškai: <b>tę</b>: <i>Mogę przymierzyć tę kurtkę?</i></p>`,
+ it:[["Mam ___ buty.","czarne","czarny → Turiu juodus batus.",["czarny","czarna"]],["Te spodnie są ___.","drogie","drogi → Šios kelnės brangios.",["drogi","droga"]],["Ta kurtka jest za ___.","duża","duży → Ši striukė per didelė.",["duży","duże"]],["To jest ___ sweter.","nowy","nowy → Tai naujas megztinis.",["nowa","nowe"]],["Mogę przymierzyć ___ koszulę?","tę","ta → Ar galiu pasimatuoti šiuos marškinius?",["ten","to"]],["Moja sukienka jest ___.","czerwona","czerwony → Mano suknelė raudona.",["czerwony","czerwone"]]]},
+
+{id:"lic1",topic:"lic",from:"l4",t:"Metai: rok, lata, lat",
+ r:`<p>Kaip lietuviškai „vieneri, dveji, penkeri metai“, lenkiškai žodis keičiasi pagal skaičių:</p><p><b>1</b> rok · <b>2, 3, 4</b> lata · <b>5 ir daugiau</b> lat</p><p><i>Mam trzydzieści lat. Dziecko ma dwa lata.</i></p>`,
+ it:[["Mam dwadzieścia ___.","lat","Man dvidešimt metų.",["lata","rok"]],["Dziecko ma dwa ___.","lata","Vaikui dveji metai.",["lat","rok"]],["Dziecko ma jeden ___.","rok","Vaikui vieneri metai.",["lata","lat"]],["Mam trzydzieści ___.","lat","Man trisdešimt metų.",["lata","rok"]],["Ona ma cztery ___.","lata","Jai ketveri metai.",["lat","rok"]],["Ile masz ___?","lat","Kiek tau metų?",["lata","rok"]]]},
+{id:"lic2",topic:"lic",from:"l12",t:"Zlotai: złoty, złote, złotych",
+ r:`<p>Ta pati taisyklė pinigams:</p><p><b>1</b> złoty · <b>2–4</b> złote · <b>5–21</b> złotych</p><p>Svarbu: 22–24, 32–34… vėl <b>złote</b> (<i>dwadzieścia trzy złote</i>), o 12–14 – <b>złotych</b>, nes baigiasi -naście.</p>`,
+ it:[["To kosztuje dwa ___.","złote","Tai kainuoja du zlotus.",["złotych","złoty"]],["To kosztuje pięć ___.","złotych","Tai kainuoja penkis zlotus.",["złote","złoty"]],["To kosztuje jeden ___.","złoty","Tai kainuoja vieną zlotą.",["złote","złotych"]],["Razem dwadzieścia cztery ___.","złote","Iš viso dvidešimt keturi zlotai.",["złotych","złoty"]],["Razem trzynaście ___.","złotych","Iš viso trylika zlotų.",["złote","złoty"]],["Woda kosztuje trzy ___.","złote","Vanduo kainuoja tris zlotus.",["złotych","złoty"]],["Kawa kosztuje dziewięć ___.","złotych","Kava kainuoja devynis zlotus.",["złote","złoty"]]]},
+
+{id:"bier1",topic:"bier",from:"l5",t:"Ką? Moteriškoji giminė: kawa → kawę",
+ r:`<p>Kai daiktas yra veiksmo objektas (ką?), pvz. po <i>poproszę</i> (prašyčiau), moteriškosios giminės <b>-a</b> virsta <b>-ę</b>:</p><p><i>kawa → Poproszę kawę.</i> <i>woda → Poproszę wodę.</i></p><p>Kol kas tik tiek: viena galūnė.</p>`,
+ it:[["Poproszę ___.","kawę","kawa → Prašyčiau kavos.",["kawa","kawy"]],["Poproszę ___.","herbatę","herbata → Prašyčiau arbatos.",["herbata","herbaty"]],["Poproszę ___.","wodę","woda → Prašyčiau vandens.",["woda","wody"]],["Poproszę ___ z mlekiem.","kawę","kawa → Prašyčiau kavos su pienu.",["kawa","kawą"]],["Poproszę ___ i ciastko.","herbatę","herbata → Prašyčiau arbatos ir pyragaičio.",["herbata","herbatą"]]]},
+{id:"bier2",topic:"bier",from:"l5",t:"Ką? Daiktai vyr. ir bev. giminės nekinta",
+ r:`<p>Vyriškosios giminės <b>daiktai</b> ir bevardė giminė galininke <b>nesikeičia</b>:</p><p><i>sok → Poproszę sok.</i> <i>ciastko → Poproszę ciastko.</i> <i>piwo → Poproszę piwo.</i></p><p>Keičiasi tik <b>-a</b> žodžiai (kawę).</p>`,
+ it:[["Poproszę ___.","sok","sok → Prašyčiau sulčių.",["soka","soki"]],["Poproszę ___.","ciastko","ciastko → Prašyčiau pyragaičio.",["ciastkę","ciastka"]],["Poproszę ___.","piwo","piwo → Prašyčiau alaus.",["piwę","piwa"]],["Poproszę ___.","rachunek","rachunek → Prašyčiau sąskaitos.",["rachunka","rachunku"]],["Poproszę ___.","kawę","kawa → Prašyčiau kavos.",["kawa","kawy"]]]},
+{id:"bier3",topic:"bier",from:"l8",t:"Ką? Gyvi vyriškosios: brat → brata",
+ r:`<p>Vyriškosios giminės <b>gyvi</b> (žmonės, gyvūnai) galininke gauna <b>-a</b>:</p><p><i>brat → Mam brata.</i> <i>syn → Mam syna.</i> <i>pies → Mam psa.</i></p><p>Moteriškieji – kaip žinai: <i>siostra → siostrę</i>.</p>`,
+ it:[["Mam ___.","brata","brat → Turiu brolį.",["brat","bratem"]],["Mam ___.","psa","pies → Turiu šunį.",["pies","psy"]],["Mam ___ i córkę.","syna","syn → Turiu sūnų ir dukrą.",["syn","synem"]],["Mam ___.","siostrę","siostra → Turiu seserį.",["siostra","siostry"]],["Masz ___?","brata","brat → Ar turi brolį?",["brat","bratem"]],["Mam syna i ___.","córkę","córka → Turiu sūnų ir dukrą.",["córka","córki"]]]},
+{id:"bier4",topic:"bier",from:"l17",t:"Ką? Užsisakant restorane",
+ r:`<p>Ta pati taisyklė su naujais žodžiais: <b>-a → -ę</b> (<i>zupę, sałatkę</i>), gyvūnas <b>+a</b> (<i>kurczaka</i>), daiktai nekinta.</p><p><i>Pierogi</i> yra daugiskaita ir nekinta: <i>Polecam pierogi.</i></p>`,
+ it:[["Poproszę ___.","zupę","zupa → Prašyčiau sriubos.",["zupa","zupą"]],["Poproszę ___.","sałatkę","sałatka → Prašyčiau salotų.",["sałatka","sałatką"]],["Poproszę ___.","kurczaka","kurczak → Prašyčiau vištienos.",["kurczak","kurczakiem"]],["Polecam ___.","pierogi","pierogi → Rekomenduoju pierogus.",["pierogów","pierogami"]],["Poproszę ___ z cytryną.","herbatę","herbata → Prašyčiau arbatos su citrina.",["herbata","herbatą"]]]},
+
+{id:"dop1",topic:"dop",from:"l6",t:"Ko? Po bez, obok, z (iš)",
+ r:`<p>Po <b>bez</b> (be), <b>obok</b> (šalia) ir <b>z</b> (iš) – kilmininkas, kaip lietuviškai „be cukraus, šalia pieno, iš Lietuvos“.</p><p>Kol kas tik dvi galūnės: <b>-o → -a</b> (mleko → mleka), <b>-a → -y</b> (ryba → ryby, Litwa → Litwy). Vyriškieji gauna <b>-a</b> arba <b>-u</b> (chleba, cukru) – įsimink su žodžiu.</p>`,
+ it:[["Herbata bez ___.","cukru","cukier → Arbata be cukraus.",["cukier","cukrem"]],["Ser jest obok ___.","mleka","mleko → Sūris šalia pieno.",["mleko","mlekiem"]],["Masło jest obok ___.","chleba","chleb → Sviestas šalia duonos.",["chleb","chlebem"]],["Kawa bez ___.","mleka","mleko → Kava be pieno.",["mleko","mlekiem"]],["Mięso jest obok ___.","ryby","ryba → Mėsa šalia žuvies.",["ryba","rybę"]],["Jestem z ___.","Litwy","Litwa → Esu iš Lietuvos.",["Litwa","Litwę"]]]},
+{id:"dop2",topic:"dop",from:"l8",t:"Ko? Po neiginio: nie mam",
+ r:`<p>Kaip lietuviškai „turiu brolį – neturiu brolio“, po neiginio – kilmininkas:</p><p><i>Mam siostrę → Nie mam siostry.</i> <i>Jest chleb → Nie ma chleba.</i></p><p><b>Nie ma</b> = nėra.</p>`,
+ it:[["Nie mam ___.","siostry","siostra → Neturiu sesers.",["siostrę","siostra"]],["Nie mam ___.","brata","brat → Neturiu brolio.",["brat","bratem"]],["Nie ma ___.","chleba","chleb → Nėra duonos.",["chleb","chlebem"]],["Nie mam ___.","psa","pies → Neturiu šuns.",["pies","psem"]],["Nie ma ___.","mleka","mleko → Nėra pieno.",["mleko","mlekiem"]],["Nie mam ___.","córki","córka → Neturiu dukters.",["córkę","córka"]]]},
+{id:"dop3",topic:"dop",from:"l14",t:"Ko? Kiekis: dużo czasu, trochę wody",
+ r:`<p>Po kiekio žodžių <b>dużo</b> (daug), <b>trochę</b> (truputį) ir po <b>nie mam</b> – kilmininkas: <i>dużo czasu, trochę wody, nie mam czasu</i>.</p>`,
+ it:[["Nie mam ___.","czasu","czas → Neturiu laiko.",["czas","czasem"]],["Mam dużo ___.","pracy","praca → Turiu daug darbo.",["praca","pracę"]],["Poproszę trochę ___.","wody","woda → Prašyčiau truputį vandens.",["woda","wodę"]],["W domu nie ma ___.","kawy","kawa → Namie nėra kavos.",["kawa","kawę"]],["Nie mam dużo ___.","czasu","czas → Neturiu daug laiko.",["czas","czasie"]]]},
+{id:"dop4",topic:"dop",from:"l16",t:"Į kur? do + ko",
+ r:`<p>„Į“ pastatą, miestą ar šalį lenkiškai yra <b>do</b> + kilmininkas:</p><p><i>dom → do domu</i> (namo), <i>Warszawa → do Warszawy</i>, <i>kino → do kina</i>, <i>praca → do pracy</i>.</p>`,
+ it:[["Idę do ___.","domu","dom → Einu namo.",["dom","domem"]],["Jadę do ___.","Warszawy","Warszawa → Važiuoju į Varšuvą.",["Warszawa","Warszawie"]],["Idziemy do ___.","kina","kino → Einam į kiną.",["kino","kinie"]],["Jadę do ___.","pracy","praca → Važiuoju į darbą.",["praca","pracę"]],["Jedziemy do ___.","Krakowa","Kraków → Važiuojame į Krakovą.",["Kraków","Krakowie"]]]},
+{id:"dop5",topic:"dop",from:"l21",t:"Ieškau ko: szukam + ko",
+ r:`<p>Po <b>szukam</b> (ieškau) ir <b>nie lubię</b> – kilmininkas, kaip lietuviškai „ieškau striukės, nemėgstu žiemos“.</p><p>Pas gydytoją: <i>do lekarza</i>.</p>`,
+ it:[["Szukam ___.","kurtki","kurtka → Ieškau striukės.",["kurtkę","kurtka"]],["Szukam ___.","apteki","apteka → Ieškau vaistinės.",["apteka","aptekę"]],["Muszę iść do ___.","lekarza","lekarz → Turiu eiti pas gydytoją.",["lekarz","lekarzem"]],["Nie lubię ___.","zimy","zima → Nemėgstu žiemos.",["zimę","zima"]],["Szukam ___.","sukienki","sukienka → Ieškau suknelės.",["sukienkę","sukienka"]],["Szukam ___.","przystanku","przystanek → Ieškau stotelės.",["przystanek","przystankiem"]]]},
+
+{id:"miej1",topic:"miej",from:"l9",t:"Kur? w + -ie: w Wilnie",
+ r:`<p>Kur? <b>w</b> + vietininkas. Dažniausia galūnė <b>-ie</b>:</p><p><i>Wilno → w Wilnie</i>, <i>Warszawa → w Warszawie</i>, <i>Kraków → w Krakowie</i>, <i>biuro → w biurze</i>.</p><p>Išimtis, kurią jau moki: <i>w domu</i>.</p>`,
+ it:[["Mieszkam w ___.","Warszawie","Warszawa → Gyvenu Varšuvoje.",["Warszawa","Warszawę"]],["Mieszkam w ___.","Wilnie","Wilno → Gyvenu Vilniuje.",["Wilno","Wilna"]],["Mieszkam w ___.","Kownie","Kowno → Gyvenu Kaune.",["Kowno","Kowna"]],["Pracuję w ___.","biurze","biuro → Dirbu biure.",["biuro","biura"]],["Paweł jest w ___.","Krakowie","Kraków → Paulius Krakove.",["Kraków","Krakowa"]],["Jestem w ___.","domu","dom → Esu namie.",["dom","domie"]]]},
+{id:"miej2",topic:"miej",from:"l22",t:"Kur? -u ir -ce: w pokoju, w łazience",
+ r:`<p>Po <b>k, g, ch</b> ir minkštų priebalsių – <b>-u</b>: <i>w kiosku, w pokoju, na przystanku</i>.</p><p>Žodžiai su <b>-ka</b> virsta <b>-ce</b>: <i>łazienka → w łazience, Polska → w Polsce</i>.</p>`,
+ it:[["Kupię bilet w ___.","kiosku","kiosk → Nusipirksiu bilietą kioske.",["kiosk","kioskie"]],["Ręcznik jest w ___.","łazience","łazienka → Rankšluostis vonioje.",["łazienka","łazienkę"]],["Pokój jest na drugim ___.","piętrze","piętro → Kambarys antrame aukšte.",["piętro","piętra"]],["Mieszkam w ___.","Polsce","Polska → Gyvenu Lenkijoje.",["Polska","Polskę"]],["Klucz jest w ___.","pokoju","pokój → Raktas kambaryje.",["pokój","pokoje"]],["Jestem na ___.","przystanku","przystanek → Esu stotelėje.",["przystanek","przystanka"]]]},
+
+{id:"narz1",topic:"narz",from:"l6",t:"Su kuo? z + -em / -ą",
+ r:`<p>„Su“ = <b>z</b> + įnagininkas. Dvi galūnės:</p><p>vyr. ir bev. <b>-em</b>: <i>z mlekiem, z cukrem, z serem</i><br>mot. <b>-ą</b>: <i>z rybą, z kawą</i></p>`,
+ it:[["Kawa z ___.","mlekiem","mleko → Kava su pienu.",["mleko","mleka"]],["Herbata z ___.","cukrem","cukier → Arbata su cukrumi.",["cukru","cukier"]],["Kawa ___ mlekiem.","z","Kava su pienu.",["bez","i"]],["Chleb z ___.","masłem","masło → Duona su sviestu.",["masło","masła"]],["Chleb z ___.","serem","ser → Duona su sūriu.",["ser","sera"]],["Ziemniaki z ___.","rybą","ryba → Bulvės su žuvimi.",["ryba","rybę"]]]},
+{id:"narz2",topic:"narz",from:"l9",t:"Kas esi? jestem + kuo",
+ r:`<p>Profesija po <b>jestem</b> – įnagininkas, kaip lietuvių „dirbu vairuotoju“:</p><p><i>kierowca → Jestem kierowcą.</i> <i>nauczyciel → Jestem nauczycielem.</i> <i>studentka → Jestem studentką.</i></p><p>Tos pačios galūnės: <b>-em</b> ir <b>-ą</b>.</p>`,
+ it:[["Jestem ___.","kierowcą","kierowca → Esu vairuotojas.",["kierowca","kierowcę"]],["On jest ___.","nauczycielem","nauczyciel (mokytojas) → Jis mokytojas.",["nauczyciel","nauczyciela"]],["Ona jest ___.","nauczycielką","nauczycielka (mokytoja) → Ji mokytoja.",["nauczycielka","nauczycielkę"]],["Mój brat jest ___.","kierowcą","kierowca → Mano brolis vairuotojas.",["kierowca","kierowcy"]],["Jestem ___.","studentem","student → (vyras) Esu studentas.",["student","studenta"]],["Jestem ___.","studentką","studentka → (moteris) Esu studentė.",["studentka","studentkę"]]]},
+{id:"narz3",topic:"narz",from:"l16",t:"Kuo važiuoji? autobusem",
+ r:`<p>Transportas – įnagininkas, lygiai kaip lietuviškai „autobusu“:</p><p><i>autobus → autobusem</i>, <i>pociąg → pociągiem</i>, <i>samochód → samochodem</i>, <i>tramwaj → tramwajem</i>.</p>`,
+ it:[["Jedziemy ___.","autobusem","autobus → Važiuojame autobusu.",["autobus","autobusu"]],["Jadę do Krakowa ___.","pociągiem","pociąg → Važiuoju į Krakovą traukiniu.",["pociąg","pociągu"]],["Jadę do pracy ___.","samochodem","samochód → Važiuoju į darbą automobiliu.",["samochód","samochodu"]],["Jedziesz ___?","tramwajem","tramwaj → Važiuoji tramvajumi?",["tramwaj","tramwaju"]],["Lecę do Polski ___.","samolotem","samolot → Skrendu į Lenkiją lėktuvu.",["samolot","samolotu"]]]},
+{id:"narz4",topic:"narz",from:"l17",t:"Su kuo? Patiekalai",
+ r:`<p>Kartojame <b>z</b> + <b>-em / -ą</b> su maisto žodžiais: <i>pierogi z mięsem, woda z cytryną, sałatka z kurczakiem</i>.</p><p>Daugiskaitoje <b>-ami</b>: <i>z ziemniakami</i>.</p>`,
+ it:[["Pierogi z ___.","mięsem","mięso → Pierogai su mėsa.",["mięso","mięsa"]],["Woda z ___.","cytryną","cytryna → Vanduo su citrina.",["cytryna","cytrynę"]],["Kurczak ___ ziemniakami.","z","Vištiena su bulvėmis.",["bez","o"]],["Sałatka z ___.","kurczakiem","kurczak → Salotos su vištiena.",["kurczak","kurczaka"]],["Zupa z ___.","rybą","ryba → Sriuba su žuvimi.",["ryba","rybę"]],["Pierogi z ___.","serem","ser → Pierogai su sūriu.",["ser","sera"]]]},
+{id:"narz5",topic:"narz",from:"l20",t:"Kada? zimą, latem",
+ r:`<p>Metų laikai „kada?“ – įnagininkas: <b>zimą</b> (žiemą), <b>wiosną</b> (pavasarį), <b>latem</b> (vasarą), <b>jesienią</b> (rudenį).</p>`,
+ it:[["___ jest zimno.","Zimą","zima → Žiemą šalta.",["Zima","Zimę"]],["___ jest gorąco.","Latem","lato → Vasarą karšta.",["Lato","Lata"]],["___ pada deszcz.","Jesienią","jesień → Rudenį lyja.",["Jesień","Jesieni"]],["___ jest ciepło.","Wiosną","wiosna → Pavasarį šilta.",["Wiosna","Wiosnę"]],["Pada śnieg ___.","zimą","zima → Žiemą sninga.",["zima","zimy"]]]},
+
+{id:"modal1",topic:"modal",from:"l14",t:"Noriu, galiu, privalau: formos",
+ r:`<p class="conj"><b>chcieć</b>: chcę, chcesz, chce<br><b>móc</b>: mogę, możesz, może<br><b>musieć</b>: muszę, musisz, musi</p><p>Vėl ta pati logika: aš <b>-ę</b>, tu <b>-sz</b>, jis be galūnės.</p>`,
+ it:[["Ja ___ pić.","chcę","chcieć → Aš noriu gerti.",["chce","chcesz"]],["Czy ___ mi pomóc?","możesz","móc → (tu) Ar gali man padėti?",["mogę","może"]],["Teraz nie ___.","mogę","móc → (aš) Dabar negaliu.",["może","możesz"]],["Ona ___ pracować.","musi","musieć → Ji turi dirbti.",["muszę","musisz"]],["Dzisiaj ___ pracować.","muszę","musieć → (aš) Šiandien turiu dirbti.",["musi","musisz"]],["Co ___ zrobić?","chcesz","chcieć → (tu) Ką nori padaryti?",["chcę","chce"]]]},
+{id:"modal2",topic:"modal",from:"l14",t:"Po jų – bendratis (-ć)",
+ r:`<p>Po <i>chcę, mogę, muszę</i> antras veiksmažodis lieka bendraties forma su <b>-ć</b> (arba <b>-c</b>):</p><p><i>Chcę kupić.</i> <i>Muszę pracować.</i> <i>Możesz mi pomóc?</i></p>`,
+ it:[["Chcę ___ kawę.","kupić","Noriu nupirkti kavos.",["kupię","kupi"]],["Muszę ___.","pracować","Turiu dirbti.",["pracuję","pracuje"]],["Możesz mi ___?","pomóc","Ar gali man padėti?",["pomogę","pomoże"]],["Chcę ___ wodę.","pić","Noriu gerti vandenį.",["piję","pije"]],["Czy mogę ___ po polsku?","mówić","Ar galiu kalbėti lenkiškai?",["mówię","mówi"]]]},
+
+{id:"kiedy1",topic:"kiedy",from:"l10",t:"Kurią dieną? w + diena",
+ r:`<p><b>w</b> + diena: <i>w poniedziałek, w piątek</i>. Prieš <i>w-</i> sakome <b>we</b>: <i>we wtorek</i>.</p><p>Moteriškosios dienos keičia <b>-a → -ę</b> (kaip <i>kawę</i>!): <i>w środę, w sobotę, w niedzielę</i>.</p>`,
+ it:[["Co robisz w ___?","sobotę","sobota → Ką veiki šeštadienį?",["sobota","soboty"]],["Do zobaczenia w ___.","środę","środa → Iki trečiadienio.",["środa","środy"]],["Do zobaczenia ___ piątek.","w","Iki penktadienio.",["we","na"]],["Do zobaczenia ___ wtorek.","we","Iki antradienio.",["w","na"]],["Do zobaczenia w ___.","niedzielę","niedziela → Iki sekmadienio.",["niedziela","niedzieli"]],["Pracuję ___ poniedziałek.","w","Dirbu pirmadienį.",["we","na"]]]},
+{id:"kiedy2",topic:"kiedy",from:"l15",t:"Kelintą valandą? o + -ej",
+ r:`<p>Kelinta valanda: <i>Jest ósma.</i> Kada? <b>o</b> + galūnė <b>-ej</b>: <i>o ósmej, o dziewiątej, o siódmej</i>.</p><p><i>Wpół do dziewiątej</i> = pusė devynių (8:30).</p>`,
+ it:[["Jest ___.","ósma","8:00 → Aštunta valanda.",["ósmej","osiem"]],["Pociąg jest o ___.","dziewiątej","9:00 → Traukinys devintą.",["dziewiąta","dziewięć"]],["Kino jest o ___.","siódmej","7:00 → Kinas septintą.",["siódma","siedem"]],["Jest wpół do ___.","dziewiątej","8:30 → Pusė devynių.",["ósmej","dziewiąta"]],["Autobus jest ___ pięć minut.","za","Autobusas po penkių minučių.",["po","o"]],["Autobus jest o ___.","ósmej","8:00 → Autobusas aštuntą.",["ósma","osiem"]]]},
+{id:"kiedy3",topic:"kiedy",from:"l22",t:"Nuo … iki: od … do",
+ r:`<p><b>od</b> … <b>do</b> = nuo … iki, po jų – kilmininkas: <i>od siódmej do dziesiątej</i>, <i>od poniedziałku do piątku</i>.</p>`,
+ it:[["Śniadanie jest od siódmej ___ dziesiątej.","do","Pusryčiai nuo septintos iki dešimtos.",["od","o"]],["Pracuję ___ ósmej do szesnastej.","od","Dirbu nuo aštuntos iki šešioliktos.",["do","o"]],["Pracuję od ___ do piątku.","poniedziałku","poniedziałek → Dirbu nuo pirmadienio iki penktadienio.",["poniedziałek","poniedziałkiem"]],["Pokój na dwie ___.","noce","noc → Kambarys dviem naktims.",["noc","nocy"]]]},
+
+{id:"ruch1",topic:"ruch",from:"l7",t:"Į kairę ar kairėje",
+ r:`<p><b>w lewo / w prawo</b> – į kairę / į dešinę (kryptis).<br><b>po lewej / po prawej</b> – kairėje / dešinėje (vieta).</p>`,
+ it:[["Prosto, potem ___ lewo.","w","Tiesiai, paskui į kairę.",["po","na"]],["Kiosk jest ___ prawej.","po","Kioskas dešinėje.",["w","na"]],["Proszę iść ___ prawo.","w","Eikite į dešinę.",["po","na"]],["Przystanek jest ___ lewej.","po","Stotelė kairėje.",["w","na"]],["Dziękuję! – Nie ma za ___.","co","Ačiū! – Nėra už ką.",["to","nic"]]]},
+{id:"ruch2",topic:"ruch",from:"l16",t:"Eiti ar važiuoti: idę, jadę",
+ r:`<p><b>iść</b> – eiti pėsčiomis: idę, idziesz, idzie, idziemy, idą.<br><b>jechać</b> – važiuoti: jadę, jedziesz, jedzie, jedziemy, jadą.</p><p>Lietuviškai „einu į darbą“ sakome net važiuodami, o lenkiškai renkamės pagal tai, kaip judame.</p>`,
+ it:[["Ja ___ do pracy pieszo.","idę","iść → Einu į darbą pėsčiomis.",["jadę","idzie"]],["Jutro ___ do Krakowa pociągiem.","jadę","jechać → (aš) Rytoj važiuoju į Krakovą traukiniu.",["idę","jedzie"]],["Dokąd ___?","idziesz","iść → (tu, pėsčiomis) Kur eini?",["idę","jedzie"]],["Ola ___ do Warszawy samochodem.","jedzie","jechać → Ola važiuoja į Varšuvą automobiliu.",["idzie","jadę"]],["___ do kina?","Idziemy","iść → (mes, pėsčiomis) Einam į kiną?",["Jedziemy","Idę"]],["Oni ___ autobusem.","jadą","jechać → Jie važiuoja autobusu.",["idą","jedzie"]]]},
+{id:"ruch3",topic:"ruch",from:"l23",t:"Į kur? do, na ar nad",
+ r:`<p><b>do</b> – į pastatą, miestą: <i>do kina, do Warszawy</i>.<br><b>na</b> – į renginį, atvirą vietą, veiklą: <i>na dworzec, na spacer</i>.<br><b>nad</b> – prie vandens: <i>nad jezioro, nad morze</i>.</p>`,
+ it:[["Idę ___ dworzec.","na","Einu į stotį.",["do","nad"]],["Jadę ___ Warszawy.","do","Važiuoju į Varšuvą.",["na","nad"]],["Idziemy ___ kina.","do","Einam į kiną.",["na","nad"]],["Pojechałem ___ jezioro.","nad","Nuvažiavau prie ežero.",["na","do"]],["Idę ___ spacer.","na","Einu pasivaikščioti.",["do","nad"]],["Jedziemy ___ morze.","nad","morze (jūra) → Važiuojame prie jūros.",["na","do"]]]},
+
+{id:"przesz1",topic:"przesz",from:"l19",t:"Buvau: byłem (vyras) / byłam (moteris)",
+ r:`<p>Būtajame laike galūnė priklauso nuo to, <b>kas kalba</b>:</p><p>vyras: <b>byłem</b> (buvau), <b>byłeś</b> (buvai)<br>moteris: <b>byłam</b> (buvau), <b>byłaś</b> (buvai)</p><p>Pratybose prie sakinio parašyta, kas kalba.</p>`,
+ it:[["Wczoraj ___ w domu.","byłem","(aš, vyras) Vakar buvau namie.",["byłam","był"]],["Wczoraj ___ w kinie.","byłam","(aš, moteris) Vakar buvau kine.",["byłem","była"]],["___ kiedyś w Gdańsku?","Byłeś","(tu, vyrui) Ar kada nors buvai Gdanske?",["Byłaś","Byłem"]],["___ kiedyś w Polsce?","Byłaś","(tu, moteriai) Ar kada nors buvai Lenkijoje?",["Byłeś","Była"]],["Rok temu ___ w Krakowie.","byłem","(aš, vyras) Prieš metus buvau Krakove.",["byłam","był"]],["Rok temu ___ w Warszawie.","byłam","(aš, moteris) Prieš metus buvau Varšuvoje.",["byłem","była"]]]},
+{id:"przesz2",topic:"przesz",from:"l19",t:"Buvo: był, była, było",
+ r:`<p>Apie kitą: <b>był</b> (jis, vyr. g. daiktas), <b>była</b> (ji, mot. g.), <b>było</b> (bevardė giminė ir „buvo šalta, buvo skanu“).</p><p><i>Film był świetny. Kolacja była dobra. Było zimno.</i></p>`,
+ it:[["Ola ___ w Gdańsku.","była","Ola buvo Gdanske.",["był","było"]],["Jonas ___ w pracy.","był","Jonas buvo darbe.",["była","było"]],["To ___ pyszne!","było","Tai buvo labai skanu!",["był","była"]],["Film ___ świetny.","był","Filmas buvo puikus.",["była","było"]],["Kolacja ___ dobra.","była","Vakarienė buvo gera.",["był","było"]],["Wczoraj ___ zimno.","było","Vakar buvo šalta.",["był","była"]]]},
+{id:"przesz3",topic:"przesz",from:"l19",t:"Kiti veiksmažodžiai: robiłem, widziałam",
+ r:`<p>Bet kuris veiksmažodis: bendratis be <b>-ć</b> + <b>ł</b> + ta pati galūnė kaip <i>był-em / był-am</i>:</p><p><i>robić → robiłem / robiłam</i>, <i>widzieć → widziałem / widziałam</i>, <i>pracować → pracował / pracowała</i>.</p>`,
+ it:[["Co ___ wczoraj?","robiłeś","robić → (tu, vyrui) Ką veikei vakar?",["robiłaś","robił"]],["Wczoraj ___ film.","widziałem","widzieć → (aš, vyras) Vakar mačiau filmą.",["widziałam","widział"]],["Wczoraj ___ kolację.","robiłam","robić → (aš, moteris) Vakar gaminau vakarienę.",["robiłem","robiła"]],["Ola ___ w biurze.","pracowała","pracować → Ola dirbo biure.",["pracował","pracowałam"]],["Jonas ___ w Kownie.","mieszkał","mieszkać → Jonas gyveno Kaune.",["mieszkała","mieszkałem"]],["Co ___ wczoraj?","robiłaś","robić → (tu, moteriai) Ką veikei vakar?",["robiłeś","robiła"]]]},
+{id:"przesz4",topic:"przesz",from:"l23",t:"Nuėjau, nuvažiavau, susitikau",
+ r:`<p>Baigtam veiksmui dažnai naudojamas veiksmažodis su priešdėliu (kaip lietuvių „nuėjau, nuvažiavau“):</p><p><i>pojechałem / pojechałam</i> – nuvažiavau<br><i>spotkałem / spotkałam</i> – susitikau<br>Netaisyklingas: <i>poszedłem</i> (vyras) / <i>poszłam</i> (moteris) – nuėjau</p>`,
+ it:[["W sobotę ___ do kina.","poszedłem","(aš, vyras) Šeštadienį nuėjau į kiną.",["poszłam","poszedł"]],["W niedzielę ___ do Krakowa.","pojechałam","(aš, moteris) Sekmadienį nuvažiavau į Krakovą.",["pojechałem","pojechała"]],["Wczoraj Tomek ___ Anię.","spotkał","Vakar Tomas sutiko Anią.",["spotkała","spotkałem"]],["W sobotę ___ na spacer.","poszłam","(aš, moteris) Šeštadienį nuėjau pasivaikščioti.",["poszedłem","poszła"]],["W weekend ___ nad jezioro.","pojechałem","(aš, vyras) Savaitgalį nuvažiavau prie ežero.",["pojechałam","pojechał"]],["Wczoraj ___ deszcz.","padał","Vakar lijo.",["pada","padała"]]]},
+
+{id:"przysz1",topic:"przysz",from:"l24",t:"Būsiu: będę, będziesz, będzie",
+ r:`<p>Ateitis su <b>być</b>: będę, będziesz, będzie, będziemy, będziecie, będą.</p><p>Su kitu veiksmažodžiu: <b>będę + bendratis</b>: <i>będę pracować</i> (dirbsiu).</p>`,
+ it:[["Jutro ___ w pracy.","będę","(aš) Rytoj būsiu darbe.",["będzie","byłem"]],["Co ___ robić w sobotę?","będziesz","(tu) Ką veiksi šeštadienį?",["będę","będzie"]],["Jutro Ola ___ w domu.","będzie","Rytoj Ola bus namie.",["będę","była"]],["Wczoraj byłem w domu, a jutro ___ w biurze.","będę","Vakar buvau namie, o rytoj būsiu biure.",["byłem","jestem"]],["W sobotę ___ pracować.","będę","(aš) Šeštadienį dirbsiu.",["będzie","byłem"]],["Jutro ___ ciepło.","będzie","Rytoj bus šilta.",["było","jest"]]]},
+{id:"przysz2",topic:"przysz",from:"l24",t:"Padarysiu: zrobię, kupię, pojadę",
+ r:`<p>Baigtam veiksmui ateityje – priešdėlinis veiksmažodis esamojo laiko forma, kaip lietuvių „padarysiu“: <i>zrobię, kupię, pojadę, zadzwonię</i>.</p><p>Palygink: <i>robię</i> (darau) – <i>zrobię</i> (padarysiu) – <i>zrobiłem</i> (padariau).</p>`,
+ it:[["Jutro ___ do ciebie.","zadzwonię","(aš) Rytoj tau paskambinsiu.",["dzwonię","zadzwoniłem"]],["Latem ___ nad morze.","pojadę","(aš) Vasarą nuvažiuosiu prie jūros.",["jadę","pojechałem"]],["Jutro ___ bilet.","kupię","(aš) Rytoj nupirksiu bilietą.",["kupiłem","kupować"]],["Wieczorem ___ kolację.","zrobię","(aš) Vakare pagaminsiu vakarienę.",["robię","zrobiłem"]]]}
+];
 const PL_STAGES=[
 {t:"Garsai ir pirmi žodžiai",focus:"Skaitome lenkiškai, pasisveikiname, prisistatome ir klausiame.",lessons:["l1","l2","l3","l11"],
  say:["Garsiai perskaitau sz, cz, rz, ś, ć, ł, ą, ę žodžiuose ir skamba kaip įraše","Garsiai prisistatau: vardas, iš kur esu, ar kalbu lenkiškai","Užduodu 5 klausimus su kto, co, gdzie, kiedy ir czy"],
@@ -1170,9 +1212,16 @@ const PL_STAGES=[
  speak:["Apibūdink, ką šiandien vilki: spalvos ir drabužiai.","Užsiregistruok viešbutyje: Mam rezerwację na nazwisko…","Papasakok savo savaitgalį: Pojechałem/Pojechałam…, Spotkałem/Spotkałam…","Papasakok, ką veiksi kitą savaitę: Będę…, Pojadę…"]}
 ];
 const GRAMMAR=AR?AR_COURSE.grammar:PL_GRAMMAR, STAGES=AR?AR_COURSE.stages:PL_STAGES;
+/* Arabų kurse žingsniai sudaromi automatiškai: tema × pamoka, kurioje jos užduotys */
+function autoSteps(){const out=[];for(const g of GRAMMAR){const A=[];const add=(from,it)=>{if(it.length)A.push({id:g.id+'_'+(A.length+1),topic:g.id,from,r:'',it,opt:g.opt})};
+    add(g.from,(g.items||[]).slice());for(const l of LESSONS)add(l.id,(l.gr||[]).filter(x=>x[4]===g.id));
+    A.forEach((s,i)=>s.t=g.t+(A.length>1?` · ${i+1} dalis`:''));out.push(...A)}return out}
+const GSTEPS=AR?autoSteps():PL_GSTEPS;
+GSTEPS.forEach(s=>s.it.forEach(x=>x[4]=s.id)); // x[4] – žingsnio id
+for(const g of GRAMMAR){const f=GSTEPS.filter(s=>s.topic===g.id).sort((a,b)=>ORDER.indexOf(a.from)-ORDER.indexOf(b.from))[0];if(f)g.from=f.from}
 const TASKS=[
  {id:"rv",n:"Kartok",m:5,h:"Visų ankstesnių pamokų žodžiai ir sakiniai. Pirmiausia kartojimas, tada nauja medžiaga."},
- {id:"gr",n:"Gramatika",m:3,h:"Gramatikos užduotys iš jau išmoktų pamokų grįžta su intervalais, kaip žodžiai: suklydus – rytoj, mokant – vis rečiau."},
+ {id:"gr",n:"Gramatika",m:5,h:"Naujas žingsnis – viena taisyklė: atpažink, pasirink, parašyk pats. Išmokti žingsniai grįžta su intervalais, kaip žodžiai."},
  {id:"dlg",n:"Dialogas",m:4,h:"Paklausyk viso dialogo, tada šešėliuok: po sakinį garsiai kartu. Paskui vaidmenų žaidimas: atsakai už vieną pašnekovą."},
  {id:"ex",n:"Pratybos",m:10,h:"Žodžiai, gramatika, klausymas ir diktantas. Pamoka išmokta nuo 70% iš pirmo karto."},
  {id:"speak",n:"Kalbėk garsiai",m:3,h:""}
@@ -1212,12 +1261,13 @@ function recs(){const out=[],due=dueCards().length,l=todayLesson(),day=stageDay(
   if(nn&&nb==='gap'&&l!==nn)out.push(["Nauja pamoka",`„${nn.t}“ atsirakins ${NEW_GAP-dBetween(lastNewDay(),today)<=1?'rytoj':'poryt'}. Tarpas tarp naujų pamokų leidžia žodžiams įsitvirtinti, o šiandien kartok ir įtvirtink „${l.t}“.`]);
   if(nn&&nb==='due'&&due<=40&&l!==nn)out.push(["Nauja pamoka",`„${nn.t}“ atsirakins, kai pakartosi šiandienos korteles.`]);
   if(S.last[l.id]!=null&&S.last[l.id]<70)out.push(["Pamoka",`„${l.t}“: paskutinį kartą ${S.last[l.id]}%. Pirma dar kartą paklausyk dialogo ir perskaityk gramatiką, tada daryk pratybas.`]);
+  {const ns=nextStep();if(ns)out.push(["Gramatika",`Naujas žingsnis „${ns.t}“: viena taisyklė ir trumpos pratybos. Kitas žingsnis atsivers, kai šį atliksi bent 80%.`])}
   if(stageDone()&&!((S.test[S.stage]||0)>=80))out.push(["Etapo testas","Visos etapo pamokos išmoktos. Kai dauguma žodžių bus „moku“, laikyk etapo testą skiltyje „Tikslai“."]);
   {const G=goalsOf(S.stage);if(G.every(g=>g.ok||!g.auto)&&G.some(g=>!g.ok))out.push(["Tikslai","Appso vertinami tikslai pasiekti. Liko kalbėjimo tikslai: pasakyk garsiai ir pažymėk skiltyje „Tikslai“."]);else if(G.every(g=>g.ok))out.push(["Tikslai","Visi etapo tikslai pasiekti! Skiltyje „Tikslai“ gali pereiti į kitą etapą."])}
   if(day>14&&!stageDone())out.push(["Tempas",`Etapas trunka jau ${day-1} d. Tai normalu: tvirtas pagrindas vėliau sutaupo laiko.`]);
   if(!PLV.length&&'speechSynthesis' in window)out.push(["Balsas",T.noVoice]);
   return out}
-function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='gr'&&!gramPool().length)return false;if(t.id==='gr'&&!gramDue().length&&Object.keys(S.gq).length)return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
+function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='gr'&&(nextStep()||!gramPool().length))return false;if(t.id==='gr'&&!gramDue().length&&Object.keys(S.gq).length)return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
 /* ===== Tikslai: žodžius, pratybas, gramatiką ir testą vertina appsas, kalbėjimą garsiai pažymi pats ===== */
 const KNOWN_BOX=3; // žodis išmoktas, kai atsakytas teisingai su vis ilgesne pertrauka (po 1 ir 2 dienų)
 /* Vienodas žodžio statusas visur (tikslai, kartojimas, žodynas): moku – nuo KNOWN_BOX lygio */
@@ -1230,14 +1280,14 @@ function wHint(pl){const c=S.cards[pl];if(!c)return 'Atsiras kartojime po šios 
 function wordsBreakdown(words){const g={2:[],1:[],0:[],'-1':[]};words.forEach(w=>g[wLvl(w[0])].push(w));
   const sec=(k,title)=>g[k].length?`<h3 class="wbh">${title} (${g[k].length})</h3><div class="words">${g[k].map(w=>`<div class="w">${sayBtn(w[0])}<div class="tx"><div class="pl">${tw(w[0])}</div><div class="lt">${esc(w[1])}</div><div class="wst">${esc(wHint(w[0]))}</div></div></div>`).join('')}</div>`:'';
   return sec(2,'✓ Moku')+sec(1,'Dar mokausi')+sec(0,'Nauji / sunkūs')+sec(-1,'Dar nepradėti')}
-function stageTopics(si){return GRAMMAR.filter(g=>!g.opt&&STAGES[si].lessons.includes(g.from))} // opt – neprivaloma tema (raidynas)
 function goalsOf(si){const st=STAGES[si],out=[];
   st.lessons.forEach(id=>{const l=lessonById(id);
     const known=l.words.filter(w=>wLvl(w[0])===2).length,need=Math.ceil(l.words.length*.8),days=exDays(id);
     out.push({t:`Pamoka „${l.t}“`,auto:1,ok:known>=need&&days>=2,
       prog:`Žodžiai: ${known} iš ${l.words.length} moku (reikia ${need}) · pratybos ≥80%: ${Math.min(days,2)} iš 2 d.`+(S.last[id]!=null?` · paskutinį kartą ${S.last[id]}%`:''),
       pct:(Math.min(1,known/need)+Math.min(1,days/2))/2,words:l.words,lid:id})});
-  stageTopics(si).forEach(g=>{const p=S.gram[g.id];out.push({t:`Gramatika: ${g.t}`,auto:1,ok:p>=80,prog:p!=null?`Paskutinį kartą ${p}%, reikia 80%`:'Perskaityk paaiškinimą ir atlik pratybas',pct:(p||0)/80,topic:g.id})});
+  {const st=stepOrder().filter(s=>!s.opt&&STAGES[si].lessons.includes(s.from)),k=st.filter(stepPassed).length;
+    if(st.length)out.push({t:'Gramatikos žingsniai bent 80%',auto:1,ok:k===st.length,prog:`${k} iš ${st.length} žingsnių išmokta`,pct:k/st.length,steps:st})}
   {const p=S.test[si];out.push({t:'Etapo testas bent 80%',auto:1,ok:p>=80,prog:(p!=null?`Geriausias rezultatas ${p}%. `:'')+'Teste ir ankstesnių etapų žodžiai.',pct:(p||0)/80,test:1})}
   st.say.forEach((t,i)=>out.push({t,auto:0,ok:!!(S.sg[si]||[])[i],i}));
   return out}
@@ -1252,16 +1302,16 @@ function renderToday(){
   ${!isNew&&nn&&nb&&nb!=='none'?`<div class="note row" style="justify-content:space-between"><span>Nauja pamoka „${esc(nn.t)}“ ${nb==='gap'?'atsirakins vėliau':'atsirakins po kartojimo'}.</span><button class="btn small" id="force">Pradėti vis tiek</button></div>`:''}
   ${TASKS.map(t=>{const d=taskState(t);let act='',h=t.h;
     if(t.id==='rv')act=dueCards().length?`<button class="btn small primary" data-act="rv">Kartoti (${dueCards().length})</button>`:Object.keys(S.cards).length?'<span class="muted">Laiku kartotinų nėra.</span> <button class="btn small" data-act="rv">Papildomas kartojimas</button>':'<span class="muted">Žodžiai atsiras po pirmų pratybų</span>';
-    if(t.id==='gr'){const n=gramDue().length;act=gramPool().length?`<button class="btn small ${n?'primary':''}" data-act="gr">${n?`Kartoti gramatiką (${Math.min(n,G_DAY)})`:'Papildomas gramatikos kartojimas'}</button>`:'<span class="muted">Atsiras po pirmos išmoktos pamokos</span>'}
+    if(t.id==='gr'){const ns=nextStep(),n=gramDue().length;act=((ns?`<button class="btn small primary" data-step="${ns.id}">Naujas žingsnis: ${esc(ns.t)}</button>`:'')+(gramPool().length?`<button class="btn small ${n&&!ns?'primary':''}" data-act="gr">${n?`Kartoti (${Math.min(n,G_DAY)})`:'Papildomas kartojimas'}</button>`:''))||'<span class="muted">Atsiras, kai pradėsi pirmą pamoką</span>'}
     if(t.id==='dlg')act=`<button class="btn small primary" data-act="dlg">Atidaryti dialogą</button>${l.dialog.length?'<button class="btn small" data-act="role">🎭 Vaidmenys</button>':''}`;
-    if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${lessonTopics(l).map(g=>`<button class="btn small" data-gt="${g.id}">📘 ${esc(g.t)}</button>`).join('')}${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
+    if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
     if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
     return `<div class="task ${d?'done':''}"><button class="chk" data-tg="${t.id}" aria-label="${d?'Pažymėti neatliktu':'Pažymėti atliktu'}"></button><div class="t"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h3>${esc(t.n)}</h3><span class="min">${t.m} min</span></div><p class="muted" style="font-size:.92rem">${esc(h)}</p>${act?`<div class="row" style="margin-top:8px">${act}</div>`:''}</div></div>`}).join('')}
   ${done===TASKS.length?`<div class="note"><b>Šiandienos sesija baigta. ${T.great}</b> Pažiūrėk į „Tikslai“ ir pažymėk, ką jau moki.</div>`:''}`;
   app.querySelectorAll('[data-tg]').forEach(b=>b.onclick=()=>{const id=b.dataset.tg;markT(id,!doneT().includes(id));renderToday()});
   if($('force'))$('force').onclick=()=>{S.force=dkey();save();renderToday()};
   $('crs').onclick=()=>switchCourse(AR?'pl':'ar');
-  app.querySelectorAll('[data-gt]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.gt,from:'today'};render();scrollTo(0,0)});
+  app.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',step:b.dataset.step,from:'today'};render();scrollTo(0,0)});
   app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;
     if(a==='rv')startReview();
     if(a==='dlg'){VIEW={tab:'lessons',lesson:l.id,from:'today'};render();scrollTo(0,0)}
@@ -1277,7 +1327,7 @@ function renderGoals(){
   <h2>Vertina appsas</h2>`;
   G.filter(g=>g.auto).forEach(g=>{h+=`<div class="goal ${g.ok?'ok':''}"><span class="gchk" aria-hidden="true"></span><div style="flex:1;min-width:0"><div>${esc(g.t)}</div><div class="gbar"><i style="width:${Math.min(100,Math.round(g.pct*100))}%"></i></div><small class="muted">${g.ok?'Pasiekta ✓ · ':''}${esc(g.prog)}</small>
     ${g.words?`<details class="wb"><summary>Kuriuos moku, kuriuos dar ne?</summary>${wordsBreakdown(g.words)}</details>`:''}
-    ${g.topic?`<div class="row" style="margin-top:6px"><button class="btn small" data-gt="${g.topic}">📘 Atidaryti temą</button></div>`:''}
+    ${g.steps?`<div class="stack" style="gap:6px;margin-top:6px">${g.steps.map(s=>`<button class="btn small" data-step="${s.id}" style="text-align:left">${stepPassed(s)?'✓':stepOpen(s)?'○':'🔒'} ${esc(s.t)}${S.gstep[s.id]!=null?` · ${S.gstep[s.id]}%`:''}</button>`).join('')}</div>`:''}
     ${g.test?`<div class="row" style="margin-top:6px"><button class="btn small ${stageDone()?'primary':''}" id="test">Laikyti testą</button>${stageDone()?'':'<span class="muted" style="font-size:.85rem">Geriausia, kai išmoksi visas etapo pamokas</span>'}</div>`:''}</div></div>`});
   h+=`<h2 style="margin-top:6px">Kalbėjimas garsiai (pažymi pats)</h2>`;
   G.filter(g=>!g.auto).forEach(g=>{h+=`<div class="goal"><input type="checkbox" id="g${g.i}" data-goal="${g.i}" ${g.ok?'checked':''}><label for="g${g.i}">${esc(g.t)}</label></div>`});
@@ -1290,7 +1340,7 @@ function renderGoals(){
   ${S.stage>0?`<button class="btn small" id="prev" style="align-self:flex-start">Grįžti į ankstesnį etapą</button>`:''}`;
   app.innerHTML=h;
   app.querySelectorAll('[data-goal]').forEach(c=>c.onchange=()=>{const a=(S.sg[S.stage]||[]).slice();a[+c.dataset.goal]=c.checked;S.sg[S.stage]=a;save();renderGoals()});
-  app.querySelectorAll('[data-gt]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.gt,from:'goals'};render();scrollTo(0,0)});
+  app.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',step:b.dataset.step,from:'goals'};render();scrollTo(0,0)});
   if($('test'))$('test').onclick=()=>startEx({id:'test',t:`${S.stage+1} etapo testas`,words:[],si:S.stage},buildTest(S.stage));
   const go=n=>{S.stage=n;S.stageStart=dkey();confirmNext=false;save();toast(`${n+1} etapas: ${STAGES[n].t}`);VIEW={tab:'today'};render();scrollTo(0,0)};
   if($('next'))$('next').onclick=()=>go(S.stage+1);
@@ -1304,8 +1354,8 @@ let VIEW={tab:'today'},EX=null,RV=null;
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(!b)return;EX=null;RV=null;VIEW={tab:b.dataset.v};render();scrollTo(0,0)});
 function setTabs(){for(const b of $('tabs').querySelectorAll('button'))b.setAttribute('aria-selected',b.dataset.v===VIEW.tab);$('tabs').hidden=!!(EX||RV)}
 function render(){setTabs();if(EX)return renderEx();if(RV)return renderRv();
-  ({today:renderToday,goals:renderGoals,lessons:VIEW.topic?renderTopic:VIEW.lesson?renderLesson:renderLessons,review:renderReview,dict:renderDict,settings:renderSettings})[VIEW.tab]()}
-function goBack(){const f=VIEW.from;VIEW=f==='today'?{tab:'today'}:f==='goals'?{tab:'goals'}:f&&f.startsWith('l:')?{tab:'lessons',lesson:f.slice(2)}:{tab:'lessons',sub:VIEW.topic?'gram':undefined};render();scrollTo(0,0)}
+  ({today:renderToday,goals:renderGoals,lessons:VIEW.step?renderStep:VIEW.topic?renderTopic:VIEW.lesson?renderLesson:renderLessons,review:renderReview,dict:renderDict,settings:renderSettings})[VIEW.tab]()}
+function goBack(){const f=VIEW.from;VIEW=f==='today'?{tab:'today'}:f==='goals'?{tab:'goals'}:f&&f.startsWith('l:')?{tab:'lessons',lesson:f.slice(2)}:f&&f.startsWith('t:')?{tab:'lessons',topic:f.slice(2)}:{tab:'lessons',sub:VIEW.topic||VIEW.step?'gram':undefined};render();scrollTo(0,0)}
 
 /* ===== Balso atpažinimas (kalbėjimo tikrinimas). Chrome Android'e veikia pl-PL ===== */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1342,10 +1392,10 @@ function renderLessons(){
 }
 function topicsInOrder(){return GRAMMAR.slice().sort((a,b)=>ORDER.indexOf(a.from)-ORDER.indexOf(b.from))}
 function renderGrammarList(){
-  app.innerHTML=`<div class="head"><span class="eyebrow">Paaiškinimai ir pratybos</span><h1>${T.gramTab}</h1><p class="muted">Kiekviena tema atsiveria kartu su pamoka, kurioje ji pirmą kartą reikalinga. Pirmiausia perskaityk paaiškinimą, tada atlik pratybas. Tema laikoma išmokta nuo 80%.${AR?' Raidyno temos neprivalomos: jos padės perskaityti užrašus ir meniu, bet etapo tikslams nereikalingos.':''}</p></div>
+  app.innerHTML=`<div class="head"><span class="eyebrow">Paaiškinimai ir pratybos</span><h1>${T.gramTab}</h1><p class="muted">Gramatika mokoma mažais žingsniais: vienas žingsnis – viena taisyklė. Žingsnis atsiveria, kai pradedi pamoką, kurioje tos formos pasitaiko, ir kai išmoktas ankstesnis tos temos žingsnis. Kiekvieno žingsnio pratybos: atpažink teisingą sakinį, pasirink formą, parašyk pats. Visos lentelės iš karto mokytis nereikia.${AR?' Raidyno temos neprivalomos: jos padės perskaityti užrašus ir meniu, bet etapo tikslams nereikalingos.':''}</p></div>
   ${subTabs('gram')}
-  ${topicsInOrder().map(g=>{const open=topicOpen(g),p=S.gram[g.id],l=lessonById(g.from);
-    return `<button class="lesson ${p>=80?'done':''}" data-topic="${g.id}"><span class="n">${p>=80?'✓':open?'§':'🔒'}</span><span class="t"><b>${esc(g.t)}</b><small>${g.opt?'Neprivaloma · ':''}${open?'':'Atsivers su '}${ORDER.indexOf(g.from)+1} pamoka „${esc(l.t)}“</small></span>${p!=null?`<span class="sc" ${p>=80?'':'style="color:var(--muted)"'}>${p}%</span>`:''}</button>`}).join('')}`;
+  ${topicsInOrder().map(g=>{const A=stepsOf(g.id),k=A.filter(stepPassed).length,open=topicOpen(g),all=A.length&&k===A.length,l=lessonById(g.from),p=S.gram[g.id];
+    return `<button class="lesson ${all?'done':''}" data-topic="${g.id}"><span class="n">${all?'✓':open?'§':'🔒'}</span><span class="t"><b>${esc(g.t)}</b><small>${g.opt?'Neprivaloma · ':''}${k} iš ${A.length} žingsnių${open||k?'':` · atsivers su ${ORDER.indexOf(g.from)+1} pamoka „${esc(l.t)}“`}${p!=null?` · testas ${p}%`:''}</small></span></button>`}).join('')}`;
   app.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',sub:b.dataset.sub};render()});
   app.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.topic};render();scrollTo(0,0)});
 }
@@ -1354,35 +1404,63 @@ const gKey=x=>x[0]+'|'+x[1];
 function gGrade(x,ok){const k=gKey(x),e=S.gq[k]||{b:0,due:0};
   if(!ok){e.b=0;e.due=dueAfter(1)}else if(e.due<=Date.now()){e.b=Math.min(IV.length-1,e.b+1);e.due=dueAfter(IV[e.b])}S.gq[k]=e}
 const G_DAY=8;
-function gramPool(){return LESSONS.filter(l=>S.done[l.id]).flatMap(l=>l.gr)}
+function gramPool(){return GSTEPS.filter(s=>!s.opt&&stepPassed(s)).flatMap(s=>s.it)}
 function gramDue(){const now=Date.now();return gramPool().filter(x=>{const e=S.gq[gKey(x)];return !e||e.due<=now})}
 /* Laiku kartotinos (ir dar nematytos iš išmoktų pamokų), jei jų mažai – papildom silpniausiomis */
 function gramDaily(){const due=shuffle(gramDue()).slice(0,G_DAY),rest=gramPool().filter(x=>!due.includes(x)).sort((a,b)=>(S.gq[gKey(a)]||{b:0}).b-(S.gq[gKey(b)]||{b:0}).b);
-  const q=due.length>=5?due:[...due,...rest.slice(0,6-due.length)];return shuffle(q).map(gramItem)}
-function buildGram(g){return shuffle(topicItems(g)).slice(0,10).map(o=>gramItem(o.x))}
+  const q=due.length>=5?due:[...due,...rest.slice(0,6-due.length)];
+  return shuffle(q).map(x=>{const b=(S.gq[gKey(x)]||{b:0}).b;return b>=2?gtypeItem(x):b===1?(Math.random()<.5?gtypeItem(x):gramItem(x)):Math.random()<.3?grecItem(x):gramItem(x)})} // kuo geriau moki, tuo daugiau rašai pats
+/* Žingsnio pratybos: 1) atpažink teisingą sakinį, 2) pasirink formą, 3) parašyk formą pats, 4) kaitaliojimas su jau išmoktais žingsniais */
+function buildStep(s){const it=s.it,q=[],typed=!s.opt;
+  shuffle(it).slice(0,2).forEach(x=>q.push(grecItem(x)));
+  shuffle(it).slice(0,4).forEach(x=>q.push(gramItem(x)));
+  if(typed)shuffle(it).slice(0,4).forEach(x=>q.push(gtypeItem(x)));
+  const prevT=stepsOf(s.topic).filter(p=>p!==s&&stepPassed(p)).flatMap(p=>p.it),other=GSTEPS.filter(p=>p.topic!==s.topic&&!p.opt&&stepPassed(p)).flatMap(p=>p.it);
+  shuffle(prevT).slice(0,2).forEach(x=>q.push(typed?gtypeItem(x):gramItem(x)));shuffle(other).slice(0,1).forEach(x=>q.push(gramItem(x)));
+  return q}
+/* Temos testas: visi temos žingsniai sumaišyti, daugiausia rašant */
+function buildTopicTest(g){const it=stepsOf(g.id).flatMap(s=>s.it);
+  return shuffle([...shuffle(it).slice(0,2).map(grecItem),...shuffle(it).slice(0,4).map(gramItem),...shuffle(it).slice(0,6).map(g.opt?gramItem:gtypeItem)])}
+function buildGram(g){return buildTopicTest(g)}
+function renderStep(){
+  const s=stepById(VIEW.step);if(!s){VIEW={tab:'lessons',sub:'gram'};return render()}
+  const g=topicById(s.topic),A=stepsOf(s.topic),i=A.indexOf(s),p=S.gstep[s.id],open=stepOpen(s),prev=stepPrev(s),l=lessonById(s.from);
+  app.innerHTML=`<div class="row"><button class="btn small" id="back">← Atgal</button></div>
+  <div class="head"><span class="eyebrow">${esc(g.t)} · ${i+1} žingsnis iš ${A.length}${p!=null?` · geriausias ${p}%`:''}</span><h1>${esc(s.t)}</h1></div>
+  <div class="card gram">${s.r||g.ex}</div>
+  ${open?`<button class="btn primary wide" id="sgo">${stepPassed(s)?'Pakartoti žingsnį':'Pradėti pratybas'} (${buildStep(s).length} užd.)</button>
+   <p class="muted" style="font-size:.88rem">Pirmiausia atpažinsi teisingą sakinį, tada pasirinksi formą, galiausiai parašysi pats. Pabaigoje – keli jau išmoktų žingsnių klausimai. Žingsnis išmoktas nuo 80%.</p>`
+   :`<div class="note">${!stepReady(s)?`Atsivers, kai pradėsi ${ORDER.indexOf(s.from)+1} pamoką „${esc(l.t)}“: pirma šias formas pamatysi dialoge.`:`Pirmiausia išmok ankstesnį žingsnį „${esc(prev.t)}“.`}</div>
+   ${stepReady(s)&&prev?`<button class="btn small" data-step="${prev.id}" style="align-self:flex-start">← ${esc(prev.t)}</button>`:''}`}
+  <button class="btn small" id="tp" style="align-self:flex-start">📘 Visa tema „${esc(g.t)}“</button>`;
+  $('back').onclick=goBack;
+  if($('sgo'))$('sgo').onclick=()=>startEx({id:'st:'+s.id,t:s.t,words:[]},buildStep(s));
+  $('tp').onclick=()=>{VIEW={tab:'lessons',topic:g.id};render();scrollTo(0,0)};
+  app.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',step:b.dataset.step,from:VIEW.from};render();scrollTo(0,0)});
+}
 function renderTopic(){
   const g=topicById(VIEW.topic);if(!g){VIEW={tab:'lessons',sub:'gram'};return render()}
-  const n=topicItems(g).length,open=topicOpen(g),p=S.gram[g.id];
-  const uses=LESSONS.filter(l=>l.gr.some(x=>x[4]===g.id));
+  const A=stepsOf(g.id),k=A.filter(stepPassed).length,p=S.gram[g.id],all=A.length&&k===A.length;
   app.innerHTML=`<div class="row"><button class="btn small" id="back">← Atgal</button></div>
-  <div class="head"><span class="eyebrow">Gramatika${p!=null?` · geriausias rezultatas ${p}%`:''}</span><h1>${esc(g.t)}</h1></div>
-  <div class="card gram">${g.ex}</div>
-  ${open&&n?`<button class="btn primary wide" id="gex">Pratybos (${Math.min(10,n)} užduočių)</button>`:`<div class="note">Pratybos atsivers su ${ORDER.indexOf(g.from)+1} pamoka „${esc(lessonById(g.from).t)}“. Paaiškinimą skaityti gali jau dabar.</div>`}
-  ${uses.length?`<div class="card"><h3 style="margin-bottom:6px">Ši tema pamokose</h3><div class="row">${uses.map(l=>`<button class="btn small" data-l="${l.id}">${ORDER.indexOf(l.id)+1}. ${esc(l.t)}</button>`).join('')}</div></div>`:''}`;
+  <div class="head"><span class="eyebrow">Gramatikos tema · ${k} iš ${A.length} žingsnių${p!=null?` · testas ${p}%`:''}</span><h1>${esc(g.t)}</h1>
+  <p class="muted">Tema mokoma žingsniais: kiekvienas – viena taisyklė. Kitas žingsnis atsiveria, kai ankstesnis išmoktas bent 80%.</p></div>
+  ${A.map((s,i)=>{const o=stepOpen(s),ps=stepPassed(s),q=S.gstep[s.id];return `<button class="lesson ${ps?'done':''}" data-step="${s.id}"><span class="n">${ps?'✓':o?i+1:'🔒'}</span><span class="t"><b>${esc(s.t)}</b><small>${ps?'Išmokta':o?'Galima mokytis':!stepReady(s)?`Atsivers su ${ORDER.indexOf(s.from)+1} pamoka „${esc(lessonById(s.from).t)}“`:'Po ankstesnio žingsnio'}</small></span>${q!=null?`<span class="sc" ${ps?'':'style="color:var(--muted)"'}>${q}%</span>`:''}</button>`}).join('')}
+  ${all?`<button class="btn primary wide" id="gex">Temos testas (${buildTopicTest(g).length} užd.)</button>`:`<div class="note">Temos testas atsivers, kai išmoksi visus žingsnius.</div>`}
+  <details class="card"><summary>Visa temos suvestinė</summary><div class="gram" style="margin-top:8px">${g.ex}</div></details>`;
   $('back').onclick=goBack;
-  if($('gex'))$('gex').onclick=()=>startEx({id:'g:'+g.id,t:g.t,words:[]},buildGram(g));
-  app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',lesson:b.dataset.l};render();scrollTo(0,0)});
+  if($('gex'))$('gex').onclick=()=>startEx({id:'g:'+g.id,t:g.t,words:[]},buildTopicTest(g));
+  app.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',step:b.dataset.step,from:'t:'+g.id};render();scrollTo(0,0)});
 }
 
 /* ===== Viena pamoka ===== */
 function speakers(l){return [...new Set(l.dialog.map(d=>d[0]))]}
 function renderLesson(){
   const l=lessonById(VIEW.lesson);if(!l){VIEW={tab:'lessons'};return render()}
-  const sp=speakers(l),T=l.gr?lessonTopics(l):[];
+  const sp=speakers(l),LS=lessonSteps(l).filter(s=>!s.opt);
   app.innerHTML=`<div class="row"><button class="btn small" id="back">← ${VIEW.from==='today'?'Šiandien':'Pamokos'}</button></div>
   <div class="head"><span class="eyebrow">${l.id==='custom'?'Savi žodžiai':'Pamoka '+(ORDER.indexOf(l.id)+1)}</span><h1>${esc(l.t)}</h1><p class="muted">${esc(l.d)}</p></div>
   ${l.tip?`<div class="note">${l.tip}</div>`:''}
-  ${T.length?`<div class="row"><span class="muted" style="font-size:.9rem">Gramatika:</span>${T.map(g=>`<button class="btn small" data-gt="${g.id}">📘 ${esc(g.t)}${S.gram[g.id]>=80?' ✓':''}</button>`).join('')}</div>`:''}
+  ${LS.length?`<div class="row"><span class="muted" style="font-size:.9rem">Gramatikos žingsniai:</span>${LS.map(s=>`<button class="btn small" data-step="${s.id}">${stepPassed(s)?'✓':stepOpen(s)?'📘':'🔒'} ${esc(s.t)}</button>`).join('')}</div>`:''}
   ${l.dialog.length?`<div class="card stack"><div class="row" style="justify-content:space-between"><h2>Dialogas</h2><div class="row"><button class="btn small" id="hideLt">${S.hideLt?'Rodyti vertimą':'Slėpti vertimą'}</button><button class="btn small primary" id="playAll">▶ Visas</button></div></div>
    <div class="dlg ${S.hideLt?'hidelt':''}" id="dlg">${l.dialog.map((d,i)=>`<div class="bub ${sp.indexOf(d[0])%2?'r':''}" data-i="${i}" data-say="${esc(d[1])}" data-g="${SPK[d[0]]||(sp.indexOf(d[0])%2?'f':'m')}"><div class="who">${esc(d[0])}</div><div class="pl">${tw(d[1])}</div><div class="lt">${esc(d[2])}</div></div>`).join('')}</div>
    <p class="muted" style="font-size:.85rem">Bakstelėk sakinį, kad išgirstum. Bakstelėk dar kartą: lėčiau.</p>
@@ -1393,7 +1471,7 @@ function renderLesson(){
   $('back').onclick=()=>{VIEW={tab:VIEW.from==='today'?'today':'lessons'};render();scrollTo(0,0)};
   $('startEx').onclick=()=>startEx(l);
   $('addAll').onclick=()=>{l.words.forEach(w=>addCard(w[0],l.id));save();toast('Žodžiai įtraukti į kartojimą')};
-  app.querySelectorAll('[data-gt]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.gt,from:'l:'+l.id};render();scrollTo(0,0)});
+  app.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',step:b.dataset.step,from:'l:'+l.id};render();scrollTo(0,0)});
   app.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>startRole(l,b.dataset.role));
   if($('hideLt'))$('hideLt').onclick=()=>{S.hideLt=!S.hideLt;save();$('dlg').classList.toggle('hidelt',S.hideLt);$('hideLt').textContent=S.hideLt?'Rodyti vertimą':'Slėpti vertimą'};
   if($('playAll'))$('playAll').onclick=async()=>{const me=playAll.id=(playAll.id||0)+1;speechSynthesis.cancel();
@@ -1407,7 +1485,15 @@ function tokens(s){return norm(s).split(' ').filter(Boolean)}
 function distract(right,pool,key,n=3){const r=norm(right[key]),ra=AR&&key==='pl'?arOf(right.pl):'';return shuffle(pool.filter(w=>norm(w[key])!==r&&!(ra&&arOf(w.pl)===ra))).slice(0,n)} // arabų kurse – ne tas pats arabiškas žodis (izzayyak / izzayyik skamba vienodai)
 const CAN_HEAR='speechSynthesis' in window;
 function lineItems(l){return l.dialog.filter(d=>{const n=tokens(d[1]).length;return n>=2&&n<=9})}
-function gramItem(x){return {t:'gram',x,opts:shuffle([x[1],...x[3]]),say:x[0].replace('___',x[1]),lt:x[2],topic:x[4]}}
+const gFill=(x,a)=>x[0].replace('___',a??x[1]);
+const gMeta=x=>({step:x[4],topic:(stepById(x[4])||{}).topic});
+function gramItem(x){return {t:'gram',x,opts:shuffle([x[1],...x[3]]),say:gFill(x),lt:x[2],...gMeta(x)}}
+/* Atpažinimas (struktūruotas įvesties pratimas): kuris iš dviejų sakinių teisingas */
+function grecItem(x){const good=gFill(x);return {t:'grec',x,good,opts:shuffle([good,gFill(x,pick(x[3]))]),say:good,lt:x[2],...gMeta(x)}}
+/* Rašymas: formą parašai pats (aktyvus prisiminimas) */
+function gtypeItem(x){if(/[\u0600-\u06FF\/]/.test(x[1]))return gramItem(x); // arabiškų raidžių neįrašysi – tada pasirinkimas
+  return {t:'gtype',x,say:gFill(x),lt:x[2],...gMeta(x)}}
+const gLink=it=>{const s=stepById(it.step);return s?` · <a href="#" id="gtl">${esc(s.t)}</a>`:''};
 const optTxt=o=>/[\u0600-\u06FF]/.test(o)?`<span class="ar" lang="ar" style="text-align:left">${esc(o)}</span>`:esc(o);
 function lmcItem(d,lines){let pool=lines.filter(x=>x!==d&&x[2]!==d[2]);if(pool.length<3)pool=pool.concat(LESSONS.flatMap(lineItems).filter(x=>x!==d&&!pool.includes(x)));
   return {t:'lmc',line:d,opts:shuffle([d,...shuffle(pool).slice(0,3)]),say:d[1],lt:d[2],g:SPK[d[0]]}}
@@ -1428,7 +1514,7 @@ function buildEx(l){
   shuffle(l.dialog.filter(d=>tokens(d[1]).some(t=>t.length>=3))).slice(0,1).forEach(d=>{
     const tk=tokens(d[1]).filter(t=>t.length>=3);const gap=pick(tk);
     mid.push({t:'cloze',line:d,gap,opts:shuffle([gap,...shuffle(vocab.filter(v=>v!==gap)).slice(0,3)])})});
-  (l.gr||[]).forEach(x=>mid.push(gramItem(x)));
+  shuffle(lessonGr(l)).slice(0,4).forEach(x=>mid.push(gramItem(x)));
   shuffle(W.filter(w=>w.pl.length<=16)).slice(0,5).forEach(w=>hard.push({t:'type',w}));
   shuffle(lines.filter(d=>tokens(d[1]).length<=7)).slice(0,2).forEach(d=>{
     const tk=tokens(d[1]);const others=tokens(lines.filter(x=>x!==d).map(x=>x[1]).join(' ')).filter(t=>!tk.includes(t));
@@ -1450,7 +1536,8 @@ function buildTest(si){const L=STAGES[si].lessons.map(lessonById),pool=allWords(
   const cur=shuffle(L.flatMap(l=>l.words.map(w=>({pl:w[0],lt:w[1]})))).slice(0,14);
   const prev=si?shuffle(STAGES.slice(0,si).flatMap(s=>s.lessons).map(lessonById).flatMap(l=>l.words.map(w=>({pl:w[0],lt:w[1]})))).slice(0,7):[];
   [...cur,...prev].forEach((w,i)=>items.push(i%2&&w.pl.length<=16?{t:'type',w}:{t:'mc',dir:'lt',w,opts:shuffle([w,...distract(w,pool,'pl')])}));
-  shuffle(L.flatMap(l=>l.gr)).slice(0,6).forEach(x=>items.push(gramItem(x)));
+  {const cur=shuffle(L.flatMap(lessonGr)),prev=STAGES.slice(0,si).flatMap(s=>s.lessons).map(lessonById).flatMap(lessonGr); // gramatika: atpažink, pasirink, parašyk + ankstesnių etapų
+   cur.slice(0,2).forEach(x=>items.push(grecItem(x)));cur.slice(2,5).forEach(x=>items.push(gramItem(x)));cur.slice(5,10).forEach(x=>items.push(gtypeItem(x)));shuffle(prev).slice(0,2).forEach(x=>items.push(gtypeItem(x)))}
   const lines=L.flatMap(lineItems);
   if(CAN_HEAR){shuffle(lines).slice(0,2).forEach(d=>items.push(lmcItem(d,lines)));shuffle(lines).slice(0,2).forEach(d=>items.push(dictItem(d)))}
   return shuffle(items)}
@@ -1476,8 +1563,12 @@ function renderEx(){
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${tw(o.pl)}</button>`).join('')}</div>`}
   else if(it.t==='lmc'){h+=`<p class="qsub">Klausyk ir pasirink, ką tai reiškia</p><button class="say bigsay" data-say="${esc(it.say)}" data-g="${it.g||''}" aria-label="Klausyti">${SAY_ICON}</button>
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${esc(o[2])}</button>`).join('')}</div>`}
-  else if(it.t==='gram'){const tp=topicById(it.topic);h+=`<p class="qsub">Įrašyk tinkamą formą${tp?` · <a href="#" id="gtl">${esc(tp.t)}</a>`:''}</p><div class="q" style="font-size:1.35rem">${esc(it.x[0]).replace('___','<span class="blank">___</span>')}</div><p class="qsub">${esc(it.lt)}</p>
+  else if(it.t==='gram'){h+=`<p class="qsub">Pasirink tinkamą formą${gLink(it)}</p><div class="q" style="font-size:1.35rem">${esc(it.x[0]).replace('___','<span class="blank">___</span>')}</div><p class="qsub">${esc(it.lt)}</p>
     <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}">${optTxt(o)}</button>`).join('')}</div>`}
+  else if(it.t==='grec'){h+=`<p class="qsub">Kuris sakinys teisingas?${gLink(it)}</p><p class="qsub" style="font-size:1.05rem">${esc(it.lt)}</p>
+    <div class="opts">${it.opts.map((o,i)=>`<button class="opt" data-o="${i}" style="text-align:left">${optTxt(o)}</button>`).join('')}</div>`}
+  else if(it.t==='gtype'){h+=`<p class="qsub">Parašyk tinkamą formą${gLink(it)}</p><div class="q" style="font-size:1.35rem">${esc(it.x[0]).replace('___','<span class="blank">___</span>')}</div><p class="qsub">${esc(it.lt)}</p>${inputBox()}${PK()}
+    <button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}
   else if(it.t==='type'){h+=`<p class="qsub">Parašyk ${T.inLang}${AR?' (lotyniškomis raidėmis)':''}</p><div class="q">${esc(it.w.lt)}</div>${inputBox()}${PK()}
     <button class="btn primary wide" id="chk">Tikrinti</button><button class="btn small" id="dunno" style="align-self:center">Nežinau</button>`}
   else if(it.t==='dict'){h+=`<p class="qsub">Diktantas: parašyk, ką girdi</p><button class="say bigsay" data-say="${esc(it.say)}" data-g="${it.g||''}" aria-label="Klausyti">${SAY_ICON}</button>
@@ -1497,7 +1588,7 @@ function renderEx(){
   h+='<div id="fb"></div>';
   app.innerHTML=h;
   $('exX').onclick=()=>{EX=null;render()};
-  if($('gtl'))$('gtl').onclick=e=>{e.preventDefault();const t=it.topic;EX=null;VIEW={tab:'lessons',topic:t};render();scrollTo(0,0)};
+  if($('gtl'))$('gtl').onclick=e=>{e.preventDefault();const t=it.step;EX=null;VIEW={tab:'lessons',step:t};render();scrollTo(0,0)};
   if(it.t==='mc'&&it.dir==='pl'||it.t==='listen')setTimeout(()=>speak(it.w.pl),150);
   if(it.t==='lmc'||it.t==='dict')setTimeout(()=>speak(it.say,{g:it.g}),150);
   if(it.t==='role'&&it.prev)setTimeout(()=>speak(it.prev[1],{g:SPK[it.prev[0]]}),150);
@@ -1505,10 +1596,11 @@ function renderEx(){
     let ok,right;
     if(it.t==='cloze'){ok=o===it.gap;right=it.line[1]}
     else if(it.t==='gram'){ok=o===it.x[1];right=it.say}
+    else if(it.t==='grec'){ok=o===it.good;right=it.good}
     else if(it.t==='lmc'){ok=o===it.line;right=it.say}
     else{ok=o===it.w;right=it.t==='mc'&&it.dir==='pl'?it.w.lt:it.w.pl}
     b.classList.add(ok?'right':'wrong');
-    if(!ok)app.querySelectorAll('.opt').forEach(x=>{const xo=it.opts[+x.dataset.o];if(it.t==='cloze'?xo===it.gap:it.t==='gram'?xo===it.x[1]:it.t==='lmc'?xo===it.line:xo===it.w)x.classList.add('right')});
+    if(!ok)app.querySelectorAll('.opt').forEach(x=>{const xo=it.opts[+x.dataset.o];if(it.t==='cloze'?xo===it.gap:it.t==='gram'?xo===it.x[1]:it.t==='grec'?xo===it.good:it.t==='lmc'?xo===it.line:xo===it.w)x.classList.add('right')});
     answer(ok,right)});
   if(it.t==='type'){const a=$('ans');a.focus();bindKeys(a);
     const go=()=>{if(EX.answered)return;const v=a.value;if(!v.trim())return;
@@ -1517,6 +1609,10 @@ function renderEx(){
       else if(flat(v)===flat(it.w.pl))answer(true,it.w.pl,T.almost);
       else answer(false,it.w.pl)};
     $('chk').onclick=go;a.onkeydown=e=>{if(e.key==='Enter')go()};$('dunno').onclick=()=>{if(!EX.answered)answer(false,it.w.pl)}}
+  if(it.t==='gtype'){const a=$('ans');a.focus();bindKeys(a);
+    const go=()=>{if(EX.answered)return;const v=a.value;if(!v.trim())return;
+      if(norm(v)===norm(it.x[1]))answer(true,it.say);else if(flat(v)===flat(it.x[1]))answer(true,it.say,T.almost);else answer(false,it.say)};
+    $('chk').onclick=go;a.onkeydown=e=>{if(e.key==='Enter')go()};$('dunno').onclick=()=>{if(!EX.answered)answer(false,it.say)}}
   if(it.t==='dict'||it.t==='role'){const a=$('ans');if(it.t==='dict')a.focus();bindKeys(a);
     const go=spoken=>{if(EX.answered)return;const v=a.value;if(!v.trim())return;const s=checkSent(v,it.say);
       if(s===2||spoken&&s===1)answer(true,it.say);else if(s===1)answer(true,it.say,T.almostSent);else answer(false,it.say)};
@@ -1531,23 +1627,25 @@ function renderEx(){
 }
 /* Žodžio lygis pratybose: pasirinkimas ir klausymas naują žodį pakelia tik iki 1 lygio, toliau kelia tik įrašytas atsakymas.
    Kiekviena rūšis (pasirinkimas, rašymas) kelia lygį tik pirmą kartą per sesiją, klaida numeta lygį tik vieną kartą. Išsaugom iškart */
-function exGrade(it,ok){const w=it.w.pl,typed=it.t==='type',gk=w+(typed?'|t':'|c'),id=EX.l.id,lid=id==='mix'||id==='test'||id.startsWith('g:')?undefined:id;
+function exGrade(it,ok){const w=it.w.pl,typed=it.t==='type',gk=w+(typed?'|t':'|c'),id=EX.l.id,lid=id==='mix'||id==='test'||id.startsWith('g:')||id.startsWith('st:')?undefined:id;
   if(!ok){grade(w,0,lid,{drop:EX.lapsed.has(w)?0:2});EX.lapsed.add(w);EX.graded.add(gk)}
   else if(!EX.graded.has(gk)){EX.graded.add(gk);grade(w,2,lid,typed?{}:{cap:1})}
   save()}
 function answer(ok,right,hint){
   const it=EX.items[EX.i];EX.answered=true;
-  if(it.t==='gram'&&!(it.k in EX.first))gGrade(it.x,ok); // pirmas bandymas nustato gramatikos užduoties kitą terminą
+  const isG=['gram','grec','gtype'].includes(it.t);
+  if(isG&&!(it.k in EX.first))gGrade(it.x,ok); // pirmas bandymas nustato gramatikos užduoties kitą terminą
   if(!(it.k in EX.first))EX.first[it.k]=ok; // rezultatas: kiekvienos užduoties (ir rašymo) pirmas bandymas, pakartojimas nebeskaičiuojamas
   if(ok)EX.ok++;else{EX.bad++;if(!EX.retried.has(EX.i)){EX.retried.add(EX.items.length);EX.items.push(it.t==='order'?{...it,tiles:shuffle(it.tiles)}:{...it,opts:it.opts&&shuffle(it.opts)})}}
   if(it.w)exGrade(it,ok);
-  const say=it.w?it.w.pl:it.say||it.line[1],tr=it.w?(it.t!=='mc'?it.w.lt:''):it.t==='gram'?'':it.lt||(it.line&&it.line[2])||'';
-  const tp=it.t==='gram'&&!ok?topicById(it.topic):null;
+  const say=it.w?it.w.pl:it.say||it.line[1],tr=it.w?(it.t!=='mc'?it.w.lt:''):isG?it.lt:it.lt||(it.line&&it.line[2])||'';
+  const tp=isG&&!ok?stepById(it.step):null;
   $('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b class="h">${ok?pick(T.praise):'Ne visai'}</b>
    ${hint?`<span>${esc(hint)}</span>`:''}${!ok||hint||it.t!=='mc'?`<div class="row">${sayBtn(say).replace('class="say ','data-g="'+(it.g||'')+'" class="say ')}<span><b>${tw(right)}</b>${tr?' · '+esc(tr):''}</span></div>`:''}
-   ${tp?`<span class="muted" style="font-size:.9rem">Taisyklė: skyrius „${esc(tp.t)}“ (Pamokos → Gramatika).</span>`:''}
+   ${tp?`<span class="muted" style="font-size:.9rem">Taisyklė: <a href="#" id="fbr">„${esc(tp.t)}“</a>${tp.r?` – ${tp.r.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0,160)}…`:''}</span>`:''}
    <button class="btn primary wide" id="next">Toliau</button></div>`;
   if(!ok||!['mc','listen','lmc'].includes(it.t))speak(say,{g:it.g});
+  if($('fbr'))$('fbr').onclick=e=>{e.preventDefault();const t=it.step;EX=null;VIEW={tab:'lessons',step:t};render();scrollTo(0,0)};
   $('next').onclick=()=>{EX.i++;if(EX.i>=EX.items.length)finishEx();render();scrollTo(0,0)};
   $('next').scrollIntoView({block:'nearest',behavior:'smooth'});
 }
@@ -1556,7 +1654,8 @@ function finishEx(){EX.done=true;const vals=Object.values(EX.first),pct=Math.rou
   if(EX.mode==='role'){markT('dlg');markT('speak')}
   else if(id==='test'){S.test[EX.l.si]=Math.max(S.test[EX.l.si]||0,pct);markT('ex')}
   else if(id==='gday')markT('gr');
-  else if(id.startsWith('g:')){const t=id.slice(2);S.gram[t]=Math.max(S.gram[t]||0,pct);markT('ex')}
+  else if(id.startsWith('st:')){const t=id.slice(3);S.gstep[t]=Math.max(S.gstep[t]||0,pct);markT('gr')}
+  else if(id.startsWith('g:')){const t=id.slice(2);S.gram[t]=Math.max(S.gram[t]||0,pct);markT('gr')}
   else{markT('ex');if(id!=='mix'){S.last[id]=pct;(S.hist[id]=S.hist[id]||[]).push({d:dkey(),p:pct});EX.l.words.forEach(w=>addCard(w[0],id));
     if(pct>=70){if(!S.done[id])S.doneD[id]=dkey();S.done[id]=Math.max(S.done[id]||0,pct);
       if(id!=='custom')lessonSents(EX.l).forEach(x=>addCard(x.pl,id))}}} // išmokus pamoką, į kartojimą patenka ir dialogo sakiniai
@@ -1564,6 +1663,7 @@ function finishEx(){EX.done=true;const vals=Object.values(EX.first),pct=Math.rou
 function renderExEnd(){const l=EX.l,pct=EX.pct,id=l.id,role=EX.mode==='role';
   const note=role?'Kartok vaidmenų žaidimą, kol replikas sakysi be žvilgčiojimo. Tada pabandyk kitą vaidmenį.'
     :id==='test'?(pct>=80?'Testas išlaikytas! Tikslų skiltyje pažiūrėk, ar pasiekti ir kiti tikslai.':'Testui reikia 80%. Pakartok korteles ir silpnesnes pamokas, tada bandyk vėl.')
+    :id.startsWith('st:')?(pct>=80?(nextStep()?'Žingsnis įveiktas! Kitas žingsnis jau laukia.':'Žingsnis įveiktas!'):'Žingsniui reikia 80%. Dar kartą perskaityk taisyklę ir bandyk vėl.')
     :id.startsWith('g:')?(pct>=80?'Tema išmokta.':'Temai reikia 80%. Dar kartą perskaityk paaiškinimą ir bandyk vėl.')
     :id==='gday'?'Užduotys grįš pagal tai, kaip sekėsi: suklydus – rytoj, mokant – vis rečiau.'
     :id==='mix'?'':`Pamokos žodžiai įtraukti į kartojimą${pct>=70?', o dialogo sakiniai – į sakinių korteles':''}. ${pct<70?'Pamoka laikoma išmokta nuo 70%.':''}`;
@@ -1572,7 +1672,7 @@ function renderExEnd(){const l=EX.l,pct=EX.pct,id=l.id,role=EX.mode==='role';
   ${note?`<p class="muted" style="text-align:center">${esc(note)}</p>`:''}
   <button class="btn primary wide" id="again">Dar kartą</button><button class="btn wide" id="out">Baigti</button>`;
   const sp=EX.sp;
-  $('again').onclick=()=>role?startRole(l,sp):id==='test'?startEx(l,buildTest(l.si)):id==='gday'?startEx(l,gramDaily()):id.startsWith('g:')?startEx(l,buildGram(topicById(id.slice(2)))):startEx(l,id==='mix'?buildMixed(Object.keys(S.cards)):null);
+  $('again').onclick=()=>role?startRole(l,sp):id==='test'?startEx(l,buildTest(l.si)):id==='gday'?startEx(l,gramDaily()):id.startsWith('st:')?startEx(l,buildStep(stepById(id.slice(3)))):id.startsWith('g:')?startEx(l,buildGram(topicById(id.slice(2)))):startEx(l,id==='mix'?buildMixed(Object.keys(S.cards)):null);
   $('out').onclick=()=>{EX=null;render();scrollTo(0,0)};
 }
 /* ===== Kartojimas (kortelės) ===== */
