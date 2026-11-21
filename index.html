@@ -174,7 +174,7 @@ nav.tabs .badge{position:absolute;top:5px;left:calc(50% + 6px);background:var(--
 </nav>
 <script>
 "use strict";
-const VERSION='1.8.0';   // ⚠️ keičiant – padidinti čia ir version.json
+const VERSION='1.9.0';   // ⚠️ keičiant – padidinti čia ir version.json
 /* ===== Pamokos (kurso tvarka). Kiekviena: žodžiai [lenk., liet.], dialogas [kas, lenk., liet.], pastaba (HTML),
    gr – gramatikos užduotys [sakinys su ___, atsakymas, užuomina, [klaidingi variantai], gramatikos tema] ===== */
 const LESSONS=[
@@ -502,7 +502,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout
 
 /* ===== Būsena (localStorage) ===== */
 const KEY='lenku-kalba-v1';
-const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{},hist:{},sg:{},doneD:{},test:{},gram:{}});
+const fresh=()=>({cards:{},done:{},custom:[],rate:.9,voice:'',theme:'auto',hideLt:false,streak:{last:'',n:0},xp:{},stage:0,stageStart:'',goals:{},daily:{},last:{},hist:{},sg:{},doneD:{},test:{},gram:{},gq:{}});
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}updBadge()}
@@ -698,6 +698,7 @@ const STAGES=[
 ];
 const TASKS=[
  {id:"rv",n:"Kartok",m:5,h:"Visų ankstesnių pamokų žodžiai ir sakiniai. Pirmiausia kartojimas, tada nauja medžiaga."},
+ {id:"gr",n:"Gramatika",m:3,h:"Gramatikos užduotys iš jau išmoktų pamokų grįžta su intervalais, kaip žodžiai: suklydus – rytoj, mokant – vis rečiau."},
  {id:"dlg",n:"Dialogas",m:4,h:"Paklausyk viso dialogo, tada šešėliuok: po sakinį garsiai kartu. Paskui vaidmenų žaidimas: atsakai už vieną pašnekovą."},
  {id:"ex",n:"Pratybos",m:10,h:"Žodžiai, gramatika, klausymas ir diktantas. Pamoka išmokta nuo 70% iš pirmo karto."},
  {id:"speak",n:"Kalbėk garsiai",m:3,h:""}
@@ -742,7 +743,7 @@ function recs(){const out=[],due=dueCards().length,l=todayLesson(),day=stageDay(
   if(day>14&&!stageDone())out.push(["Tempas",`Etapas trunka jau ${day-1} d. Tai normalu: tvirtas pagrindas vėliau sutaupo laiko.`]);
   if(!PLV.length&&'speechSynthesis' in window)out.push(["Balsas","Telefone nerastas lenkiškas balsas. Kaip įdiegti, rasi Nustatymuose."]);
   return out}
-function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
+function taskState(t){const dn=doneT();if(dn.includes(t.id))return true;if(t.id==='gr'&&!gramPool().length)return false;if(t.id==='gr'&&!gramDue().length&&Object.keys(S.gq).length)return true;if(t.id==='rv'&&!dueCards().length){const st=new Date();st.setHours(0,0,0,0);if(Object.values(S.cards).some(c=>(c.t||0)<st.getTime()))return true}return false}
 /* ===== Tikslai: žodžius, pratybas, gramatiką ir testą vertina appsas, kalbėjimą garsiai pažymi pats ===== */
 const KNOWN_BOX=3; // žodis išmoktas, kai atsakytas teisingai su vis ilgesne pertrauka (po 1 ir 2 dienų)
 /* Vienodas žodžio statusas visur (tikslai, kartojimas, žodynas): moku – nuo KNOWN_BOX lygio */
@@ -777,6 +778,7 @@ function renderToday(){
   ${!isNew&&nn&&nb&&nb!=='none'?`<div class="note row" style="justify-content:space-between"><span>Nauja pamoka „${esc(nn.t)}“ ${nb==='gap'?'atsirakins vėliau':'atsirakins po kartojimo'}.</span><button class="btn small" id="force">Pradėti vis tiek</button></div>`:''}
   ${TASKS.map(t=>{const d=taskState(t);let act='',h=t.h;
     if(t.id==='rv')act=dueCards().length?`<button class="btn small primary" data-act="rv">Kartoti (${dueCards().length})</button>`:Object.keys(S.cards).length?'<span class="muted">Laiku kartotinų nėra.</span> <button class="btn small" data-act="rv">Papildomas kartojimas</button>':'<span class="muted">Žodžiai atsiras po pirmų pratybų</span>';
+    if(t.id==='gr'){const n=gramDue().length;act=gramPool().length?`<button class="btn small ${n?'primary':''}" data-act="gr">${n?`Kartoti gramatiką (${Math.min(n,G_DAY)})`:'Papildomas gramatikos kartojimas'}</button>`:'<span class="muted">Atsiras po pirmos išmoktos pamokos</span>'}
     if(t.id==='dlg')act=`<button class="btn small primary" data-act="dlg">Atidaryti dialogą</button>${l.dialog.length?'<button class="btn small" data-act="role">🎭 Vaidmenys</button>':''}`;
     if(t.id==='ex')act=`<button class="btn small primary" data-act="ex">Pradėti pratybas</button>${lessonTopics(l).map(g=>`<button class="btn small" data-gt="${g.id}">📘 ${esc(g.t)}</button>`).join('')}${Object.keys(S.cards).length>=8?'<button class="btn small" data-act="mix">Treniruotė iš visų žodžių</button>':''}`;
     if(t.id==='speak')h=sp+' Jei gali, įsirašyk telefonu ir palygink su dialogu.';
@@ -789,6 +791,7 @@ function renderToday(){
     if(a==='rv')startReview();
     if(a==='dlg'){VIEW={tab:'lessons',lesson:l.id,from:'today'};render();scrollTo(0,0)}
     if(a==='role')startRole(l);
+    if(a==='gr')startEx({id:'gday',t:'Gramatikos kartojimas',words:[]},gramDaily());
     if(a==='ex')startEx(l);
     if(a==='mix')startEx({id:'mix',t:'Treniruotė',words:[]},buildMixed(Object.keys(S.cards)))});
 }
@@ -869,6 +872,16 @@ function renderGrammarList(){
   app.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',sub:b.dataset.sub};render()});
   app.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{VIEW={tab:'lessons',topic:b.dataset.topic};render();scrollTo(0,0)});
 }
+/* ===== Gramatikos kartojimas su intervalais: kiekviena užduotis turi savo lygį ir terminą (S.gq) ===== */
+const gKey=x=>x[0]+'|'+x[1];
+function gGrade(x,ok){const k=gKey(x),e=S.gq[k]||{b:0,due:0};
+  if(!ok){e.b=0;e.due=dueAfter(1)}else if(e.due<=Date.now()){e.b=Math.min(IV.length-1,e.b+1);e.due=dueAfter(IV[e.b])}S.gq[k]=e}
+const G_DAY=8;
+function gramPool(){return LESSONS.filter(l=>S.done[l.id]).flatMap(l=>l.gr)}
+function gramDue(){const now=Date.now();return gramPool().filter(x=>{const e=S.gq[gKey(x)];return !e||e.due<=now})}
+/* Laiku kartotinos (ir dar nematytos iš išmoktų pamokų), jei jų mažai – papildom silpniausiomis */
+function gramDaily(){const due=shuffle(gramDue()).slice(0,G_DAY),rest=gramPool().filter(x=>!due.includes(x)).sort((a,b)=>(S.gq[gKey(a)]||{b:0}).b-(S.gq[gKey(b)]||{b:0}).b);
+  const q=due.length>=5?due:[...due,...rest.slice(0,6-due.length)];return shuffle(q).map(gramItem)}
 function buildGram(g){return shuffle(topicItems(g)).slice(0,10).map(o=>gramItem(o.x))}
 function renderTopic(){
   const g=topicById(VIEW.topic);if(!g){VIEW={tab:'lessons',sub:'gram'};return render()}
@@ -1045,6 +1058,7 @@ function exGrade(it,ok){const w=it.w.pl,typed=it.t==='type',gk=w+(typed?'|t':'|c
   save()}
 function answer(ok,right,hint){
   const it=EX.items[EX.i];EX.answered=true;
+  if(it.t==='gram'&&!(it.k in EX.first))gGrade(it.x,ok); // pirmas bandymas nustato gramatikos užduoties kitą terminą
   if(!(it.k in EX.first))EX.first[it.k]=ok; // rezultatas: kiekvienos užduoties (ir rašymo) pirmas bandymas, pakartojimas nebeskaičiuojamas
   if(ok)EX.ok++;else{EX.bad++;if(!EX.retried.has(EX.i)){EX.retried.add(EX.items.length);EX.items.push(it.t==='order'?{...it,tiles:shuffle(it.tiles)}:{...it,opts:it.opts&&shuffle(it.opts)})}}
   if(it.w)exGrade(it,ok);
@@ -1062,6 +1076,7 @@ function finishEx(){EX.done=true;const vals=Object.values(EX.first),pct=Math.rou
   const id=EX.l.id;
   if(EX.mode==='role'){markT('dlg');markT('speak')}
   else if(id==='test'){S.test[EX.l.si]=Math.max(S.test[EX.l.si]||0,pct);markT('ex')}
+  else if(id==='gday')markT('gr');
   else if(id.startsWith('g:')){const t=id.slice(2);S.gram[t]=Math.max(S.gram[t]||0,pct);markT('ex')}
   else{markT('ex');if(id!=='mix'){S.last[id]=pct;(S.hist[id]=S.hist[id]||[]).push({d:dkey(),p:pct});EX.l.words.forEach(w=>addCard(w[0],id));
     if(pct>=70){if(!S.done[id])S.doneD[id]=dkey();S.done[id]=Math.max(S.done[id]||0,pct);
@@ -1071,13 +1086,14 @@ function renderExEnd(){const l=EX.l,pct=EX.pct,id=l.id,role=EX.mode==='role';
   const note=role?'Kartok vaidmenų žaidimą, kol replikas sakysi be žvilgčiojimo. Tada pabandyk kitą vaidmenį.'
     :id==='test'?(pct>=80?'Testas išlaikytas! Tikslų skiltyje pažiūrėk, ar pasiekti ir kiti tikslai.':'Testui reikia 80%. Pakartok korteles ir silpnesnes pamokas, tada bandyk vėl.')
     :id.startsWith('g:')?(pct>=80?'Tema išmokta.':'Temai reikia 80%. Dar kartą perskaityk paaiškinimą ir bandyk vėl.')
+    :id==='gday'?'Užduotys grįš pagal tai, kaip sekėsi: suklydus – rytoj, mokant – vis rečiau.'
     :id==='mix'?'':`Pamokos žodžiai įtraukti į kartojimą${pct>=70?', o dialogo sakiniai – į sakinių korteles':''}. ${pct<70?'Pamoka laikoma išmokta nuo 70%.':''}`;
   app.innerHTML=`<div class="head" style="text-align:center;padding-top:30px"><span class="eyebrow">${esc(role?l.t+' · vaidmenys':l.t)}</span><h1>${pct>=90?'Świetnie! 🎉':pct>=70?'Dobrze! 👍':'Dar pasimankštink 💪'}</h1></div>
   <div class="stats"><div class="stat"><b>${pct}%</b><small>iš pirmo karto</small></div><div class="stat"><b>${EX.ok}</b><small>teisingai</small></div><div class="stat"><b>${streakNow()}</b><small>dienų iš eilės</small></div></div>
   ${note?`<p class="muted" style="text-align:center">${esc(note)}</p>`:''}
   <button class="btn primary wide" id="again">Dar kartą</button><button class="btn wide" id="out">Baigti</button>`;
   const sp=EX.sp;
-  $('again').onclick=()=>role?startRole(l,sp):id==='test'?startEx(l,buildTest(l.si)):id.startsWith('g:')?startEx(l,buildGram(topicById(id.slice(2)))):startEx(l,id==='mix'?buildMixed(Object.keys(S.cards)):null);
+  $('again').onclick=()=>role?startRole(l,sp):id==='test'?startEx(l,buildTest(l.si)):id==='gday'?startEx(l,gramDaily()):id.startsWith('g:')?startEx(l,buildGram(topicById(id.slice(2)))):startEx(l,id==='mix'?buildMixed(Object.keys(S.cards)):null);
   $('out').onclick=()=>{EX=null;render();scrollTo(0,0)};
 }
 /* ===== Kartojimas (kortelės) ===== */
@@ -1091,7 +1107,9 @@ function renderReview(){
   <p class="muted" style="font-size:.88rem;margin-top:-4px">„Moku“ – žodis pasiekė ${KNOWN_BOX} lygį: kartojime atsakytas teisingai su vis ilgesne pertrauka (po 1 ir po 2 dienų). Kiekvieno žodžio būklę matysi „Žodyne“ ir „Tiksluose“.</p>
   ${due.length?`<button class="btn primary wide" id="rv">Kartoti dabar (${Math.max(due.length,Math.min(RV_MIN,total))} žodž.)</button>${due.length<RV_MIN&&total>due.length?`<p class="muted" style="font-size:.88rem;margin-top:-4px">${due.length} laiku kartotini + silpniausi iš jau matytų${PLV.length?' (juos išgirsi ir įrašysi)':''}</p>`:''}`:`<div class="card"><b>Šiandien viskas pakartota ✓</b><p class="muted">${total?`Rytoj laukia ${soon} žodž.`:'Pradėk nuo pamokos: jos žodžiai atsiras čia.'}</p></div>`}
   ${!due.length&&total>=5?`<button class="btn primary wide" id="rv">Papildomas kartojimas (${Math.min(RV_MIN,total)} žodž.)</button>`:''}
+  ${gramPool().length?`<button class="btn wide" id="gday">Gramatikos kartojimas${gramDue().length?` (${Math.min(gramDue().length,G_DAY)} laiku)`:''}</button>`:''}
   ${total>=4?`<button class="btn wide" id="mix">Treniruotė iš visų žodžių</button>`:''}`;
+  if($('gday'))$('gday').onclick=()=>startEx({id:'gday',t:'Gramatikos kartojimas',words:[]},gramDaily());
   if($('rv'))$('rv').onclick=startReview;
   if($('mix'))$('mix').onclick=()=>startEx({id:'mix',t:'Treniruotė',words:[]},buildMixed(Object.keys(S.cards)));
 }

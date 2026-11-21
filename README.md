@@ -8,7 +8,7 @@ Lenkų kalbos programėlė pradedantiesiems lietuviams, nuo nulio iki A1 lygio (
 
 **Pratybos:** pasirinkti vertimą, atpažinti iš klausos, suprasti sakinį iš klausos, gramatikos formos, parašyti lenkiškai, sudėlioti sakinį, įrašyti praleistą žodį, diktantas. Vaidmenų žaidimas: atsakai už vieną dialogo pašnekovą raštu arba balsu (balso atpažinimas pl-PL, kur naršyklė palaiko).
 
-**Kartojimas:** žodžiai ir dialogų sakiniai kartojami su intervalais (1, 2, 4, 8, 16… dienų). Sakinių kortelės: naujos – diktantas, pažįstamos – parašyk ar pasakyk lenkiškai.
+**Kartojimas:** žodžiai, dialogų sakiniai ir gramatikos užduotys (kasdienė užduotis „Gramatika“) kartojami su intervalais (1, 2, 4, 8, 16… dienų). Sakinių kortelės: naujos – diktantas, pažįstamos – parašyk ar pasakyk lenkiškai.
 
 **Progresija ir tikslai:**
 - nauja pamoka atsiranda ne dažniau kaip kas 2 dienas ir tik pakartojus šiandienos korteles;
